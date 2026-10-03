@@ -73,6 +73,7 @@
     init() {
       const gl = this.gl;
       this.ready=false;
+      this.textureWidth=0;this.textureHeight=0;
       const compile = (type,source) => {
         const shader=gl.createShader(type);gl.shaderSource(shader,source);gl.compileShader(shader);
         if(!gl.getShaderParameter(shader,gl.COMPILE_STATUS)){gl.deleteShader(shader);throw new Error("Color shader compilation failed");}
@@ -106,7 +107,11 @@
       try {
         if(this.canvas.width!==background.width || this.canvas.height!==background.height){this.canvas.width=background.width;this.canvas.height=background.height;}
         gl.viewport(0,0,background.width,background.height);gl.useProgram(this.program);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,this.texture);
-        gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,source);
+        const allocate=this.textureWidth!==source.width || this.textureHeight!==source.height;
+        if(allocate){
+          gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,source);
+          this.textureWidth=source.width;this.textureHeight=source.height;
+        }else gl.texSubImage2D(gl.TEXTURE_2D,0,0,0,gl.RGBA,gl.UNSIGNED_BYTE,source);
         gl.uniform1f(this.uniforms.vibrance,settings.vibrance/100);
         gl.uniform1f(this.uniforms.noise,settings.debandingStrength/100);
         gl.uniform1f(this.uniforms.oled,settings.debandingBlendMode);
@@ -120,10 +125,11 @@
         gl.uniform4f(this.uniforms.anchor,anchor.left-viewport.left,anchor.top-viewport.top,anchor.left+anchor.width-viewport.left,anchor.top+anchor.height-viewport.top);
         gl.uniform4f(this.uniforms.directions,Number(settings.directionTopEnabled),Number(settings.directionRightEnabled),Number(settings.directionBottomEnabled),Number(settings.directionLeftEnabled));
         gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
-        if(gl.getError()!==gl.NO_ERROR) throw new Error("Color rendering failed");
+        // Error queries synchronize with the GPU; allocations and context events bound validation.
+        if(allocate && gl.getError()!==gl.NO_ERROR) throw new Error("Color rendering failed");
         return true;
       } catch {
-        this.failed=true;this.canvas.style.display="none";return false;
+        this.failed=true;this.textureWidth=0;this.textureHeight=0;this.canvas.style.display="none";return false;
       }
     }
     dispose() {

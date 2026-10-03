@@ -16,14 +16,20 @@
       this.enabled = false;
       this.marked = new Set();
       this.queue = [];
+      this.batch = [];
+      this.cleanup = false;
       this.pending = null;
       this.observer = new MutationObserver(records => {
         if (!this.enabled) return;
         for (const record of records) {
           if (record.target.closest?.(excluded)) continue;
           if (record.type === "attributes") this.enqueue(record.target, true);
-          else for (const node of record.addedNodes) if (node.nodeType === 1) this.enqueue(node);
+          else {
+            for (const node of record.addedNodes) if (node.nodeType === 1) this.enqueue(node);
+            if (record.removedNodes.length) this.cleanup = true;
+          }
         }
+        if (this.cleanup && this.pending === null) this.pending = requestAnimationFrame(() => this.flush());
       });
     }
     async load() {
@@ -49,21 +55,57 @@
     }
     paint() {
       if (!this.field) return;
-      const c = this.palette.map(rgb => `rgb(${rgb.join(",")})`);
-      this.field.style.background = `radial-gradient(ellipse at 12% 20%,${c[0]},transparent 72%),radial-gradient(ellipse at 94% 38%,${c[1]},transparent 75%),radial-gradient(ellipse at 42% 110%,${c[2]},transparent 80%),${c[2]}`;
+      const key = JSON.stringify(this.palette);
+      if (key === this.paintedKey) return;
+      const gradient = palette => {
+        const c = palette.map(rgb => `rgb(${rgb.join(",")})`);
+        return `radial-gradient(ellipse at 12% 20%,${c[0]},transparent 72%),radial-gradient(ellipse at 94% 38%,${c[1]},transparent 75%),radial-gradient(ellipse at 42% 110%,${c[2]},transparent 80%),${c[2]}`;
+      };
+      const animate = this.paintedPalette && this.host.dataset.visible === "true" && !document.hidden && !matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let previous = this.paintedPalette;
+      if (animate && this.paletteAnimation) {
+        const opacity = Number(getComputedStyle(this.previousField).opacity);
+        previous = previous.map((rgb, i) => rgb.map((value, j) => Math.round(value * (1 - opacity) + this.transitionFrom[i][j] * opacity)));
+      }
+      this.paletteAnimation?.cancel();
+      this.paletteAnimation = null;
+      this.field.style.background = gradient(this.palette);
+      if (animate) {
+        this.previousField ||= document.createElement("div");
+        this.previousField.className = "bili-ambient-site-previous";
+        this.previousField.style.background = gradient(previous);
+        this.previousField.style.filter = this.field.style.filter;
+        this.field.after(this.previousField);
+        this.transitionFrom = previous;
+        const animation = this.previousField.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 420, easing: "ease-out" });
+        this.paletteAnimation = animation;
+        animation.finished.then(() => {
+          if (this.paletteAnimation !== animation) return;
+          this.previousField.remove();
+          this.paletteAnimation = null;
+        }).catch(() => {});
+      } else this.previousField?.remove();
+      this.paintedKey = key;
+      this.paintedPalette = this.palette.map(rgb => [...rgb]);
     }
     show(settings, theme) {
       this.mount();
       this.host.dataset.visible = "true";
       this.field.style.filter = `blur(${settings.blur}px) saturate(${settings.saturation}%) brightness(${settings.brightness}%) contrast(${settings.contrast}%)`;
+      if (this.previousField) this.previousField.style.filter = this.field.style.filter;
       const grey = Math.round(settings.pageBackgroundGreyness * 2.55);
       this.shade.style.background = `rgb(${grey},${grey},${grey})`;
       this.shade.style.opacity = String(settings.dim / 100);
       const luminance = this.palette.reduce((sum, c) => sum + (c[0] * .2126 + c[1] * .7152 + c[2] * .0722) / 255, 0) / 3;
       const adjusted = Math.max(0, Math.min(1, (luminance * settings.brightness / 100 - .5) * settings.contrast / 100 + .5));
-      theme.setLuminance(adjusted * (1 - settings.dim / 100) + settings.pageBackgroundGreyness / 100 * settings.dim / 100);
+      theme?.setLuminance(adjusted * (1 - settings.dim / 100) + settings.pageBackgroundGreyness / 100 * settings.dim / 100);
     }
-    hide() { if (this.host) this.host.dataset.visible = "false"; }
+    hide() {
+      if (this.host) this.host.dataset.visible = "false";
+      this.paletteAnimation?.cancel();
+      this.paletteAnimation = null;
+      this.previousField?.remove();
+    }
     remember(source, now, crop) {
       if (now - this.lastSample < 2000) return;
       this.lastSample = now;
@@ -107,65 +149,103 @@
     }
     enqueue(element, reset = false) {
       if (!element || element.closest(excluded)) return;
-      if (reset) for (const attribute of attributes) element.removeAttribute(attribute);
-      // Coalesce nested changes and inspect bounded batches outside the video frame loop.
-      if (!this.queue.some(item => item.root.contains(element) && (!reset || item.reset))) this.queue.push({ root: element, walker: document.createTreeWalker(element, NodeFilter.SHOW_ELEMENT), first: true, reset });
-      if (this.pending === null) this.pending = setTimeout(() => this.flush(), 60);
+      if (!this.queue.some(item => item.root.contains(element) && (!reset || item.reset))) {
+        this.queue = this.queue.filter(item => !element.contains(item.root) || (!reset && item.reset));
+        const walker = document.createTreeWalker(element, NodeFilter.SHOW_ELEMENT, { acceptNode: node => node.matches(excluded) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT });
+        this.queue.push({ root: element, walker, first: true, reset });
+      }
+      if (this.pending === null) this.pending = requestAnimationFrame(() => this.flush());
+    }
+    styleFor(element) {
+      if (!this.styles.has(element)) this.styles.set(element, getComputedStyle(element));
+      return this.styles.get(element);
     }
     inspect(element) {
       if (element.closest(excluded) || ["HTML", "BODY", "SCRIPT", "STYLE", "IMG", "INPUT", "SELECT", "TEXTAREA"].includes(element.tagName)) return;
-      const s = getComputedStyle(element);
+      const s = this.styleFor(element);
       if (s.display === "none" || s.visibility === "hidden") return;
-      const rect = element.getBoundingClientRect();
       const bg = colors(s.backgroundColor);
       const button = element.matches('button,[role="button"]');
-      if (!element.hasAttribute(attributes[0]) && s.backgroundImage === "none" && neutral(bg) && (bg[3] ?? 1) > .5 && ((rect.width >= 160 && rect.height >= 48) || button)) {
-        element.setAttribute(attributes[0], rect.width >= innerWidth * .85 && rect.height >= innerHeight * .7 ? "base" : "glass");
-        this.marked.add(element);
+      const plan = { element };
+      if (!element.hasAttribute(attributes[0]) && s.backgroundImage === "none" && neutral(bg) && (bg[3] ?? 1) > .5) {
+        const rect = element.getBoundingClientRect();
+        if ((rect.width >= 160 && rect.height >= 48) || button) {
+          plan.surface = rect.width >= innerWidth * .85 && rect.height >= innerHeight * .7 ? "base" : "glass";
+          this.surfaces.add(element);
+        }
       }
       const hasText = [...element.childNodes].some(n => n.nodeType === 3 && n.textContent.trim());
       const mediaText = element.closest('[class*="mask"],[class*="cover"],[class*="banner"],[class*="image"],[class*="player"],[class*="avatar"]');
       let paintedText = false;
       if (hasText) for (let parent = element, depth = 0; parent && parent !== document.body && depth < 4; parent = parent.parentElement, depth++) {
-        const paint = getComputedStyle(parent);
+        if (parent.hasAttribute(attributes[0]) || this.surfaces.has(parent)) break;
+        const paint = this.styleFor(parent);
         const background = colors(paint.backgroundColor);
-        if (parent.hasAttribute(attributes[0])) break;
         if ((background[3] ?? 1) > .5 || paint.backgroundImage !== "none") { paintedText = true; break; }
       }
       if (hasText && !mediaText && !paintedText && neutral(colors(s.color)) && !element.hasAttribute(attributes[1])) {
         const color = colors(s.color);
-        element.setAttribute(attributes[1], color[0] > 100 && color[0] < 200 ? "secondary" : "primary");
-        this.marked.add(element);
+        plan.ink = color[0] > 100 && color[0] < 200 ? "secondary" : "primary";
       }
+      return plan;
     }
     flush() {
       this.pending = null;
       if (!this.enabled) return;
-      let budget = 600;
-      while (budget-- > 0 && this.queue.length) {
+      const start = performance.now();
+      const batch = this.batch;
+      this.batch = [];
+      while (batch.length < 96 && this.queue.length) {
         const item = this.queue[0];
         const next = item.first ? item.root : item.walker.nextNode();
         item.first = false;
         if (!next || !item.root.isConnected) { this.queue.shift(); continue; }
-        if (item.reset) for (const attribute of attributes) next.removeAttribute(attribute);
-        this.inspect(next);
+        batch.push({ element: next, reset: item.reset });
       }
-      for (const element of this.marked) if (!element.isConnected) {
-        for (const attribute of attributes) element.removeAttribute(attribute);
-        this.marked.delete(element);
+      // Removing old marks, measuring, then committing avoids a layout flush for each card.
+      for (const entry of batch) if (entry.reset) {
+        entry.previous = attributes.map(attribute => entry.element.getAttribute(attribute));
+        for (const attribute of attributes) entry.element.removeAttribute(attribute);
       }
-      if (this.queue.length) this.pending = setTimeout(() => this.flush(), 60);
+      this.styles = new Map();
+      this.surfaces = new Set();
+      const plans = [];
+      for (let i = 0; i < batch.length; i++) {
+        const { element } = batch[i];
+        if (element.isConnected) plans.push(this.inspect(element));
+        if (performance.now() - start >= 4) { this.batch = batch.slice(i + 1); break; }
+      }
+      // Deferred nodes retain their visible theme until their next measurement batch.
+      for (const entry of this.batch) if (entry.reset) for (let i = 0; i < attributes.length; i++) {
+        if (entry.previous[i] !== null) entry.element.setAttribute(attributes[i], entry.previous[i]);
+      }
+      for (const plan of plans) if (plan?.surface || plan?.ink) {
+        if (plan.surface) plan.element.setAttribute(attributes[0], plan.surface);
+        if (plan.ink) plan.element.setAttribute(attributes[1], plan.ink);
+        this.marked.add(plan.element);
+      }
+      this.styles.clear();
+      this.surfaces.clear();
+      if (this.cleanup) {
+        this.cleanup = false;
+        for (const element of this.marked) if (!element.isConnected) {
+          for (const attribute of attributes) element.removeAttribute(attribute);
+          this.marked.delete(element);
+        }
+      }
+      if (this.queue.length || this.batch.length) this.pending = requestAnimationFrame(() => this.flush());
     }
     disableSurfaces() {
       this.enabled = false;
       this.observer.disconnect();
-      clearTimeout(this.pending);
+      cancelAnimationFrame(this.pending);
       this.pending = null;
       this.queue.length = 0;
+      this.batch.length = 0;
       for (const element of this.marked) for (const attribute of attributes) element.removeAttribute(attribute);
       this.marked.clear();
     }
-    dispose() { this.disableSurfaces(); this.host?.remove(); }
+    dispose() { this.hide(); this.disableSurfaces(); this.host?.remove(); }
   }
   globalThis.BiliAmbientSite = SiteTheme;
 })();

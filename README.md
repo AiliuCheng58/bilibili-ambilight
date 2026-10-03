@@ -1,4 +1,4 @@
-# Bili Ambient 1.5.0 · B站氛围光
+# Bili Ambient 1.6.0 · B站氛围光
 
 适用于 Chrome / Edge 的 Manifest V3 扩展。Bilibili 主站及所有子域名共享全页氛围背景和玻璃主题，覆盖首页、搜索、分区、动态、个人空间、专栏、直播与播放页。视频播放时通过 WebGL 多层投影铺满视口，滚动时保留原播放器的投影位置；静态页面沿用最近视频的色彩。
 
@@ -6,7 +6,7 @@
 
 ## 安装和更新
 
-1. 下载并解压 [bilibili-ambilight-v1.5.0.zip](https://github.com/AiliuCheng58/bilibili-ambilight/releases/download/v1.5.0/bilibili-ambilight-v1.5.0.zip)。
+1. 下载并解压 [bilibili-ambilight-v1.6.0.zip](https://github.com/AiliuCheng58/bilibili-ambilight/releases/download/v1.6.0/bilibili-ambilight-v1.6.0.zip)。
 2. Chrome 打开 `chrome://extensions/`；Edge 打开 `edge://extensions/`。
 3. 开启“开发者模式”，点击“加载已解压的扩展程序”。
 4. 选择直接包含 `manifest.json` 的 `bilibili-ambilight` 文件夹。
@@ -38,6 +38,8 @@
 背景接入视频投稿、番剧、课程、`player.bilibili.com` 嵌入播放器，以及 `live.bilibili.com` 直播间。播放页暂停时保留最后一帧；页面进入后台时暂停绘制。默认在画中画期间暂停，可通过设置继续页面背景。
 
 没有主播放器时，页面显示固定的柔和色彩背景。首次使用采用蓝紫配色；播放过可读取像素的视频后，最近画面的边缘配色保存在本机，并在其他 B 站标签页更新。静态背景不启动视频渲染循环。首页、搜索、动态等页面中的可见播放预览可接入实时投影；预览暂停、移出视口或被替换后，返回静态背景。
+
+静态配色采用 420 ms 渐变，视频与静态背景采用 220 ms 淡入淡出。连续收到新配色时从当前混合色继续过渡；系统启用“减少动态效果”时立即切换。固定投影下，暂停后的页面滚动复用已有画面，窗口尺寸和设置改变时及时更新。
 
 “页面与玻璃”中的“全站玻璃主题”控制非播放页面的效果，“视频预览实时取色”控制预览接入。页面结构通过共享样式和分批 DOM 检查接入，新增卡片与弹层自动更新。封面、二维码、验证控件和播放器画面保持独立显示。
 
@@ -77,18 +79,21 @@ npm run test:browser
 npm run test:appearance
 npm run test:advanced
 npm run test:site
+npm run test:transitions
+npm run test:performance
 ./tools/package.ps1
 ```
 
 测试结果保存在 `test-results`。高级检查可通过 `BILI_TEST_CHECK` 环境变量指定名称片段。`BILI_TEST_BROWSER` 可指定测试 Chromium，`BILI_TEST_MODULES` 可指定已有 Playwright 模块目录，`BILI_TEST_RESULTS` 可指定结果目录。
 
-打包脚本生成安装包与源码包，核对版本、依赖和运行文件哈希。结果见 `验证报告.md`。
+打包脚本生成安装包、源码包和 SHA-256 校验文件，核对版本、依赖和运行文件哈希。功能与像素检查见 [验证报告](验证报告.md)，基准方法和原始数据见 [性能报告](性能报告.md)。
 
 ```text
 src/          扩展源码与图标
 dist/         可直接加载的扩展
 tools/        构建、打包和图标工具
 tests/        配置、投影与浏览器集成检查
+benchmarks/   性能基准原始记录
 ```
 
 ## 实现与来源
@@ -98,5 +103,7 @@ tests/        配置、投影与浏览器集成检查
 玻璃界面使用透明底色与 `backdrop-filter`，视频和弹幕保持独立前景。评论组件的开放 Shadow DOM 接入局部主题。文字配色使用周围背景亮度及滤镜参数，以滞回阈值避免频繁切换。
 
 全站主题通过 `site.js` 与 `site.css` 管理固定背景、配色和通用表面。中性容器与文字按批次检查，品牌色与媒体内容保留原有配色；关闭效果时清理主题标记。使用 Navigation 事件和路由轮询接入单页导航，DOM 与媒体事件处理播放器的异步出现与替换。
+
+表面检查将样式读取与标记写入分批执行，每批最多 96 个节点，读取阶段在约 4 ms 后让出执行机会。已接入的评论组件由局部事件更新；异步创建 Shadow DOM 的组件继续等待接入。GPU 纹理按尺寸分配并复用，错误检查在分配时执行；上下文丢失与恢复由浏览器事件处理。
 
 参考 [WesselKroos/youtube-ambilight](https://github.com/WesselKroos/youtube-ambilight) 2.38.17，提交 `18d17188e5562e5ee913f005192d30c9a60be078`。投影、透明页面、色彩曲线和设置功能参考其公开实现；Bilibili 播放器、页面和直播接入为本扩展的独立实现。许可见 `LICENSE` 和 `THIRD-PARTY-NOTICES.md`。

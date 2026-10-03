@@ -8,13 +8,14 @@
       this.times=[];this.frames=[];this.displayFrames=[];this.videoFrames=[];this.displayId=null;this.lastUpdate=-Infinity;
     }
     draw(now,duration,frame,background,crop,settings,renderer,video) {
-      this.element.hidden=![settings.showFPS,settings.showFrametimes,settings.showResolutions,settings.showBarDetectionStats].some(Boolean);
-      if(this.element.hidden){this.suspend();return;}
+      const hidden=!(settings.showFPS || settings.showFrametimes || settings.showResolutions || settings.showBarDetectionStats);
+      if(this.element.hidden!==hidden)this.element.hidden=hidden;
+      if(hidden){if(this.displayId!==null)this.suspend();return;}
       if(settings.showFPS && this.displayId===null)this.trackDisplay();
       if(!settings.showFPS)this.suspend();
       this.frames.push(now);this.frames=this.frames.filter(t=>now-t<1000);
       const quality=video.getVideoPlaybackQuality?.();
-      if(quality){const count=quality.totalVideoFrames-quality.droppedVideoFrames;if(count<(this.videoFrames.at(-1)?.count ?? 0))this.videoFrames=[];this.videoFrames.push({time:now,count});while(this.videoFrames.length>2 && now-this.videoFrames[1].time<1000)this.videoFrames.shift();}
+      if(quality){const count=quality.totalVideoFrames-quality.droppedVideoFrames;if(count<(this.videoFrames.at(-1)?.count ?? 0))this.videoFrames=[];this.videoFrames.push({time:now,count});while(this.videoFrames.length>2 && now-this.videoFrames[1].time>1000)this.videoFrames.shift();}
       this.times.push(duration);if(this.times.length>120)this.times.shift();
       if(now-this.lastUpdate<250)return;this.lastUpdate=now;
       const lines=[];

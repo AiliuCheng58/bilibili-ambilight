@@ -11,7 +11,7 @@
 }
 #bili-ambient-site-backdrop[data-visible="true"] { display: block !important; }
 #bili-ambient-site-backdrop > div { position: absolute; pointer-events: none; }
-#bili-ambient-site-backdrop .bili-ambient-site-field { inset: -300px; }
+#bili-ambient-site-backdrop :is(.bili-ambient-site-field,.bili-ambient-site-previous) { inset: -300px; }
 #bili-ambient-site-backdrop .bili-ambient-site-shade { inset: 0; }
 html[data-bili-ambient] :is([data-bili-ambient-surface="base"],.bili-header,.bili-feed4,.bili-feed4-layout,.bili-header__channel,.bili-video-card__info,.search-page,.search-all-list,.search-content,.search-wrap,.space,.space-main,.space-body,.bili-dyn-home--member,.bili-dyn-home--visitor,.bili-dyn-list,.live-home,.article-container,.article-content,.read-container) { background-color: transparent !important; }
 html[data-bili-ambient] .space-theme-bg { background: transparent !important; }

@@ -46,10 +46,13 @@
   let frameId = null;
   let frameKind = null;
   let layoutId = null;
+  let layerAnimation = null;
   let discoveryId = null;
   let lastFrame = -Infinity;
   let nextFrameAt = -Infinity;
   let fresh = true;
+  let projectionDirty = true;
+  let hasMediaCandidates = false;
   let failures = 0;
   let visible = false;
   let stopped = false;
@@ -115,9 +118,32 @@
     frameId = null;
     frameKind = null;
   }
+  function setLayerVisible(show, immediate = false) {
+    if (!host) return;
+    if (!immediate && host.dataset.visible === String(show)) return;
+    const displayed = host.dataset.visible === "true" || host.hasAttribute("data-transition");
+    const opacity = displayed ? Number(getComputedStyle(host).opacity) : 0;
+    layerAnimation?.cancel();
+    layerAnimation = null;
+    host.dataset.visible = String(show);
+    host.removeAttribute("data-transition");
+    if (immediate || matchMedia("(prefers-reduced-motion: reduce)").matches || (!show && !displayed)) {
+      if (show) site.hide();
+      return;
+    }
+    host.setAttribute("data-transition", "");
+    const animation = host.animate([{ opacity }, { opacity: show ? 1 : 0 }], { duration: 220, easing: "ease-out" });
+    layerAnimation = animation;
+    animation.finished.then(() => {
+      if (layerAnimation !== animation) return;
+      layerAnimation = null;
+      host.removeAttribute("data-transition");
+      if (show && visible) site.hide();
+    }).catch(() => {});
+  }
   function hide(next, message) {
     visible = false;
-    if (host) host.dataset.visible = "false";
+    setLayerVisible(false, true);
     theme.disable();
     site.hide();
     site.disableSurfaces();
@@ -128,8 +154,9 @@
   }
   function showSite() {
     if (!settings.siteThemeEnabled) return hide("waiting", "等待 Bilibili 播放器");
+    if (!video && state === "site" && theme.enabled && theme.settings === settings && site.host?.isConnected) return;
     visible = false;
-    if (host) host.dataset.visible = "false";
+    setLayerVisible(false);
     cancelFrame();
     videoEffects.suspend();
     stats?.suspend();
@@ -177,11 +204,10 @@
     if (failures >= 3 || !ctx || !edgeCtx || !frameCtx) return hide("error", "无法绘制视频画面，可关闭再开启氛围光重试");
     if (video.readyState < 2 || !video.videoWidth) return showSite();
     theme.apply(settings);
-    site.hide();
     site.enableSurfaces();
     theme.setPlayer(video);
     videoEffects.attach(video,mediaSource);
-    document.documentElement.dataset.biliAmbientView = mode;
+    if (document.documentElement.dataset.biliAmbientView !== mode) document.documentElement.dataset.biliAmbientView = mode;
     document.documentElement.style.setProperty("--bili-ambient-video-scale", String(settings[`videoScale.${mode}`] / 100));
 
     // Object-fit bounds align the projection with the decoded picture, including letterboxing.
@@ -197,6 +223,7 @@
       }
       anchorKey = nextAnchorKey;
       lastInspection = -Infinity;
+      projectionDirty = true;
     }
     const width = projection.width;
     const height = projection.height;
@@ -206,7 +233,7 @@
     const geometry = [projection.left, projection.top, width, height, spread, innerWidth, innerHeight, rect.left, rect.top, rect.width, rect.height].map(n => Math.round(n * 10) / 10).join(",");
     if (geometry !== lastGeometry) {
       Object.assign(halo.style, {
-        left: `${projection.left - spread}px`, top: `${projection.top - spread}px`,
+        left: "0px", top: "0px", transform: `translate3d(${projection.left - spread}px,${projection.top - spread}px,0)`,
         width: `${outerWidth}px`, height: `${outerHeight}px`
       });
       edgeCanvas.style.setProperty("--fade-x", `${spread / outerWidth * 100}%`);
@@ -261,12 +288,14 @@
     if (canvas.width !== backgroundWidth || canvas.height !== backgroundHeight) {
       canvas.width = backgroundWidth;
       canvas.height = backgroundHeight;
+      projectionDirty = true;
     }
     const wasVisible = visible;
     visible = true;
-    host.dataset.visible = "true";
+    if (!wasVisible) site.show(settings);
     setState(video.paused || video.ended ? "paused" : "active", video.paused || video.ended ? "已连接 · 保留暂停画面的背景" : "已连接 · 页面背景随画面变化");
-    if (!wasVisible || fresh || video.paused) draw(performance.now(), true);
+    if (!wasVisible || fresh || projectionDirty) draw(performance.now(), true);
+    if (visible) setLayerVisible(true);
     if ((video.paused || video.ended) && mediaSource===video) cancelFrame();
     scheduleFrame();
   }
@@ -338,6 +367,7 @@
       globalThis.BiliAmbientProjection.fallbackFilters(edgeCtx,{left:0,top:0,width:edgeCanvas.width,height:edgeCanvas.height},{left:0,top:0,width:edgeCanvas.width,height:edgeCanvas.height},settings,now);
       videoEffects.draw(settings,frameAlpha,now,host);
       fresh = false;
+      projectionDirty = false;
       failures = 0;
       lastFrame = now;
       framesRendered++;
@@ -409,7 +439,6 @@
     resetClips();
     video = next;
     renderer?.retry();
-    theme.setLuminance(0);
     failures = 0;
     lastFrame = -Infinity;
     nextFrameAt = -Infinity;
@@ -418,6 +447,7 @@
     for (const event of ["play", "playing", "pause", "ended", "seeked", "loadeddata", "resize", "enterpictureinpicture", "leavepictureinpicture"]) {
       video.addEventListener(event, queueLayout, options);
     }
+    for (const event of ["pause", "ended"]) video.addEventListener(event, () => { projectionDirty = true; }, options);
     for (const event of ["emptied", "loadstart"]) video.addEventListener(event, () => { resetClips(); recover(); }, options);
     for(const event of ["seeking","seeked"])video.addEventListener(event,recover,options);
     video.addEventListener("loadeddata",()=>renderer?.retry(),options);
@@ -449,6 +479,7 @@
     }
     const preferred = new Set(document.querySelectorAll(videoSelector));
     const candidates = [...document.querySelectorAll("video")];
+    hasMediaCandidates = candidates.length > 0;
     const next = candidates.filter(v => {
       const source=findSource(v), r = source.getBoundingClientRect();
       const s = getComputedStyle(source);
@@ -493,6 +524,7 @@
     if (!Object.keys(patch).length) return;
     const previouslyEnabled = settings.enabled;
     settings = config.normalize({ ...settings, ...patch });
+    projectionDirty = true;
     blender.reset();
     menu.setSettings(settings);
     cancelFrame();
@@ -519,8 +551,11 @@
   }, eventOptions);
   document.addEventListener("fullscreenchange", queueLayout, eventOptions);
   window.addEventListener("resize", queueLayout, { ...eventOptions, passive: true });
-  window.addEventListener("scroll", queueLayout, { ...eventOptions, passive: true, capture: true });
-  window.addEventListener("scroll", () => { if (!config.isPlaybackPage(location.href)) queueDiscovery(); }, { ...eventOptions, passive: true, capture: true });
+  window.addEventListener("scroll", () => {
+    if (!settings.enabled) return;
+    if (video?.isConnected) queueLayout();
+    if (hasMediaCandidates && !config.isPlaybackPage(location.href)) queueDiscovery();
+  }, { ...eventOptions, passive: true, capture: true });
   for (const event of ["playing", "loadeddata", "pause", "ended"]) document.addEventListener(event, queueDiscovery, { ...eventOptions, capture: true });
   window.addEventListener("popstate", queueDiscovery, eventOptions);
   window.addEventListener("hashchange", queueDiscovery, eventOptions);
@@ -558,6 +593,7 @@
       menu.dispose();
       renderer?.dispose();
       stats?.dispose();
+      layerAnimation?.cancel();
       clearInterval(routeTimer);
       clearTimeout(discoveryId);
       if (layoutId !== null) cancelAnimationFrame(layoutId);

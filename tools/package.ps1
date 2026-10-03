@@ -27,11 +27,11 @@ try {
             Copy-Item -LiteralPath $file.FullName -Destination $destination
         }
     }
-    foreach ($name in @('README.md','LICENSE','THIRD-PARTY-NOTICES.md','验证报告.md')) {
+    foreach ($name in @('README.md','LICENSE','THIRD-PARTY-NOTICES.md','验证报告.md','性能报告.md')) {
         Copy-Item -LiteralPath (Join-Path $projectRoot $name) -Destination $runtimeStage
         Copy-Item -LiteralPath (Join-Path $projectRoot $name) -Destination $sourceStage
     }
-    foreach ($name in @('src','dist','tools','tests','package.json','.gitignore','.gitattributes')) { Copy-Item -LiteralPath (Join-Path $projectRoot $name) -Destination $sourceStage -Recurse }
+    foreach ($name in @('src','dist','tools','tests','benchmarks','package.json','.gitignore','.gitattributes')) { Copy-Item -LiteralPath (Join-Path $projectRoot $name) -Destination $sourceStage -Recurse }
     $runtimeZip = Join-Path $outputRoot "bilibili-ambilight-v$version.zip"
     $sourceZip = Join-Path $outputRoot "bilibili-ambilight-source-v$version.zip"
     Compress-Archive -LiteralPath $runtimeStage -DestinationPath $runtimeZip -Force
@@ -52,6 +52,9 @@ try {
             [pscustomobject]@{ Path=$path; Files=$archive.Entries.Count; SHA256=(Get-FileHash -LiteralPath $path).Hash }
         } finally { $archive.Dispose() }
     }
+    $checksumLines = foreach ($archivePath in @($runtimeZip,$sourceZip)) { '{0}  {1}' -f (Get-FileHash -LiteralPath $archivePath -Algorithm SHA256).Hash.ToLowerInvariant(),(Split-Path -Leaf $archivePath) }
+    $checksumPath = Join-Path $outputRoot "SHA256SUMS-v$version.txt"
+    [IO.File]::WriteAllText($checksumPath, (($checksumLines -join "`n") + "`n"), [Text.UTF8Encoding]::new($false))
 } finally {
     $resolvedStage = [IO.Path]::GetFullPath($stage)
     if (!$resolvedStage.StartsWith($stageBase + [IO.Path]::DirectorySeparatorChar,[StringComparison]::OrdinalIgnoreCase) -or (Split-Path -Leaf $resolvedStage) -notmatch '^release-[0-9a-f-]{36}$') { throw 'Staging cleanup path is invalid.' }

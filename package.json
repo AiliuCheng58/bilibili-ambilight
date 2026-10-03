@@ -1,6 +1,6 @@
 {
   "name": "bilibili-ambilight",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "private": true,
   "description": "Bilibili 全站玻璃主题与视频氛围光浏览器扩展",
   "license": "MIT",
@@ -19,7 +19,9 @@
     "test:browser": "node tests/browser.mjs",
     "test:appearance": "node tests/appearance.mjs",
     "test:advanced": "node tests/advanced.mjs",
-    "test:site": "node tests/site.mjs"
+    "test:site": "node tests/site.mjs",
+    "test:transitions": "node tests/transitions.mjs",
+    "test:performance": "node tests/performance.mjs"
   },
   "devDependencies": {
     "playwright": "1.62.1"

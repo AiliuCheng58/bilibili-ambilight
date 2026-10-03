@@ -36,11 +36,14 @@
       this.enabled = false;
       this.player = null;
       this.roots = new Map();
+      this.pendingHosts = new Set();
       this.tone = "dark";
       this.luminance = 0;
       this.theme = 0;
     }
     apply(settings) {
+      if (this.enabled && this.settings === settings) return;
+      this.settings = settings;
       const wasEnabled = this.enabled;
       this.enabled = true;
       const root = document.documentElement;
@@ -61,7 +64,7 @@
       root.toggleAttribute("data-bili-ambient-panel-shadow", !settings.surroundingContentTextAndBtnOnly);
       this.theme=settings.theme;
       this.setLuminance(this.luminance);
-      if (!wasEnabled) this.refreshComments();
+      if (!wasEnabled) this.refreshComments(true);
     }
     setLuminance(value) {
       this.luminance=value;
@@ -77,26 +80,31 @@
       this.player = next;
       this.player?.classList.add("bili-ambient-player");
     }
-    refreshComments() {
+    refreshComments(rescan = false) {
       if (!this.enabled) return;
       for (const [root, record] of this.roots) {
         if (!root.host.isConnected) {
           record.observer.disconnect();
           record.style.remove();
           this.roots.delete(root);
-        }
+        } else if (rescan) this.scan(root);
       }
       for (const host of document.querySelectorAll("bili-comments")) this.visit(host);
-      for (const root of this.roots.keys()) this.scan(root);
+      for (const host of this.pendingHosts) {
+        if (!host.isConnected) this.pendingHosts.delete(host);
+        else this.visit(host);
+      }
     }
     scan(root) {
       for (const element of root.querySelectorAll("*")) {
-        if (element.tagName.startsWith("BILI-") && element.shadowRoot) this.visit(element);
+        if (element.tagName.startsWith("BILI-")) this.visit(element);
       }
     }
     visit(host) {
       const root = host.shadowRoot;
-      if (!root || this.roots.has(root)) return;
+      if (!root) { this.pendingHosts.add(host); return; }
+      this.pendingHosts.delete(host);
+      if (this.roots.has(root)) return;
       const style = document.createElement("style");
       style.dataset.biliAmbientTheme = "";
       style.textContent = shadowCss;
@@ -128,6 +136,7 @@
         style.remove();
       }
       this.roots.clear();
+      this.pendingHosts.clear();
     }
   }
   globalThis.BiliAmbientTheme = PageTheme;

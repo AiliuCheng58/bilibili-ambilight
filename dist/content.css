@@ -1,5 +1,5 @@
 #bili-ambient-layer {
-  all: initial !important;
+  all: initial;
   position: fixed !important;
   inset: 0 !important;
   z-index: 0 !important;
@@ -10,6 +10,7 @@
   background: var(--bili-ambient-base,#10131b) !important;
 }
 #bili-ambient-layer[data-visible="true"] { display: block !important; }
+#bili-ambient-layer[data-transition] { display: block !important; }
 #bili-ambient-layer > div,
 #bili-ambient-layer canvas {
   all: initial;
