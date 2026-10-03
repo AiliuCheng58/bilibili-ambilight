@@ -1,0 +1,102 @@
+# Bili Ambient 1.5.0 · B站氛围光
+
+适用于 Chrome / Edge 的 Manifest V3 扩展。Bilibili 主站及所有子域名共享全页氛围背景和玻璃主题，覆盖首页、搜索、分区、动态、个人空间、专栏、直播与播放页。视频播放时通过 WebGL 多层投影铺满视口，滚动时保留原播放器的投影位置；静态页面沿用最近视频的色彩。
+
+[公开源码](https://github.com/AiliuCheng58/bilibili-ambilight) · [下载最新版](https://github.com/AiliuCheng58/bilibili-ambilight/releases/latest) · [反馈问题](https://github.com/AiliuCheng58/bilibili-ambilight/issues) · [MIT 许可](LICENSE)
+
+## 安装和更新
+
+1. 下载并解压 [bilibili-ambilight-v1.5.0.zip](https://github.com/AiliuCheng58/bilibili-ambilight/releases/download/v1.5.0/bilibili-ambilight-v1.5.0.zip)。
+2. Chrome 打开 `chrome://extensions/`；Edge 打开 `edge://extensions/`。
+3. 开启“开发者模式”，点击“加载已解压的扩展程序”。
+4. 选择直接包含 `manifest.json` 的 `bilibili-ambilight` 文件夹。
+5. 刷新已打开的 Bilibili 页面。
+
+更新已有安装时，将新包解压到原来的扩展目录，在扩展管理页点击“重新加载”，再刷新 Bilibili 页面。已保存的 1.2 及后续版本参数继续保留。源码包的顶层目录和 `dist` 均可直接加载。
+
+## 使用
+
+点击播放器控制栏中的彩色圆形按钮、页面右下角的圆形入口，或浏览器工具栏上的扩展图标，打开设置。播放器菜单在全屏中也可使用；按 Escape 先关闭菜单。完整设置页提供搜索、JSON 导入和导出。
+
+默认“通透”预设以低浓度玻璃显示视频颜色。“影院”增加背景深浅，“省电”降低光效帧率和采样精度。背景亮度、玻璃浓度、背景柔化和边缘过渡可分别调节。
+
+| 功能 | 可调内容 |
+| --- | --- |
+| 投影 | WebGL / Canvas 2D、多层投影 / 边缘延展、四个方向、边缘宽度、渐隐起点和曲线 |
+| 色彩 | 亮度、对比度、自然鲜艳度、饱和度、LCD / OLED 去色带 |
+| 过渡 | 时间平滑、淡入时间、闪烁抑制、前后视频帧插值 |
+| 性能 | 帧率上限、视频 / 显示 / 解码帧同步、采样精度、渲染精度比例、静态画面省电、页面加载优先 |
+| 黑边与裁切 | 上下 / 左右 / 纯色边框检测、历史帧平均、偏移和容差、手动裁切、画面填充、新视频重置裁切 |
+| 页面 | 导航和内容玻璃、图像透明度、文字和面板阴影、灰度底色、明暗配色、推荐独立滚动、隐藏滚动条 |
+| 全站 | 全站玻璃开关、固定静态背景、最近视频配色、跨标签页颜色传播、可见视频预览实时取色 |
+| 播放器 | 普通 / 宽屏 / 全屏画面缩放、播放器阴影、启用视图选择、宽屏沉浸模式 |
+| 特殊画面 | HDR 背景滤镜、VR / 360 画布接入、画中画期间继续背景、嵌入播放器开关 |
+| 视频处理 | 视频与背景同步、掉帧保护、视频去色带、高刷新率抖动与硬件叠加层修正选项 |
+| 统计 | 视频 / 显示 / 光效帧率、绘制耗时曲线、采样和投影分辨率、边框检测结果 |
+| 配置 | 本地保存、预设、自定义快捷键、JSON 备份、可选浏览器账号同步 |
+
+背景接入视频投稿、番剧、课程、`player.bilibili.com` 嵌入播放器，以及 `live.bilibili.com` 直播间。播放页暂停时保留最后一帧；页面进入后台时暂停绘制。默认在画中画期间暂停，可通过设置继续页面背景。
+
+没有主播放器时，页面显示固定的柔和色彩背景。首次使用采用蓝紫配色；播放过可读取像素的视频后，最近画面的边缘配色保存在本机，并在其他 B 站标签页更新。静态背景不启动视频渲染循环。首页、搜索、动态等页面中的可见播放预览可接入实时投影；预览暂停、移出视口或被替换后，返回静态背景。
+
+“页面与玻璃”中的“全站玻璃主题”控制非播放页面的效果，“视频预览实时取色”控制预览接入。页面结构通过共享样式和分批 DOM 检查接入，新增卡片与弹层自动更新。封面、二维码、验证控件和播放器画面保持独立显示。
+
+滚动小窗继续播放时，背景保留原播放器的投影位置。普通全屏和网页全屏随播放器尺寸调整，背景与设置菜单挂载到全屏容器。关闭效果后恢复页面配色和视频显示。
+
+| 默认按键 | 操作 |
+| --- | --- |
+| G | 开关氛围光 |
+| B | 开关上下黑边检测 |
+| V | 开关左右黑边检测 |
+| H | 开关裁切后填满播放器 |
+| Alt + Shift + A | 浏览器扩展命令：开关氛围光 |
+
+文字输入框内不会触发单键快捷键。可在设置中修改或清空单键，在浏览器扩展快捷键页面修改组合键。
+
+画面处理在本机完成。默认配置保存在 `storage.local`；静态背景仅保存三组 RGB 配色。启用账号同步后，仅将设置写入浏览器的 `storage.sync`，实际设备间同步由浏览器提供。设置文件最多 64 KB，导入时校验类型和范围。
+
+HDR 背景滤镜可跟随播放器的 HDR 质量标记，也可手动启用。VR 接入当前播放器可访问的渲染画布。跨域媒体禁止读取像素时仍继续投影，自动边框识别需要可读视频像素。
+
+## 开发与验证
+
+构建需要 Node.js 20 或更新版本。获取源码并构建：
+
+```powershell
+git clone https://github.com/AiliuCheng58/bilibili-ambilight.git
+Set-Location bilibili-ambilight
+node tools/build.mjs
+npm test
+```
+
+浏览器验证使用 Playwright，在独立 Chromium 配置中真实加载扩展，页面与视频由受控场景提供：
+
+```powershell
+npm install
+npx playwright install chromium
+npm run test:browser
+npm run test:appearance
+npm run test:advanced
+npm run test:site
+./tools/package.ps1
+```
+
+测试结果保存在 `test-results`。高级检查可通过 `BILI_TEST_CHECK` 环境变量指定名称片段。`BILI_TEST_BROWSER` 可指定测试 Chromium，`BILI_TEST_MODULES` 可指定已有 Playwright 模块目录，`BILI_TEST_RESULTS` 可指定结果目录。
+
+打包脚本生成安装包与源码包，核对版本、依赖和运行文件哈希。结果见 `验证报告.md`。
+
+```text
+src/          扩展源码与图标
+dist/         可直接加载的扩展
+tools/        构建、打包和图标工具
+tests/        配置、投影与浏览器集成检查
+```
+
+## 实现与来源
+
+内容脚本寻找当前主播放器，通过 DOM、尺寸、播放和全屏事件接入视频节点与 VR 画布。帧缓冲完成裁切识别和时间处理；WebGL 着色器直接计算视口到源画面的投影，并处理自然鲜艳度、方向和去色带。GPU 上下文丢失时切换 Canvas 2D，恢复后重新启用 WebGL。
+
+玻璃界面使用透明底色与 `backdrop-filter`，视频和弹幕保持独立前景。评论组件的开放 Shadow DOM 接入局部主题。文字配色使用周围背景亮度及滤镜参数，以滞回阈值避免频繁切换。
+
+全站主题通过 `site.js` 与 `site.css` 管理固定背景、配色和通用表面。中性容器与文字按批次检查，品牌色与媒体内容保留原有配色；关闭效果时清理主题标记。使用 Navigation 事件和路由轮询接入单页导航，DOM 与媒体事件处理播放器的异步出现与替换。
+
+参考 [WesselKroos/youtube-ambilight](https://github.com/WesselKroos/youtube-ambilight) 2.38.17，提交 `18d17188e5562e5ee913f005192d30c9a60be078`。投影、透明页面、色彩曲线和设置功能参考其公开实现；Bilibili 播放器、页面和直播接入为本扩展的独立实现。许可见 `LICENSE` 和 `THIRD-PARTY-NOTICES.md`。

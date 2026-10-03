@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "Bili Ambient · B站氛围光",
+  "version": "1.5.0",
+  "description": "Bilibili 全站玻璃主题与视频氛围光，支持首页、搜索、动态、空间、直播及播放页。",
+  "minimum_chrome_version": "109",
+  "permissions": ["storage"],
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "action": {
+    "default_title": "Bili Ambient · B站氛围光",
+    "default_popup": "popup.html"
+  },
+  "background": { "service_worker": "background.js" },
+  "options_ui": { "page": "popup.html", "open_in_tab": true },
+  "commands": {
+    "toggle-ambient": {
+      "suggested_key": { "default": "Alt+Shift+A" },
+      "description": "开启或关闭 B站氛围光"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.bilibili.com/*"],
+      "js": ["settings.js", "controls.js", "projection.js", "renderer.js", "stats.js", "video-effects.js", "site.js", "menu.js", "theme.js", "content.js"],
+      "css": ["content.css", "site.css"],
+      "all_frames": true,
+      "run_at": "document_idle"
+    }
+  ]
+}

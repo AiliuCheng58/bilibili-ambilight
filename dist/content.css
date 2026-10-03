@@ -1,0 +1,224 @@
+#bili-ambient-layer {
+  all: initial !important;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+  overflow: hidden !important;
+  contain: layout style !important;
+  display: none !important;
+  background: var(--bili-ambient-base,#10131b) !important;
+}
+#bili-ambient-layer[data-visible="true"] { display: block !important; }
+#bili-ambient-layer > div,
+#bili-ambient-layer canvas {
+  all: initial;
+  display: block;
+  position: absolute;
+  pointer-events: none !important;
+}
+#bili-ambient-layer .bili-ambient-background { object-fit: cover; }
+#bili-ambient-layer .bili-ambient-frame { display: none; }
+#bili-ambient-layer .bili-ambient-shade { inset: 0; background: #000; }
+#bili-ambient-layer .bili-ambient-halo { overflow: hidden; }
+#bili-ambient-layer .bili-ambient-halo canvas {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  mask-image: linear-gradient(to right, transparent, #000 var(--fade-x), #000 calc(100% - var(--fade-x)), transparent), linear-gradient(to bottom, transparent, #000 var(--fade-y), #000 calc(100% - var(--fade-y)), transparent);
+  mask-composite: intersect;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 var(--fade-x), #000 calc(100% - var(--fade-x)), transparent), linear-gradient(to bottom, transparent, #000 var(--fade-y), #000 calc(100% - var(--fade-y)), transparent);
+  -webkit-mask-composite: source-in;
+}
+
+html[data-bili-ambient] {
+  --bili-ambient-text1: #f4f5f8;
+  --bili-ambient-text2: #ced2dd;
+  --bili-ambient-text3: #aab2c3;
+  --bili-ambient-text-shadow: 0 1px 2px rgba(0,0,0,.7), 0 0 6px rgba(0,0,0,.22);
+  color-scheme: dark !important;
+  background: #10131b !important;
+  isolation: isolate;
+}
+html[data-bili-ambient][data-bili-ambient-tone="light"] {
+  color-scheme: light !important;
+  --bili-ambient-text1: #1d2332;
+  --bili-ambient-text2: #414c60;
+  --bili-ambient-text3: #58667d;
+  --bili-ambient-text-shadow: 0 1px 2px rgba(255,255,255,.7), 0 0 6px rgba(255,255,255,.22);
+}
+html[data-bili-ambient] body {
+  position: relative;
+  z-index: 1;
+  --bg1: transparent !important;
+  --bg2: rgba(255,255,255,.04) !important;
+  --bg3: rgba(255,255,255,.07) !important;
+  --bg1_float: rgba(20,23,31,.92) !important;
+  --bg2_float: rgba(26,29,38,.92) !important;
+  --bg3_float: rgba(35,38,48,.92) !important;
+  --bg2_fade: rgba(255,255,255,.06) !important;
+  --graph_bg_thin: rgba(255,255,255,.06) !important;
+  --graph_bg_regular: rgba(255,255,255,.1) !important;
+  --graph_bg_thick: rgba(255,255,255,.16) !important;
+  --text1: var(--bili-ambient-text1) !important;
+  --text2: var(--bili-ambient-text2) !important;
+  --text3: var(--bili-ambient-text3) !important;
+  --text4: var(--bili-ambient-text1) !important;
+  --text_white: #fff !important;
+  --line_regular: rgba(255,255,255,.16) !important;
+  --line_light: rgba(255,255,255,.1) !important;
+  --line_bold: rgba(255,255,255,.24) !important;
+  --Ga0: #202530 !important;
+  --Ga1: #29303d !important;
+  --Ga2: #394252 !important;
+  --Ga3: #555f71 !important;
+  --Ga4: #8993a5 !important;
+  --Ga5: #aab2c3 !important;
+  --Ga6: #bec6d6 !important;
+  --Ga7: #ced2dd !important;
+  --Ga8: #dde2eb !important;
+  --Ga9: #edf0f6 !important;
+  --Ga10: #f4f5f8 !important;
+  background: transparent !important;
+  color: var(--text1) !important;
+  text-shadow: var(--bili-ambient-text-shadow);
+}
+html[data-bili-ambient] :is(#app,#mirror-vdcon,.video-container-v1,.video-container-v2,.main-container,.left-container,.right-container,.video-page-special-card-small,.recommend-list-v1,.recommend-list-v2) {
+  background: transparent !important;
+  color: var(--text1) !important;
+}
+html[data-bili-ambient] :is(#bilibili-player-placeholder,#bilibili-player-placeholder-top,#bilibili-player-placeholder-bottom,#bilibili-player-placeholder-bottom-right) {
+  background: transparent !important;
+}
+html[data-bili-ambient] :is(.bili-header__bar,.mini-header,.international-header .mini-header,.bili-ambient-glass) {
+  background: rgba(17,20,28,var(--bili-ambient-header-glass,.08)) !important;
+  backdrop-filter: blur(var(--bili-ambient-glass-blur,20px)) saturate(1.15) !important;
+  -webkit-backdrop-filter: blur(var(--bili-ambient-glass-blur,20px)) saturate(1.15) !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,.08) !important;
+  color: var(--text1) !important;
+}
+html[data-bili-ambient] :is(.video-desc-container,.base-video-sections,.video-pod,.danmaku-box,.bpx-player-sending-area,.bilibili-player-video-sendbar,.bili-ambient-panel) {
+  background: rgba(255,255,255,var(--bili-ambient-glass,.08)) !important;
+  backdrop-filter: blur(var(--bili-ambient-glass-blur,20px)) !important;
+  -webkit-backdrop-filter: blur(var(--bili-ambient-glass-blur,20px)) !important;
+  border-color: rgba(255,255,255,.1) !important;
+  border-radius: 10px;
+  color: var(--text1) !important;
+}
+html[data-bili-ambient] :is(.video-info-container,.video-toolbar-container,.up-info-container,.video-sections-content-list,.video-sections-head,.video-sections-item,.video-sections-item:hover,.video-sections-item.active,.video-episode-card,.video-episode-card:hover,.video-episode-card.active,.video-sections-list,.bui-collapse-header,.bui-collapse-body) {
+  background: transparent !important;
+  box-shadow: none !important;
+  border-color: rgba(255,255,255,.1) !important;
+  color: var(--text1) !important;
+}
+html[data-bili-ambient] :is(.video-info-container,.video-toolbar-container,.up-info-container) {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+html[data-bili-ambient] .base-video-sections :is(.video-section,.video-section-list,.video-section-title,.video-section-list-title,.video-section-list-content,.video-sections-content-list,.video-sections-head) {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+html[data-bili-ambient] .video-pod :is(.video-pod__header,.video-pod__body,.video-pod__list,.pod-item,.single-p,.simple-base-item) {
+  background: transparent !important;
+  color: var(--text1) !important;
+}
+html[data-bili-ambient] .video-pod :is(.video-pod__header .title,.simple-base-item:not(.active) .title,.simple-base-item:not(.active) .title-txt) {
+  color: var(--text1) !important;
+  text-shadow: var(--bili-ambient-text-shadow);
+}
+html[data-bili-ambient] .video-pod :is(.stats,.amt,.header-bottom) { color: var(--text2) !important; }
+html[data-bili-ambient] .video-pod .simple-base-item:hover { background: rgba(255,255,255,.06) !important; }
+html[data-bili-ambient] :is(.bpx-player-sending-bar,.bpx-docker-minor,.bui-collapse-header,.bui-collapse-body) {
+  background: transparent !important;
+  color: var(--text1) !important;
+}
+html[data-bili-ambient] :is(.bpx-player-video-inputbar,.bpx-player-dm-input) {
+  background: rgba(20,23,31,.12) !important;
+  color: var(--text1) !important;
+}
+html[data-bili-ambient] .bpx-player-sending-bar .bui-area {
+  background: rgba(255,255,255,.12) !important;
+  color: var(--text2) !important;
+}
+html[data-bili-ambient] :is(.video-page-card-small,.video-page-card-large) {
+  background: transparent !important;
+  border-radius: 8px;
+  color: var(--text1) !important;
+}
+html[data-bili-ambient] :is(.bili-header__bar .left-entry .entry-title,.bili-header__bar .right-entry .right-entry-text,.bili-header__bar .right-entry .v-popover-wrap,.bili-header__bar .left-entry .mini-header__title,.video-title,.video-info-container h1,.video-page-card-small .title,.video-page-card-large .title,.recommend-list-v1 .title,.next-play,.video-toolbar-container,.video-toolbar-left,.video-desc,.desc-info-text,.tag-link,.up-name,.bili-ambient-title) {
+  color: var(--text1) !important;
+  text-shadow: var(--bili-ambient-text-shadow);
+}
+html[data-bili-ambient] :is(.video-info-detail,.video-info-detail-list,.video-page-card-small .upname,.video-page-card-small .playinfo,.up-info-container .up-description,.video-toolbar-right,.bpx-player-video-info,.bpx-player-dm-setting,.bili-ambient-secondary) {
+  color: var(--text2) !important;
+}
+html[data-bili-ambient] :is(#nav-searchform,.nav-search-input,.search-input,.tag,.vui_button,.van-popover,.v-popover-content,.bpx-player-dm-wrap) {
+  background-color: rgba(20,23,31,.12) !important;
+  border-color: rgba(255,255,255,.15) !important;
+  color: var(--text1) !important;
+}
+html[data-bili-ambient] :is(.bili-header__bar svg,.video-toolbar-container svg,.video-info-container svg) {
+  color: var(--text2) !important;
+}
+html[data-bili-ambient] .bili-ambient-player {
+  background: transparent !important;
+  border-radius: 12px;
+  box-shadow: none;
+}
+html[data-bili-ambient] .bili-ambient-player :is(.bpx-player-video-area,.bilibili-player-video-wrap) {
+  background: transparent !important;
+  border-radius: 12px 12px 0 0;
+}
+html[data-bili-ambient] :fullscreen {
+  background: transparent !important;
+  border-radius: 0;
+  box-shadow: none;
+}
+html[data-bili-ambient] :fullscreen :is(.bpx-player-primary-area,.bpx-player-video-area,.bpx-player-video-wrap,.bilibili-player-video-wrap),
+html[data-bili-ambient] :fullscreen > video {
+  position: relative;
+  z-index: 1;
+  background: transparent !important;
+  border-radius: 0;
+}
+html[data-bili-ambient] :fullscreen video { background: transparent !important; }
+
+#bili-ambient-layer .bili-ambient-output { object-fit:cover; }
+#bili-ambient-layer .bili-ambient-stats { position:fixed; left:12px; bottom:12px; z-index:3; padding:10px; color:#fff; background:rgba(8,10,18,.85); border-radius:8px; font:12px/1.5 Consolas,monospace; }
+#bili-ambient-layer .bili-ambient-stats[hidden] { display:none !important; }
+#bili-ambient-layer .bili-ambient-stats pre { margin:0; }
+#bili-ambient-layer .bili-ambient-stats canvas { position:static; }
+html[data-bili-ambient] body { text-shadow:var(--bili-ambient-content-shadow); }
+html[data-bili-ambient] { --bili-ambient-text-shadow:var(--bili-ambient-content-shadow); }
+html[data-bili-ambient] :is(.bili-header__bar,.mini-header) { background:rgba(17,20,28,var(--bili-ambient-header-glass,.08)) !important; text-shadow:var(--bili-ambient-header-shadow); }
+html[data-bili-ambient] :is(.bili-header__bar,.mini-header) img { opacity:var(--bili-ambient-header-images,1); }
+html[data-bili-ambient] :is(.recommend-list-v1,.recommend-list-v2,.up-info-container,.video-desc-container,bili-comments) img { opacity:var(--bili-ambient-content-images,1); }
+html[data-bili-ambient] .bili-ambient-player { box-shadow:var(--bili-ambient-video-shadow); }
+html[data-bili-ambient] .bili-ambient-player video { scale:calc(var(--bili-ambient-video-scale,1) * var(--bili-ambient-video-fill,1)); clip-path:var(--bili-ambient-video-clip,none); }
+html[data-bili-ambient][data-bili-ambient-related-scroll] :is(.recommend-list-v1,.recommend-list-v2) { max-height:calc(100vh - 110px); overflow-y:auto; position:sticky; top:90px; scrollbar-width:thin; }
+html[data-bili-ambient][data-bili-ambient-hide-scrollbar] { scrollbar-width:none; }
+html[data-bili-ambient][data-bili-ambient-hide-scrollbar]::-webkit-scrollbar { display:none; }
+html[data-bili-ambient][data-bili-ambient-immersive][data-bili-ambient-view="THEATER"] :is(.bili-header,.bili-header__bar,.video-info-container,.right-container,.video-toolbar-container,.video-desc-container,.left-container > bili-comments) { visibility:hidden !important; }
+html[data-bili-ambient][data-bili-ambient-layout] :is(.video-page-card-small,.video-page-card-large) { content-visibility:auto; contain-intrinsic-size:auto 120px; }
+html[data-bili-ambient][data-bili-ambient-panel-shadow] :is(.video-pod,.base-video-sections,.video-desc-container,.video-page-card-small,.video-toolbar-container) { box-shadow:var(--bili-ambient-content-shadow) !important; }
+.bili-ambient-video-sync,.bili-ambient-video-noise { display:none; position:absolute; pointer-events:none !important; }
+html[data-bili-ambient] :is(.bili-ambient-video-sync,.bili-ambient-video-noise) { display:block; scale:calc(var(--bili-ambient-video-scale,1) * var(--bili-ambient-video-fill,1)); clip-path:var(--bili-ambient-video-clip,none); }
+html[data-bili-ambient] video.bili-ambient-synchronized { opacity:.001 !important; }
+html[data-bili-ambient] video.bili-ambient-mpo { filter:opacity(1); clip-path:var(--bili-ambient-video-clip,inset(0% 0%)); }
+#bili-ambient-layer .bili-ambient-jitter { left:50%; top:calc(100% - 10px); width:1px; height:1px; background:#00000001; contain:strict; will-change:opacity; animation:bili-ambient-refresh 60s linear infinite; }
+@keyframes bili-ambient-refresh { from { opacity:.0000000001; } to { opacity:.0000000002; } }
+.bili-ambient-settings-button { width:30px; height:30px; border:0; border-radius:50%; padding:0; cursor:pointer; color:#fff; background:conic-gradient(#ed77b0,#808af0,#67d8cc,#ed77b0); font:18px/30px sans-serif; text-shadow:0 1px 3px #0008; pointer-events:auto; }
+.bili-ambient-settings-button[data-floating="true"] { position:absolute; right:12px; top:12px; z-index:99; }
+html[data-bili-ambient] :is(#room-ssr-vm,.app-content,.app-body,#player-ctnr,#head-info-vm,#sections-vm,#fullscreen-container,.live-skin-coloration-area) { background:transparent !important; color:var(--bili-ambient-text1) !important; }
+html[data-bili-ambient] #room-background-vm { display:none !important; }
+html[data-bili-ambient] :is(.link-navbar-ctnr,.chat-history-panel,#rank-list-ctnr-box,#control-panel-ctnr-box,.gift-control-panel) { background:rgba(255,255,255,var(--bili-ambient-glass,.08)) !important; backdrop-filter:blur(var(--bili-ambient-glass-blur,24px)); color:var(--bili-ambient-text1) !important; }
+html[data-bili-ambient] :is(.link-navbar,.chat-history-list,.chat-items,.chat-control-panel,.control-panel-ctnr,.rank-list-ctnr) { background:transparent !important; }
+html[data-bili-ambient] :is(.link-navbar-ctnr a,.chat-item .danmaku-item-right,.convention-msg,#head-info-vm h1,#sections-vm,.gift-control-panel .text) { color:var(--bili-ambient-text1) !important; text-shadow:var(--bili-ambient-text-shadow); }
+html[data-bili-ambient] #chat-control-panel-vm :is(input,textarea) { background:rgba(20,23,31,.12) !important; color:var(--bili-ambient-text1) !important; }
+html[data-bili-ambient] :is(.live-skin-normal-text,#rank-list-ctnr-box .tab-item.active) { color:var(--bili-ambient-text1) !important; }
+html[data-bili-ambient] .link-navbar-ctnr { background:rgba(17,20,28,var(--bili-ambient-header-glass,.08)) !important; text-shadow:var(--bili-ambient-header-shadow); }
+html[data-bili-ambient] :is(.bili-header__bar,.mini-header,.link-navbar-ctnr) :is(a,.entry-title,.right-entry-text) { text-shadow:var(--bili-ambient-header-shadow); }
+html[data-bili-ambient] :is(.bili-header__bar,.mini-header,.link-navbar-ctnr) img { opacity:var(--bili-ambient-header-images,1) !important; }
+html[data-bili-ambient][data-bili-ambient-immersive][data-bili-ambient-view="THEATER"] :is(.lower,bili-comments,#comment,#comment-v2,.comment-container) { visibility:hidden !important; }

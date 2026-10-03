@@ -1,0 +1,28 @@
+{
+  "name": "bilibili-ambilight",
+  "version": "1.5.0",
+  "private": true,
+  "description": "Bilibili 全站玻璃主题与视频氛围光浏览器扩展",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AiliuCheng58/bilibili-ambilight.git"
+  },
+  "homepage": "https://github.com/AiliuCheng58/bilibili-ambilight#readme",
+  "bugs": {
+    "url": "https://github.com/AiliuCheng58/bilibili-ambilight/issues"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "test": "node --test tests/settings.test.mjs tests/projection.test.mjs tests/frame-blending.test.mjs",
+    "test:browser": "node tests/browser.mjs",
+    "test:appearance": "node tests/appearance.mjs",
+    "test:advanced": "node tests/advanced.mjs",
+    "test:site": "node tests/site.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  },
+  "engines": { "node": ">=20" }
+}

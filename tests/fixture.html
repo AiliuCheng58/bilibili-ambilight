@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>Bili Ambient 播放器验证</title>
+  <style>
+    * { box-sizing: border-box; } body { margin: 0; color: #243047; background: #fff; font: 15px "Segoe UI",sans-serif; }
+    header { height: 64px; background: #f5f6f9; padding: 22px 40px; position: fixed; top: 0; width: 100%; z-index: 1002; }
+    #app { background: #fff; padding-top: 64px; }
+    main { width: 1160px; margin: 55px auto; }
+    h1 { font-size: 24px; margin-bottom: 24px; }
+    .layout { display: flex; gap: 28px; }
+    .bpx-player-container { width: 850px; height: 478px; background: #000; position: relative; }
+    .bpx-player-video-wrap { width: 100%; height: 100%; }
+    .bpx-player-video-area { width: 100%; height: 100%; overflow: hidden; background: #000; }
+    video { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .danmaku { position: absolute; top: 25px; left: 35px; color: white; text-shadow: 0 1px 4px black; pointer-events: none; }
+    #fullscreen { position: absolute; bottom: 15px; right: 15px; }
+    .bpx-player-container:fullscreen { width: 100vw; height: 100vh; }
+    aside { width: 245px; color: #757d8d; } .video-page-card-small > div { height: 140px; background: #e9edf3; border-radius: 10px; margin-bottom: 20px; }
+    .lower { min-height: 1400px; padding-top: 30px; }
+    .video-desc-container { padding: 20px; margin: 18px 0; }
+    .video-page-card-small { padding: 12px; }
+    .up-info-container { padding: 18px; margin-bottom: 18px; }
+    .video-info-container,.video-toolbar-container { background:#fff; padding:12px; }
+    .base-video-sections { padding:14px; background:#fff; margin:18px 0; border-radius:10px; }
+    .video-sections-head,.video-sections-content-list,.video-episode-card { background:#fff; padding:8px; }
+    .video-episode-card { margin-top:8px; }
+    .simple-base-item.active .title { color:#00aeec; }
+  </style>
+</head>
+<body>
+  <header class="bili-header__bar">Bili Ambient / 播放器验证</header>
+  <div id="app">
+  <main>
+    <div class="video-info-container"><h1 class="video-title">色彩延伸 · 播放器验证</h1></div>
+    <div class="layout"><div id="bilibili-player" class="bpx-player-container"><div class="bpx-player-video-area"><div class="bpx-player-video-wrap"><video muted autoplay playsinline></video></div></div><div class="danmaku">弹幕与字幕保持清晰</div><button id="fullscreen">全屏</button></div><aside class="right-container"><section class="up-info-container">视频作者 · Bili Ambient</section><section class="base-video-sections video-pod"><div class="video-sections-head video-pod__header">视频合集</div><div class="video-sections-content-list video-pod__body"><div class="video-episode-card simple-base-item"><span class="title">色彩与画面</span></div><div class="video-episode-card simple-base-item active"><span class="title">夜间场景</span></div></div></section><div class="recommend-list-v1"><section class="video-page-card-small"><div></div><h3 class="title">推荐视频</h3><p class="upname">查看下一部影片</p></section></div></aside></div>
+    <div class="video-toolbar-container">♡ 点赞　 ◉ 投币　 ☆ 收藏　 ↗ 分享</div>
+    <div class="lower"><section class="video-desc-container"><h2 class="video-title">视频简介</h2>视频的色彩延伸到页面背景，导航与内容面板使用半透明材质。</section><bili-comments></bili-comments></div>
+  </main>
+  </div>
+  <script>
+    let scene = document.createElement("canvas"); scene.width = 640; scene.height = 360;
+    let context = scene.getContext("2d");
+    window.sceneColor = "#ee4f99";
+    function paint() {
+      if (window.sceneMode) {
+        const w=scene.width,h=scene.height;
+        if(window.sceneMode==='edges') {
+          context.fillStyle='#ab40cd';context.fillRect(0,0,w,h);
+          context.fillStyle='#20d7ef';context.fillRect(0,0,w,40);
+          context.fillStyle='#ffe040';context.fillRect(0,h-40,w,40);
+          context.fillStyle='#f03050';context.fillRect(0,0,40,h);
+          context.fillStyle='#30d060';context.fillRect(w-40,0,40,h);
+        } else if(window.sceneMode==='bars' || window.sceneMode==='coloredBars') {
+          context.fillStyle=window.sceneMode==='coloredBars'?'#364b60':'#000';context.fillRect(0,0,w,h);
+          context.fillStyle='#b968e6';context.fillRect(w*.1,0,w*.8,h);
+        } else if(window.sceneMode==='solid') {
+          context.fillStyle=window.sceneColor;context.fillRect(0,0,w,h);
+        } else {
+          const pink=window.sceneMode==='pink',white=window.sceneMode==='white';
+          const gradient=context.createLinearGradient(0,0,w,h);
+          gradient.addColorStop(0,white?'#ffecff':pink?'#bb9ee8':'#1a2029');
+          gradient.addColorStop(1,white?'#e9f4ff':pink?'#fbadf2':'#3c293a');
+          context.fillStyle=gradient;context.fillRect(0,0,w,h);
+          context.fillStyle=pink?'#f7cbff':'#bd668d';
+          context.fillRect(w*.2,h*.16,w*.6,h*.68);
+          context.fillStyle=pink?'#695389':'#27303a';
+          context.fillRect(w*.24,h*.22,w*.52,h*.56);
+          context.fillStyle='#fff';context.font='bold 40px sans-serif';context.textAlign='center';
+          context.fillText(pink?'COLOR / LIGHT':'NIGHT / CINEMA',w/2,h*.52);
+          context.fillStyle='#fa8ad1';context.fillRect(w*.8,h*.68,w*.17,h*.28);
+        }
+        requestAnimationFrame(paint);return;
+      }
+      const gradient = context.createLinearGradient(0, 0, 640, 360);
+      gradient.addColorStop(0, window.sceneColor); gradient.addColorStop(1, "#39daca");
+      context.fillStyle = gradient; context.fillRect(0, 0, 640, 360);
+      const light=context.createRadialGradient(520,70,5,520,70,200);light.addColorStop(0,"rgba(255,230,130,.65)");light.addColorStop(1,"rgba(255,230,130,0)");context.fillStyle=light;context.fillRect(0,0,640,360);
+      context.fillStyle="rgba(45,24,72,.22)";context.beginPath();context.moveTo(0,360);context.lineTo(100,175);context.lineTo(245,330);context.lineTo(340,200);context.lineTo(490,360);context.fill();
+      context.fillStyle = "#ffffff"; context.font = "bold 40px sans-serif"; context.textAlign = "center";
+      context.fillText("Bili Ambient", 320, 182); requestAnimationFrame(paint);
+    }
+    paint();
+    window.attachSource = function(v) { v.srcObject = scene.captureStream(30); v.muted = true; return v.play(); };
+    window.attachSource(document.querySelector("video"));
+    document.querySelector("#fullscreen").addEventListener("click", () => document.querySelector(".bpx-player-container").requestFullscreen());
+    customElements.define("bili-comment-renderer",class extends HTMLElement{constructor(){super();this.attachShadow({mode:"open"}).innerHTML='<style>:host{display:block;--bg1:#fff;--text1:#18191c}#content{background:var(--bg1);color:var(--text1);padding:20px;border-bottom:1px solid #8883}</style><div id="content">评论内容与操作保持清晰。</div>';}});
+    customElements.define("bili-comments",class extends HTMLElement{constructor(){super();this.attachShadow({mode:"open"}).innerHTML='<style>:host{display:block;--bg1:#fff;--text1:#18191c}#title{background:var(--bg1);color:var(--text1);font-size:24px;padding:20px}</style><div id="title">评论</div>'+Array(15).fill('<bili-comment-renderer></bili-comment-renderer>').join('');}});
+  </script>
+</body>
+</html>

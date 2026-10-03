@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Bili Ambient · B站氛围光</title>
+  <link rel="stylesheet" href="popup.css">
+  <script defer src="settings.js"></script>
+  <script defer src="controls.js"></script>
+  <script defer src="popup.js"></script>
+</head>
+<body>
+  <main>
+    <header>
+      <img src="icons/icon-48.png" width="42" height="42" alt="">
+      <div><h1>Bili Ambient</h1><p>把画面的色彩，铺成整个页面。</p></div>
+      <span class="version">1.4</span>
+    </header>
+    <section class="hero" aria-label="氛围光开关">
+      <div class="hero-glow" aria-hidden="true"><div class="screen"><span>光随影动</span></div></div>
+      <div class="hero-bottom"><div><h2>B站氛围光</h2><p id="status" role="status">正在连接播放器…</p></div>
+        <label class="switch"><input type="checkbox" id="enabled" aria-label="开启氛围光"><span></span></label>
+      </div>
+    </section>
+    <div class="section-title"><h2>选择一种氛围</h2><span>立即生效</span></div>
+    <div class="presets" aria-label="光效预设">
+      <button type="button" data-preset="soft" aria-pressed="false"><span>◌</span>通透</button>
+      <button type="button" data-preset="cinema" aria-pressed="false"><span>▣</span>影院</button>
+      <button type="button" data-preset="eco" aria-pressed="false"><span>ϟ</span>省电</button>
+    </div>
+    <section class="sliders" aria-label="光效调整">
+      <label for="brightness"><span>光效亮度</span><output for="brightness" id="brightness-value"></output></label>
+      <input type="range" id="brightness" min="0" max="150" step="1">
+      <label for="spread"><span>边缘过渡范围</span><output for="spread" id="spread-value"></output></label>
+      <input type="range" id="spread" min="30" max="260" step="1">
+      <label for="blur"><span>背景柔化</span><output for="blur" id="blur-value"></output></label>
+      <input type="range" id="blur" min="10" max="100" step="1">
+      <label for="dim"><span>背景深浅</span><output for="dim" id="dim-value"></output></label>
+      <input type="range" id="dim" min="0" max="85" step="1">
+      <label for="glassOpacity"><span>毛玻璃浓度</span><output for="glassOpacity" id="glassOpacity-value"></output></label>
+      <input type="range" id="glassOpacity" min="0" max="70" step="1">
+    </section>
+    <details>
+      <summary>更多调节<span>性能与色彩</span></summary>
+      <section class="advanced" aria-label="性能与色彩">
+        <label for="saturation"><span>色彩饱和度</span><output for="saturation" id="saturation-value"></output></label>
+        <input type="range" id="saturation" min="50" max="200" step="1">
+        <label for="smoothing"><span>过渡平滑</span><output for="smoothing" id="smoothing-value"></output></label>
+        <input type="range" id="smoothing" min="0" max="95" step="1">
+        <label for="glassBlur"><span>毛玻璃模糊</span><output for="glassBlur" id="glassBlur-value"></output></label>
+        <input type="range" id="glassBlur" min="0" max="40" step="1">
+        <label class="select-row" for="fps"><span>光效帧率 · 0 为不限</span><input type="number" id="fps" min="0" max="60" step="1"></label>
+        <label class="select-row" for="quality"><span>基础采样精度 · px</span><input type="number" id="quality" min="64" max="640" step="1"></label>
+      </section>
+    </details>
+    <input id="settings-search" type="search" placeholder="搜索高级设置" aria-label="搜索高级设置">
+    <div id="advanced-groups"></div>
+    <div class="backup-actions"><button id="export-settings" type="button">导出设置</button><label class="file-button">导入设置<input id="import-settings" type="file" accept=".json,application/json" aria-label="导入设置"></label></div>
+    <p id="backup-status" role="status"></p>
+    <footer><span>Alt + Shift + A<span class="footer-note">开关快捷键 · 设置保存在本机</span></span><button type="button" id="reset">恢复默认</button></footer>
+    <p id="save-error" class="save-error" role="alert" hidden></p>
+  </main>
+</body>
+</html>
