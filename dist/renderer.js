@@ -90,6 +90,7 @@
       const gl = this.gl;
       this.ready=false;
       this.textureWidth=0;this.textureHeight=0;
+      this.uploadedSource=null;this.uploadedRevision=null;
       this.targets=[];this.targetWidth=0;this.targetHeight=0;this.projected=false;
       const compile = (type,source) => {
         const shader=gl.createShader(type);gl.shaderSource(shader,source);gl.compileShader(shader);
@@ -124,6 +125,7 @@
       } catch { this.failed=true; }
     }
     available(settings) { return settings.webGL && this.gl && !this.lost && !this.failed; }
+    releaseSource() { this.uploadedSource=null;this.uploadedRevision=null; }
     retry() { if(this.ready && !this.lost)this.failed=false; }
     allocateTargets(width,height) {
       if(this.targetWidth===width && this.targetHeight===height)return;
@@ -159,7 +161,7 @@
       gl.bindFramebuffer(gl.FRAMEBUFFER,null);gl.bindTexture(gl.TEXTURE_2D,this.targets[1].texture);
       kernel(radius*this.targetHeight/viewport.height,0,1/this.targetHeight);
     }
-    draw(source,background,crop,anchor,viewport,settings,now,radius=settings.blur,directSource=null) {
+    draw(source,background,crop,anchor,viewport,settings,now,radius=settings.blur,directSource=null,sourceRevision=null) {
       const usable=settings.webGL && this.gl && !this.lost && !this.failed;
       this.canvas.style.display=usable ? "block" : "none";
       if(!usable) return false;
@@ -174,10 +176,13 @@
         gl.viewport(0,0,width,height);gl.useProgram(this.program);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,this.texture);
         const input=directSource || source,inputWidth=input.videoWidth || input.width,inputHeight=input.videoHeight || input.height;
         const allocate=this.textureWidth!==inputWidth || this.textureHeight!==inputHeight;
-        if(allocate || directSource){
-          gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,input);
-          this.textureWidth=inputWidth;this.textureHeight=inputHeight;
-        }else gl.texSubImage2D(gl.TEXTURE_2D,0,0,0,gl.RGBA,gl.UNSIGNED_BYTE,input);
+        if(allocate || input!==this.uploadedSource || sourceRevision===null || sourceRevision!==this.uploadedRevision){
+          if(allocate || directSource){
+            gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,input);
+            this.textureWidth=inputWidth;this.textureHeight=inputHeight;
+          }else gl.texSubImage2D(gl.TEXTURE_2D,0,0,0,gl.RGBA,gl.UNSIGNED_BYTE,input);
+          this.uploadedSource=input;this.uploadedRevision=sourceRevision;
+        }
         gl.uniform1f(this.uniforms.vibrance,settings.vibrance/100);
         gl.uniform1f(this.uniforms.noise,settings.debandingStrength/100);
         gl.uniform1f(this.uniforms.oled,settings.debandingBlendMode);
@@ -200,6 +205,7 @@
       }
     }
     dispose() {
+      this.releaseSource();
       if(this.gl && !this.lost){
         this.gl.deleteTexture(this.texture);this.gl.deleteBuffer(this.buffer);this.gl.deleteProgram(this.program);this.gl.deleteProgram(this.blurProgram);
         for(const target of this.targets){this.gl.deleteTexture(target.texture);this.gl.deleteFramebuffer(target.framebuffer);}

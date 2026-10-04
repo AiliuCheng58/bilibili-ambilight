@@ -2,7 +2,7 @@
   "use strict";
   const config = globalThis.BiliAmbientSettings;
   const api = globalThis.chrome;
-  if (!config || !globalThis.BiliAmbientSite || !globalThis.BiliAmbientTheme || !globalThis.BiliAmbientProjection || !globalThis.BiliAmbientRenderer || !globalThis.BiliAmbientStats || !globalThis.BiliAmbientVideoEffects || !api?.storage?.local || globalThis.__biliAmbientController) return;
+  if (!config || !globalThis.BiliAmbientSite || !globalThis.BiliAmbientTheme || !globalThis.BiliAmbientProjection || !globalThis.BiliAmbientRenderer || !globalThis.BiliAmbientInspection || !globalThis.BiliAmbientStats || !globalThis.BiliAmbientVideoEffects || !api?.storage?.local || globalThis.__biliAmbientController) return;
   const theme = new globalThis.BiliAmbientTheme();
   const site = new globalThis.BiliAmbientSite(api);
   const menu = new globalThis.BiliAmbientMenu(api);
@@ -24,6 +24,7 @@
   let edgeCtx = null;
   let frame = null;
   let frameCtx = null;
+  let inspectionCtx = null;
   let probeCtx = null;
   let anchor = null;
   let anchorKey = "";
@@ -31,6 +32,7 @@
   let crop = { ...globalThis.BiliAmbientProjection.fullFrame };
   const detector = new globalThis.BiliAmbientProjection.CropDetector();
   const blender = new globalThis.BiliAmbientProjection.FrameBlender();
+  const inspector = new globalThis.BiliAmbientInspection();
   let renderer = null;
   let stats = null;
   let rendererName = "Canvas 2D";
@@ -40,6 +42,8 @@
   let energyFps = Infinity;
   let sampleLuminance = null;
   let decodedFrame = -1;
+  let sampledFrame = null;
+  let sampleRevision = 0;
   let framesRendered = 0;
   let lastInspection = -Infinity;
   let mediaAbort = null;
@@ -55,6 +59,7 @@
   let hasMediaCandidates = false;
   let failures = 0;
   let visible = false;
+  let playerVisible = false;
   let stopped = false;
   let state = "waiting";
   let detail = "等待 Bilibili 播放器";
@@ -87,12 +92,15 @@
     canvas.className = "bili-ambient-background";
     canvas.width = settings.quality;
     canvas.height = Math.round(settings.quality * 9 / 16);
-    ctx = canvas.getContext("2d", { alpha: false });
+    ctx = canvas.getContext("2d", { alpha: false, willReadFrequently: true });
     frame = document.createElement("canvas");
     frame.className = "bili-ambient-frame";
     frame.width = canvas.width;
     frame.height = canvas.height;
-    frameCtx = frame.getContext("2d", { alpha: false });
+    // Small temporal blend steps must retain precision on high-refresh displays.
+    frameCtx = frame.getContext("2d", { alpha: false, colorType: "float16" });
+    const inspection=document.createElement("canvas");inspection.className="bili-ambient-inspection";
+    inspectionCtx=inspection.getContext("2d",{alpha:false,willReadFrequently:true});
     const probe=document.createElement("canvas");probe.width=8;probe.height=8;
     probeCtx=probe.getContext("2d",{willReadFrequently:true});
     edgeCanvas = document.createElement("canvas");
@@ -232,7 +240,7 @@
     const rect = mediaSource.getBoundingClientRect();
     const style = getComputedStyle(mediaSource);
     isHDR=settings.hdrMode===1 || (settings.hdrMode===0 && (document.documentElement.hasAttribute("data-video-hdr") || /HDR|杜比视界|DOLBY\s*VISION/i.test(video.closest(".bpx-player-container,.bilibili-player")?.querySelector(".bpx-player-ctrl-quality-result,.bilibili-player-video-btn-quality")?.textContent || "")));
-    const playerVisible = rect.width >= 100 && rect.height >= 60 && rect.top < innerHeight && rect.left < innerWidth && rect.top + rect.height > 0 && rect.left + rect.width > 0 && style.visibility !== "hidden" && style.display !== "none";
+    playerVisible = rect.width >= 100 && rect.height >= 60 && rect.top < innerHeight && rect.left < innerWidth && rect.top + rect.height > 0 && rect.left + rect.width > 0 && style.visibility !== "hidden" && style.display !== "none";
     const playerContainer = video.closest(".bpx-player-container,.bilibili-player");
     const floating = !document.fullscreenElement && rect.width <= 480 && rect.height <= 300 && playerContainer && getComputedStyle(playerContainer).position === "fixed";
     if (!config.isPlaybackPage(location.href) && (!settings.siteVideoPreviews || !playerVisible || video.paused || video.ended)) return showSite();
@@ -347,6 +355,12 @@
     if (!force && now < nextFrameAt - 1) return;
     try {
       const drawStart = performance.now();
+      const quality = mediaSource === video ? video.getVideoPlaybackQuality?.() : null;
+      const presentedFrame = quality ? quality.totalVideoFrames : null;
+      const temporal = settings.smoothing || settings.frameFading || settings.flickerReduction || settings.frameBlending;
+      // Display refreshes can outnumber video frames. Temporal effects and mutable VR canvases still sample every draw.
+      // Chromium can defer offscreen frame counters until a draw requests the current video pixels.
+      const sample = fresh || force || temporal || !playerVisible || presentedFrame === null || presentedFrame !== sampledFrame;
       // The frame buffer remains drawable even when cross-origin media prevents inspection.
       const elapsed = Math.min(250, Math.max(1, now - lastFrame));
       const retention = settings.smoothing / 100;
@@ -366,15 +380,25 @@
         } catch { sampleLuminance=null; }
       }
       const frameAlpha=frameCtx.globalAlpha;
-      const sourceFrame=settings.frameBlending?blender.sample(mediaSource,frame.width,frame.height,now,settings.frameBlendingSmoothness,fresh):mediaSource;
-      frameCtx.drawImage(sourceFrame, 0, 0, frame.width, frame.height);
+      if (sample) {
+        const sourceFrame=settings.frameBlending?blender.sample(mediaSource,frame.width,frame.height,now,settings.frameBlendingSmoothness,fresh):mediaSource;
+        frameCtx.drawImage(sourceFrame, 0, 0, frame.width, frame.height);
+        sampledFrame=presentedFrame;sampleRevision++;
+      }
       frameCtx.globalAlpha = 1;
-      const inspect = fresh || now - lastInspection >= 250;
+      const immediateInspection=fresh || lastInspection===-Infinity;
+      if(immediateInspection)inspector.reset();
+      const inspectedPixels=immediateInspection?null:inspector.take();
+      const inspect = immediateInspection || inspectedPixels || (now-lastInspection>=250 && !inspector.request(frame));
       if (inspect) {
-        crop = detector.detect(frameCtx,settings);
+        // Keep pixel reads off the frequently drawn frame canvas so it stays GPU accelerated.
+        if(inspectionCtx.canvas.width!==frame.width || inspectionCtx.canvas.height!==frame.height){inspectionCtx.canvas.width=frame.width;inspectionCtx.canvas.height=frame.height;}
+        if(inspectedPixels)inspectionCtx.putImageData(inspectedPixels,0,0);
+        else inspectionCtx.drawImage(frame,0,0);
+        crop = detector.detect(inspectionCtx,settings);
         lastInspection = now;
         if(settings.energySaver && crop.readable){
-          const pixels=frameCtx.getImageData(0,0,frame.width,frame.height).data;
+          const pixels=inspectionCtx.getImageData(0,0,frame.width,frame.height).data;
           let difference=0,count=0;
           if(previousPixels?.length===pixels.length)for(let i=0;i<pixels.length;i+=Math.max(4,Math.floor(pixels.length/256/4)*4)){difference+=Math.abs(pixels[i]-previousPixels[i])+Math.abs(pixels[i+1]-previousPixels[i+1])+Math.abs(pixels[i+2]-previousPixels[i+2]);count+=3;}
           const change=count?difference/count/255:1;
@@ -384,14 +408,14 @@
         } else energyFps=Infinity;
       }
       const projected=inspect || force || !renderer.available(settings);
-      if(projected)globalThis.BiliAmbientProjection.extendFrame(ctx, frame, anchor, viewport, crop, settings);
+      if(projected)globalThis.BiliAmbientProjection.extendFrame(ctx, inspect?inspectionCtx.canvas:frame, anchor, viewport, crop, settings);
       if (inspect && crop.readable) {
-        site.remember(frameCtx, now, crop);
+        site.remember(inspectionCtx, now, crop);
         const luminance=globalThis.BiliAmbientProjection.surroundingLuminance(ctx,anchor,viewport);
         const adjusted=Math.max(0,Math.min(1,(luminance*effectBrightness/100-.5)*effectContrast/100+.5));
         theme.setLuminance(adjusted*(1-settings.dim/100)+settings.pageBackgroundGreyness/100*settings.dim/100);
       }
-      rendererName = renderer.draw(frame,canvas,crop,anchor,viewport,settings,now,backgroundBlur(),frameAlpha===1 && !settings.frameBlending?mediaSource:null) ? "WebGL" : "Canvas 2D";
+      rendererName = renderer.draw(frame,canvas,crop,anchor,viewport,settings,now,backgroundBlur(),frameAlpha===1 && !settings.frameBlending?mediaSource:null,sampleRevision) ? "WebGL" : "Canvas 2D";
       canvas.style.visibility = rendererName === "WebGL" ? "hidden" : "visible";
       if(rendererName === "Canvas 2D"){
         if(!projected)globalThis.BiliAmbientProjection.extendFrame(ctx, frame, anchor, viewport, crop, settings);
@@ -404,8 +428,10 @@
         if(video.style.getPropertyValue("--bili-ambient-video-clip")!==clip)video.style.setProperty("--bili-ambient-video-clip",clip);
         if(video.style.getPropertyValue("--bili-ambient-video-fill")!==fill)video.style.setProperty("--bili-ambient-video-fill",fill);
       }else{video.style.removeProperty("--bili-ambient-video-clip");video.style.removeProperty("--bili-ambient-video-fill");}
-      edgeCtx.drawImage(frame, frame.width * crop.x, frame.height * crop.y, frame.width * crop.width, frame.height * crop.height, 0, 0, edgeCanvas.width, edgeCanvas.height);
-      globalThis.BiliAmbientProjection.fallbackFilters(edgeCtx,{left:0,top:0,width:edgeCanvas.width,height:edgeCanvas.height},{left:0,top:0,width:edgeCanvas.width,height:edgeCanvas.height},settings,now);
+      if (sample || inspect || force || settings.debandingStrength) {
+        edgeCtx.drawImage(frame, frame.width * crop.x, frame.height * crop.y, frame.width * crop.width, frame.height * crop.height, 0, 0, edgeCanvas.width, edgeCanvas.height);
+        globalThis.BiliAmbientProjection.fallbackFilters(edgeCtx,{left:0,top:0,width:edgeCanvas.width,height:edgeCanvas.height},{left:0,top:0,width:edgeCanvas.width,height:edgeCanvas.height},settings,now);
+      }
       videoEffects.draw(settings,frameAlpha,now,host);
       fresh = false;
       projectionDirty = false;
@@ -465,6 +491,8 @@
     video?.style.removeProperty("--bili-ambient-video-fill");
     video = null;
     mediaSource = null;
+    renderer?.releaseSource();
+    inspector.dispose();
     theme.setPlayer(null);
     menu.attach(null);
     fresh = true;

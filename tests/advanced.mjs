@@ -84,7 +84,7 @@ try {
   await check("fade duration blends a color step over time",async()=>{
     await scene("solid","#ff0000");await set({frameFading:2000});await scene("solid","#0000ff");
     const mixed=await raw();assert.ok(mixed[0]>50 && mixed[2]>20,JSON.stringify(mixed));
-    await page.waitForTimeout(2200);const settled=await raw();assert.ok(settled[2]>settled[0]*4);await set({frameFading:0});
+    await page.waitForTimeout(2200);const settled=await raw();assert.ok(settled[2]>settled[0]*4,JSON.stringify({mixed,settled}));await set({frameFading:0});
   });
   await check("flicker reduction slows sudden brightness changes",async()=>{
     await scene("solid","#ffffff");await set({flickerReduction:100});await scene("solid","#000000");

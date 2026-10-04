@@ -54,13 +54,15 @@ try {
     return extension?gl.getParameter(extension.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER);
   });
   await evaluate(`(() => {
-    globalThis.motion = { phase: '', frames: [], blurs: [], colors: [] };
+    globalThis.motion = { phase: '', frames: [], blurs: [], colors: [], uploads:0, samples:0, inspections:0 };
+    const take=BiliAmbientInspection.prototype.take;
+    BiliAmbientInspection.prototype.take=function(){const result=take.call(this);if(result && motion.phase==='reuse')motion.inspections++;return result;};
     const draw = BiliAmbientRenderer.prototype.draw, reblur = BiliAmbientRenderer.prototype.reblur;
     const probe = document.createElement('canvas'); probe.width = probe.height = 1;
     const ctx = probe.getContext('2d', { willReadFrequently: true });
     BiliAmbientRenderer.prototype.draw = function(...args) {
       const started = performance.now(), result = draw.apply(this, args);
-      if (motion.phase === 'fps') motion.frames.push({ time: args[6], cost: performance.now() - started });
+      if (motion.phase === 'fps' || motion.phase === 'reuse') motion.frames.push({ time: args[6], cost: performance.now() - started });
       if (motion.phase === 'color') {
         ctx.drawImage(document.querySelector('video'), 0, 0, 1, 1);
         const output=new Uint8Array(4);
@@ -68,6 +70,18 @@ try {
         motion.colors.push({ time: args[6], video: Array.from(ctx.getImageData(0,0,1,1).data), light: Array.from(output) });
       }
       return result;
+    };
+    for(const key of ['texImage2D','texSubImage2D']){
+      const original=WebGLRenderingContext.prototype[key];
+      WebGLRenderingContext.prototype[key]=function(...args){
+        if((motion.phase==='reuse' || motion.phase==='fps') && args.at(-1)?.tagName==='VIDEO')motion.uploads++;
+        return original.apply(this,args);
+      };
+    }
+    const drawImage=CanvasRenderingContext2D.prototype.drawImage;
+    CanvasRenderingContext2D.prototype.drawImage=function(...args){
+      if((motion.phase==='reuse' || motion.phase==='fps') && this.canvas.className==='bili-ambient-frame')motion.samples++;
+      return drawImage.apply(this,args);
     };
     BiliAmbientRenderer.prototype.reblur = function(...args) {
       const result = reblur.apply(this, args);
@@ -126,6 +140,22 @@ try {
     measurements.decodedToAmbientMs = Math.max(0, projected.time-decoded.time);
     assert.ok(measurements.decodedToAmbientMs <= 34, JSON.stringify(colors));
   });
+  await check("slow video frames are uploaded once while ambient rendering follows the display", async () => {
+    await page.evaluate(async()=>{
+      const video=document.querySelector('video');video.srcObject.getTracks().forEach(track=>track.stop());
+      video.srcObject=scene.captureStream(6);await video.play();
+    });
+    await page.waitForTimeout(600);
+    await evaluate("motion.phase='reuse';motion.frames=[];motion.uploads=0;motion.samples=0;motion.inspections=0");
+    const display=await displayCadence(1600);
+    const reuse=await evaluate("motion.phase='';({uploads:motion.uploads,samples:motion.samples,inspections:motion.inspections,frames:motion.frames.length})");
+    measurements.reuse={...reuse,decodedFrames:display.videoFrames,displayFrames:display.times.length};
+    assert.ok(display.videoFrames>0 && reuse.uploads>0,JSON.stringify(measurements.reuse));
+    assert.ok(reuse.frames>=display.times.length*.93,JSON.stringify(measurements.reuse));
+    assert.ok(reuse.uploads<=display.videoFrames+2 && reuse.samples<=display.videoFrames+2,JSON.stringify(measurements.reuse));
+    assert.ok(reuse.uploads>=display.videoFrames-2 && reuse.inspections>=3,JSON.stringify(measurements.reuse));
+    await page.evaluate(async()=>{const video=document.querySelector('video');video.srcObject.getTracks().forEach(track=>track.stop());await window.attachSource(video);});
+  });
   await page.evaluate(() => { window.sceneMode='pink'; });
   await page.waitForFunction(() => document.documentElement.dataset.biliAmbientTone==='light');
   await page.waitForTimeout(400);
@@ -172,6 +202,14 @@ try {
     measurements.readingCadence={fps:frames.length*1000/display.elapsed,displayFPS:display.times.length*1000/display.elapsed};
     assert.ok(measurements.readingCadence.fps>=55 && measurements.readingCadence.fps>=measurements.readingCadence.displayFPS*.93,JSON.stringify(measurements.readingCadence));
     assert.equal(await blur(),162);
+    await page.evaluate(()=>{window.sceneMode='solid';window.sceneColor='#ff0000';});
+    await page.waitForTimeout(200);await evaluate("motion.phase='color';motion.colors=[]");
+    await page.evaluate(()=>{window.sceneColor='#0000ff';});await page.waitForTimeout(250);
+    const colors=await evaluate("motion.phase='';motion.colors"),blue=p=>p[2]>220 && p[0]<20;
+    const decoded=colors.find(f=>blue(f.video)),projected=colors.find(f=>blue(f.light));
+    assert.ok(decoded && projected,JSON.stringify(colors));
+    measurements.readingColorResponseMs=Math.max(0,projected.time-decoded.time);
+    assert.ok(measurements.readingColorResponseMs<=34,JSON.stringify(colors));
     await page.locator('video').evaluate(video => video.pause());
     await page.setViewportSize({width:1280,height:900});
     await page.evaluate(() => scrollTo(0,0));
@@ -187,12 +225,19 @@ try {
     for (const [name,width,height,scroll] of [['watch',1920,1080,0],['reading',2560,1440,1300]]) {
       await check(`decoded 1080p60 media sustains ambient rendering in the ${name} view`, async () => {
         await page.setViewportSize({width,height});await page.evaluate(y=>scrollTo(0,y),scroll);
-        await page.waitForTimeout(500);await evaluate("motion.phase='fps';motion.frames=[]");
+        await set({enabled:false});await page.waitForTimeout(500);
+        const baseline=await displayCadence(12000);
+        const baselineIntervals=baseline.times.slice(1).map((time,i)=>time-baseline.times[i]).sort((a,b)=>a-b);
+        const withoutEffect={fps:baseline.times.length*1000/baseline.elapsed,p95FrameIntervalMs:baselineIntervals[Math.floor(baselineIntervals.length*.95)],maxFrameIntervalMs:baselineIntervals.at(-1)};
+        await set({enabled:true});
+        await page.waitForTimeout(500);await evaluate("motion.phase='fps';motion.frames=[];motion.uploads=0;motion.samples=0");
         const display=await displayCadence(12000),frames=await evaluate("motion.phase='';motion.frames");
         const intervals=frames.slice(1).map((frame,i)=>frame.time-frames[i].time).sort((a,b)=>a-b);
         const measured={elapsed:display.elapsed,fps:frames.length*1000/display.elapsed,displayFPS:display.times.length*1000/display.elapsed,sourceFPS:display.videoFrames*1000/display.elapsed,p95FrameIntervalMs:intervals[Math.floor(intervals.length*.95)],maxFrameIntervalMs:intervals.at(-1)};
+        Object.assign(measured,{withoutEffect},await evaluate("({uploads:motion.uploads,samples:motion.samples})"));
         measurements.encoded[name]=measured;
         assert.ok(measured.fps>=55 && measured.sourceFPS>=55 && measured.p95FrameIntervalMs<=34,JSON.stringify(measured));
+        assert.ok(measured.uploads>=display.videoFrames*.9,JSON.stringify(measured));
       });
     }
     await page.locator('video').evaluate(video=>video.pause());
