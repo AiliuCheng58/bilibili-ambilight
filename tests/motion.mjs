@@ -158,8 +158,7 @@ try {
   await check("video frame timestamp fallback preserves color updates without repeated errors",async()=>{
     await evaluate("motion.VideoFrame=VideoFrame;motion.frameTimeErrors=0");
     for(const unavailable of [true,false]){
-      await evaluate(unavailable?"globalThis.VideoFrame=undefined":"globalThis.VideoFrame=class{constructor(){motion.frameTimeErrors++;throw new DOMException('','SecurityError');}}");
-      await page.locator('video').evaluate(v=>v.dispatchEvent(new Event('seeked')));
+      await evaluate((unavailable?"globalThis.VideoFrame=undefined":"globalThis.VideoFrame=class{constructor(){motion.frameTimeErrors++;throw new DOMException('','SecurityError');}}")+";document.querySelector('video').dispatchEvent(new Event('seeked'))");
       await page.evaluate(()=>{window.sceneMode='solid';window.sceneColor='#ff0000';});await page.waitForTimeout(350);
       await evaluate("motion.phase='color';motion.colors=[]");
       await page.evaluate(()=>{window.sceneColor='#0000ff';});await page.waitForTimeout(200);
@@ -255,6 +254,23 @@ try {
     await page.setViewportSize({width:1280,height:900});
     await page.evaluate(() => scrollTo(0,0));
     await page.waitForTimeout(240);
+  });
+  await check("video callbacks recover across offscreen reading and returning to the player",async()=>{
+    await evaluate("motion.videoCallbacks=0;motion.rvfc=HTMLVideoElement.prototype.requestVideoFrameCallback;HTMLVideoElement.prototype.requestVideoFrameCallback=function(callback){return motion.rvfc.call(this,(now,metadata)=>{if(this.getBoundingClientRect().bottom<=0)return;motion.videoCallbacks++;callback(now,metadata);});}");
+    await set({frameSync:2});
+    await page.evaluate(async()=>{scrollTo(0,0);window.sceneMode='solid';window.sceneColor='#ff0000';await document.querySelector('video').play();});
+    await page.waitForTimeout(300);await page.evaluate(()=>scrollTo(0,1200));await page.waitForTimeout(400);
+    await evaluate("motion.phase='color';motion.colors=[]");
+    await page.evaluate(()=>{window.sceneColor='#0000ff';});await page.waitForTimeout(300);
+    const colors=await evaluate("motion.phase='';motion.colors"),blue=p=>p[2]>220 && p[0]<20;
+    assert.ok(colors.some(f=>blue(f.video) && blue(f.light)),JSON.stringify(colors));
+    assert.equal(await blur(),162);
+    await page.evaluate(()=>scrollTo(0,0));await page.waitForTimeout(300);
+    await evaluate("motion.phase='fps';motion.frames=[];motion.videoCallbacks=0");await page.waitForTimeout(600);
+    assert.ok(await evaluate("motion.phase='';motion.frames.length")>=15);
+    assert.ok(await evaluate("motion.videoCallbacks")>=15);
+    await evaluate("HTMLVideoElement.prototype.requestVideoFrameCallback=motion.rvfc");
+    assert.equal(await blur(),42);await set({frameSync:1});await page.locator('video').evaluate(v=>v.pause());
   });
   if (process.env.BILI_TEST_MEDIA) {
     await page.locator('video').evaluate(async video => {

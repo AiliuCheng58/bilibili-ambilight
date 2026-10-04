@@ -484,8 +484,13 @@
     scheduleFrame();
   }
   function scheduleFrame() {
-    if (frameId !== null || !visible || !settings.enabled || document.hidden || ((video.paused || video.ended) && mediaSource===video)) return;
-    if (settings.frameSync===2 && !settings.frameBlending && mediaSource===video && typeof video.requestVideoFrameCallback === "function") {
+    if (!visible || !settings.enabled || document.hidden || ((video.paused || video.ended) && mediaSource===video)) return;
+    const useVideo=playerVisible && settings.frameSync===2 && !settings.frameBlending && mediaSource===video && typeof video.requestVideoFrameCallback === "function";
+    if(frameId!==null){
+      if(frameKind===(useVideo?"video":"animation"))return;
+      cancelFrame();
+    }
+    if (useVideo) {
       frameKind = "video";
       frameId = video.requestVideoFrameCallback(onFrame);
     } else {

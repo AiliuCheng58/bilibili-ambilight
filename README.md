@@ -1,12 +1,12 @@
-# Bili Ambient 1.7.3 · B站氛围光（预发布）
+# Bili Ambient 1.7.4 · B站氛围光（预发布）
 
 适用于 Chrome / Edge 的 Manifest V3 扩展。Bilibili 主站及所有子域名共享全页氛围背景和玻璃主题，覆盖首页、搜索、分区、动态、个人空间、专栏、直播与播放页。视频播放时通过 WebGL 多层投影铺满视口，滚动时保留原播放器的投影位置；静态页面沿用最近视频的色彩。
 
-[公开源码](https://github.com/AiliuCheng58/bilibili-ambilight) · [下载 1.7.3 预发布版](https://github.com/AiliuCheng58/bilibili-ambilight/releases/tag/v1.7.3) · [反馈问题](https://github.com/AiliuCheng58/bilibili-ambilight/issues) · [MIT 许可](LICENSE)
+[公开源码](https://github.com/AiliuCheng58/bilibili-ambilight) · [下载 1.7.4 预发布版](https://github.com/AiliuCheng58/bilibili-ambilight/releases/tag/v1.7.4) · [反馈问题](https://github.com/AiliuCheng58/bilibili-ambilight/issues) · [MIT 许可](LICENSE)
 
 ## 安装和更新
 
-1. 下载并解压 [bilibili-ambilight-v1.7.3.zip](https://github.com/AiliuCheng58/bilibili-ambilight/releases/download/v1.7.3/bilibili-ambilight-v1.7.3.zip)。
+1. 下载并解压 [bilibili-ambilight-v1.7.4.zip](https://github.com/AiliuCheng58/bilibili-ambilight/releases/download/v1.7.4/bilibili-ambilight-v1.7.4.zip)。
 2. Chrome 打开 `chrome://extensions/`；Edge 打开 `edge://extensions/`。
 3. 开启“开发者模式”，点击“加载已解压的扩展程序”。
 4. 选择直接包含 `manifest.json` 的 `bilibili-ambilight` 文件夹。
@@ -43,7 +43,7 @@
 
 “页面与玻璃”中的“全站玻璃主题”控制非播放页面的效果，“视频预览实时取色”控制预览接入。页面结构通过共享样式和分批 DOM 检查接入，新增卡片与弹层自动更新。封面、二维码、验证控件和播放器画面保持独立显示。
 
-播放器逐渐滚出视口时，背景在 180 ms 内平滑增加柔化，默认额外增加 120 px；回到播放器时恢复。滚动小窗继续播放时，背景保留原播放器的投影位置并进入阅读柔化状态。评论文字、头像和视频前景保持清晰。“页面与玻璃”中的“评论区额外柔化”可调节强度，设为 0 可关闭。普通全屏和网页全屏随播放器尺寸调整，背景与设置菜单挂载到全屏容器。关闭效果后恢复页面配色和视频显示。
+播放器逐渐滚出视口时，背景在 180 ms 内平滑增加柔化，默认额外增加 120 px；回到播放器时恢复。选择视频帧同步后，离屏期间自动切换为显示回调持续取帧，返回播放器时恢复视频帧回调。滚动小窗继续播放时，背景保留原播放器的投影位置并进入阅读柔化状态。评论文字、头像和视频前景保持清晰。“页面与玻璃”中的“评论区额外柔化”可调节强度，设为 0 可关闭。普通全屏和网页全屏随播放器尺寸调整，背景与设置菜单挂载到全屏容器。关闭效果后恢复页面配色和视频显示。
 
 | 默认按键 | 操作 |
 | --- | --- |
