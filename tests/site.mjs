@@ -94,7 +94,12 @@ try{
   await check('visible playing previews switch to realtime projection and save only three colors',async()=>{
     await page.evaluate(()=>window.startPreview());await page.locator('#bili-ambient-layer').waitFor({state:'visible'});
     await page.waitForFunction(()=>document.querySelector('#bili-ambient-layer').dataset.state==='active');
-    const saved=await worker.evaluate(()=>chrome.storage.local.get('sitePalette'));
+    let saved;
+    for(let attempt=0;attempt<100;attempt++){
+      saved=await worker.evaluate(()=>chrome.storage.local.get('sitePalette'));
+      if(saved.sitePalette?.length===3)break;
+      await page.waitForTimeout(20);
+    }
     assert.equal(saved.sitePalette.length,3);assert(saved.sitePalette.every(c=>c.length===3&&c.every(Number.isInteger)));
     assert((await status(page)).framesRendered>0);
   });

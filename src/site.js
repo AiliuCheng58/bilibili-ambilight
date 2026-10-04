@@ -110,21 +110,15 @@
       if (now - this.lastSample < 2000) return;
       this.lastSample = now;
       try {
-        if (!this.sampler) {
-          const canvas = document.createElement("canvas");
-          canvas.width = 12; canvas.height = 12;
-          this.sampler = canvas.getContext("2d", { willReadFrequently: true });
-        }
-        const ctx = this.sampler;
         const c = crop || { x: 0, y: 0, width: 1, height: 1 };
-        ctx.drawImage(source.canvas, c.x * source.canvas.width, c.y * source.canvas.height, c.width * source.canvas.width, c.height * source.canvas.height, 0, 0, 12, 12);
-        const w = ctx.canvas.width, h = ctx.canvas.height;
-        const patches = [[0, 0, Math.ceil(w / 4), h], [Math.floor(w * .75), 0, Math.ceil(w / 4), h], [0, Math.floor(h * .75), w, Math.ceil(h / 4)]];
-        const next = patches.map(rect => {
-          const pixels = ctx.getImageData(...rect).data;
+        const {width:w,height:h,data:pixels}=source;
+        const patches = [[c.x,c.y,c.width/4,c.height],[c.x+c.width*.75,c.y,c.width/4,c.height],[c.x,c.y+c.height*.75,c.width,c.height/4]];
+        const next = patches.map(([x,y,width,height]) => {
+          const left=Math.max(0,Math.floor(x*w)),top=Math.max(0,Math.floor(y*h));
+          const right=Math.min(w,Math.max(left+1,Math.ceil((x+width)*w))),bottom=Math.min(h,Math.max(top+1,Math.ceil((y+height)*h)));
           const rgb = [0, 0, 0];
-          for (let i = 0; i < pixels.length; i += 4) for (let j = 0; j < 3; j++) rgb[j] += pixels[i + j];
-          return rgb.map(n => Math.round(n / (pixels.length / 4)));
+          for(let py=top;py<bottom;py++)for(let px=left;px<right;px++)for(let j=0;j<3;j++)rgb[j]+=pixels[(py*w+px)*4+j];
+          return rgb.map(n => Math.round(n / ((right-left)*(bottom-top))));
         });
         if (JSON.stringify(next) === JSON.stringify(this.palette)) return;
         this.palette = next;

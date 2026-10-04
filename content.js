@@ -25,6 +25,7 @@
   let frame = null;
   let frameCtx = null;
   let inspectionCtx = null;
+  let inspectedPixels = null;
   let probeCtx = null;
   let anchor = null;
   let anchorKey = "";
@@ -32,7 +33,10 @@
   let crop = { ...globalThis.BiliAmbientProjection.fullFrame };
   const detector = new globalThis.BiliAmbientProjection.CropDetector();
   const blender = new globalThis.BiliAmbientProjection.FrameBlender();
-  const inspector = new globalThis.BiliAmbientInspection();
+  const inspector = new globalThis.BiliAmbientInspection(retry=>{
+    if(retry)lastInspection=-Infinity;
+    if(visible && mediaSource===video && (video?.paused || video?.ended)){projectionDirty=true;queueLayout();}
+  });
   let renderer = null;
   let stats = null;
   let rendererName = "Canvas 2D";
@@ -324,6 +328,7 @@
     if (frame.width !== rasterWidth || frame.height !== rasterHeight) {
       frame.width = rasterWidth;
       frame.height = rasterHeight;
+      inspectedPixels = null;
       edgeCanvas.width = rasterWidth;
       edgeCanvas.height = rasterHeight;
       fresh = true;
@@ -388,17 +393,27 @@
       frameCtx.globalAlpha = 1;
       const immediateInspection=fresh || lastInspection===-Infinity;
       if(immediateInspection)inspector.reset();
-      const inspectedPixels=immediateInspection?null:inspector.take();
-      const inspect = immediateInspection || inspectedPixels || (now-lastInspection>=250 && !inspector.request(frame));
+      let nextPixels=inspector.take(),unreadable=false;
+      if(immediateInspection || now-lastInspection>=250 && (mediaSource!==video || !video.paused && !video.ended)){
+        lastInspection=now;
+        if(!inspector.request(frame)){
+          inspectionCtx.canvas.width=frame.width;inspectionCtx.canvas.height=frame.height;
+          inspectionCtx.drawImage(frame,0,0);
+          try{nextPixels=inspectionCtx.getImageData(0,0,frame.width,frame.height);}
+          catch(error){if(error.name!=="SecurityError")throw error;unreadable=true;}
+        }
+      }
+      const inspect = immediateInspection || nextPixels || unreadable;
       if (inspect) {
         // Keep pixel reads off the frequently drawn frame canvas so it stays GPU accelerated.
         if(inspectionCtx.canvas.width!==frame.width || inspectionCtx.canvas.height!==frame.height){inspectionCtx.canvas.width=frame.width;inspectionCtx.canvas.height=frame.height;}
+        if(nextPixels)inspectedPixels=nextPixels;
+        else if(unreadable)inspectedPixels=null;
         if(inspectedPixels)inspectionCtx.putImageData(inspectedPixels,0,0);
         else inspectionCtx.drawImage(frame,0,0);
-        crop = detector.detect(inspectionCtx,settings);
-        lastInspection = now;
-        if(settings.energySaver && crop.readable){
-          const pixels=inspectionCtx.getImageData(0,0,frame.width,frame.height).data;
+        crop = nextPixels || unreadable?detector.detect(nextPixels,settings):detector.current(settings);
+        if(settings.energySaver && crop.readable && inspectedPixels){
+          const pixels=inspectedPixels.data;
           let difference=0,count=0;
           if(previousPixels?.length===pixels.length)for(let i=0;i<pixels.length;i+=Math.max(4,Math.floor(pixels.length/256/4)*4)){difference+=Math.abs(pixels[i]-previousPixels[i])+Math.abs(pixels[i+1]-previousPixels[i+1])+Math.abs(pixels[i+2]-previousPixels[i+2]);count+=3;}
           const change=count?difference/count/255:1;
@@ -409,9 +424,9 @@
       }
       const projected=inspect || force || !renderer.available(settings);
       if(projected)globalThis.BiliAmbientProjection.extendFrame(ctx, inspect?inspectionCtx.canvas:frame, anchor, viewport, crop, settings);
-      if (inspect && crop.readable) {
-        site.remember(inspectionCtx, now, crop);
-        const luminance=globalThis.BiliAmbientProjection.surroundingLuminance(ctx,anchor,viewport);
+      if (inspect && crop.readable && inspectedPixels) {
+        site.remember(inspectedPixels, now, crop);
+        const luminance=globalThis.BiliAmbientProjection.surroundingLuminance(inspectedPixels,anchor,viewport,crop,settings);
         const adjusted=Math.max(0,Math.min(1,(luminance*effectBrightness/100-.5)*effectContrast/100+.5));
         theme.setLuminance(adjusted*(1-settings.dim/100)+settings.pageBackgroundGreyness/100*settings.dim/100);
       }
@@ -493,6 +508,7 @@
     mediaSource = null;
     renderer?.releaseSource();
     inspector.dispose();
+    inspectedPixels=null;
     theme.setPlayer(null);
     menu.attach(null);
     fresh = true;

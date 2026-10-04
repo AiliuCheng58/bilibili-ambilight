@@ -1,0 +1,206 @@
+{
+  "report": {
+    "counterFPS": 29,
+    "playing": {
+      "elapsed": 3009.9259,
+      "projection": {
+        "count": 181,
+        "ms": 28.400000020861626,
+        "max": 0.5
+      },
+      "metrics": {
+        "TaskDuration": 0.151846,
+        "ScriptDuration": 0.093924,
+        "LayoutDuration": 0,
+        "RecalcStyleDuration": 0,
+        "LayoutCount": 0,
+        "RecalcStyleCount": 0
+      }
+    },
+    "pausedScroll": {
+      "elapsed": 1517.1281,
+      "geometryRead": {
+        "count": 88,
+        "ms": 12,
+        "max": 0.29999999701976776
+      },
+      "styleRead": {
+        "count": 88,
+        "ms": 0.10000000894069672,
+        "max": 0.10000000894069672
+      },
+      "themeApply": {
+        "count": 88,
+        "ms": 0,
+        "max": 0
+      },
+      "metrics": {
+        "TaskDuration": 0.08657199999999998,
+        "ScriptDuration": 0.03601400000000002,
+        "LayoutDuration": 0,
+        "RecalcStyleDuration": 0.017541,
+        "LayoutCount": 0,
+        "RecalcStyleCount": 153
+      }
+    },
+    "pausedIdle": {
+      "elapsed": 2114.5739999999996,
+      "geometryRead": {
+        "count": 1,
+        "ms": 0.09999999403953552,
+        "max": 0.09999999403953552
+      },
+      "styleRead": {
+        "count": 1,
+        "ms": 0,
+        "max": 0
+      },
+      "themeApply": {
+        "count": 1,
+        "ms": 0.09999999403953552,
+        "max": 0.09999999403953552
+      },
+      "metrics": {
+        "TaskDuration": 0.033824999999999994,
+        "ScriptDuration": 0.008657999999999971,
+        "LayoutDuration": 0,
+        "RecalcStyleDuration": 0.0015790000000000005,
+        "LayoutCount": 0,
+        "RecalcStyleCount": 12
+      }
+    },
+    "pausedResize": {
+      "elapsed": 110.09179999999833,
+      "geometryRead": {
+        "count": 2,
+        "ms": 0.20000000298023224,
+        "max": 0.20000000298023224
+      },
+      "styleRead": {
+        "count": 2,
+        "ms": 0,
+        "max": 0
+      },
+      "themeApply": {
+        "count": 2,
+        "ms": 0,
+        "max": 0
+      },
+      "projection": {
+        "count": 2,
+        "ms": 5.700000002980232,
+        "max": 5.5999999940395355
+      },
+      "metrics": {
+        "TaskDuration": 0.013461,
+        "ScriptDuration": 0.008111000000000035,
+        "LayoutDuration": 0.0002590000000000023,
+        "RecalcStyleDuration": 0.0009890000000000003,
+        "LayoutCount": 5,
+        "RecalcStyleCount": 7
+      }
+    },
+    "lateComment": true,
+    "staticScroll": {
+      "elapsed": 1484.4382999999998,
+      "metrics": {
+        "TaskDuration": 0.023037000000000002,
+        "ScriptDuration": 0.004717000000000001,
+        "LayoutDuration": 0,
+        "RecalcStyleDuration": 0,
+        "LayoutCount": 0,
+        "RecalcStyleCount": 0
+      }
+    },
+    "feedInsertion": {
+      "elapsed": 365.6112000000012,
+      "styleRead": {
+        "count": 1801,
+        "ms": 1.5000000596046448,
+        "max": 0.20000000298023224
+      },
+      "surfaceRead": {
+        "count": 1801,
+        "ms": 17.89999996125698,
+        "max": 4.299999997019768
+      },
+      "surfaceBatch": {
+        "count": 20,
+        "ms": 21.99999998509884,
+        "max": 4.399999991059303
+      },
+      "surfaceMarks": 1359,
+      "surfacePending": 0,
+      "geometryRead": {
+        "count": 450,
+        "ms": 0.6999999731779099,
+        "max": 0.10000000894069672
+      },
+      "metrics": {
+        "TaskDuration": 0.079944,
+        "ScriptDuration": 0.019683,
+        "LayoutDuration": 0.018035000000000002,
+        "RecalcStyleDuration": 0.012474,
+        "LayoutCount": 21,
+        "RecalcStyleCount": 23
+      }
+    },
+    "unthemedCards": 0,
+    "feedRestyle": {
+      "elapsed": 990.7865999999995,
+      "styleRead": {
+        "count": 1801,
+        "ms": 0.6999999731779099,
+        "max": 0.20000000298023224
+      },
+      "surfaceRead": {
+        "count": 1801,
+        "ms": 28.000000029802322,
+        "max": 1.0999999940395355
+      },
+      "geometryRead": {
+        "count": 450,
+        "ms": 10.500000029802322,
+        "max": 1.0999999940395355
+      },
+      "surfaceBatch": {
+        "count": 19,
+        "ms": 32.89999994635582,
+        "max": 2.2000000029802322
+      },
+      "surfaceMarks": 1359,
+      "surfacePending": 0,
+      "metrics": {
+        "TaskDuration": 0.073515,
+        "ScriptDuration": 0.023697000000000003,
+        "LayoutDuration": 0.017480999999999997,
+        "RecalcStyleDuration": 0.013383,
+        "LayoutCount": 38,
+        "RecalcStyleCount": 39
+      }
+    },
+    "feedRemoval": {
+      "elapsed": 120.32520000000113,
+      "surfaceBatch": {
+        "count": 1,
+        "ms": 0.4000000059604645,
+        "max": 0.4000000059604645
+      },
+      "surfaceMarks": 9,
+      "surfacePending": 0,
+      "metrics": {
+        "TaskDuration": 0.00409000000000001,
+        "ScriptDuration": 0.00037299999999999833,
+        "LayoutDuration": 0.00004900000000000043,
+        "RecalcStyleDuration": 0,
+        "LayoutCount": 1,
+        "RecalcStyleCount": 0
+      }
+    },
+    "environment": {
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/148.0.0.0 Safari/537.36",
+      "renderer": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A788) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+    }
+  },
+  "errors": []
+}

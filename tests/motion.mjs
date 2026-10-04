@@ -54,15 +54,17 @@ try {
     return extension?gl.getParameter(extension.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER);
   });
   await evaluate(`(() => {
-    globalThis.motion = { phase: '', frames: [], blurs: [], colors: [], uploads:0, samples:0, inspections:0 };
+    globalThis.motion = { phase: '', frames: [], blurs: [], colors: [], uploads:0, samples:0, inspections:0, readbacks:0 };
+    const read=CanvasRenderingContext2D.prototype.getImageData;
+    CanvasRenderingContext2D.prototype.getImageData=function(...args){if(motion.phase==='reuse' || motion.phase==='fps')motion.readbacks++;return read.apply(this,args);};
     const take=BiliAmbientInspection.prototype.take;
-    BiliAmbientInspection.prototype.take=function(){const result=take.call(this);if(result && motion.phase==='reuse')motion.inspections++;return result;};
+    BiliAmbientInspection.prototype.take=function(){const result=take.call(this);if(result && (motion.phase==='reuse' || motion.phase==='paused'))motion.inspections++;return result;};
     const draw = BiliAmbientRenderer.prototype.draw, reblur = BiliAmbientRenderer.prototype.reblur;
     const probe = document.createElement('canvas'); probe.width = probe.height = 1;
     const ctx = probe.getContext('2d', { willReadFrequently: true });
     BiliAmbientRenderer.prototype.draw = function(...args) {
       const started = performance.now(), result = draw.apply(this, args);
-      if (motion.phase === 'fps' || motion.phase === 'reuse') motion.frames.push({ time: args[6], cost: performance.now() - started });
+      if (motion.phase === 'fps' || motion.phase === 'reuse' || motion.phase === 'paused') motion.frames.push({ time: args[6], cost: performance.now() - started });
       if (motion.phase === 'color') {
         ctx.drawImage(document.querySelector('video'), 0, 0, 1, 1);
         const output=new Uint8Array(4);
@@ -146,15 +148,26 @@ try {
       video.srcObject=scene.captureStream(6);await video.play();
     });
     await page.waitForTimeout(600);
-    await evaluate("motion.phase='reuse';motion.frames=[];motion.uploads=0;motion.samples=0;motion.inspections=0");
+    await evaluate("motion.phase='reuse';motion.frames=[];motion.uploads=0;motion.samples=0;motion.inspections=0;motion.readbacks=0");
     const display=await displayCadence(1600);
-    const reuse=await evaluate("motion.phase='';({uploads:motion.uploads,samples:motion.samples,inspections:motion.inspections,frames:motion.frames.length})");
+    const reuse=await evaluate("motion.phase='';({uploads:motion.uploads,samples:motion.samples,inspections:motion.inspections,readbacks:motion.readbacks,frames:motion.frames.length})");
     measurements.reuse={...reuse,decodedFrames:display.videoFrames,displayFrames:display.times.length};
     assert.ok(display.videoFrames>0 && reuse.uploads>0,JSON.stringify(measurements.reuse));
     assert.ok(reuse.frames>=display.times.length*.93,JSON.stringify(measurements.reuse));
     assert.ok(reuse.uploads<=display.videoFrames+2 && reuse.samples<=display.videoFrames+2,JSON.stringify(measurements.reuse));
     assert.ok(reuse.uploads>=display.videoFrames-2 && reuse.inspections>=3,JSON.stringify(measurements.reuse));
+    assert.equal(reuse.readbacks,0,JSON.stringify(measurements.reuse));
     await page.evaluate(async()=>{const video=document.querySelector('video');video.srcObject.getTracks().forEach(track=>track.stop());await window.attachSource(video);});
+  });
+  await check("paused playback consumes a completed inspection and then stays idle",async()=>{
+    await page.locator('video').evaluate(video=>video.pause());
+    await page.waitForTimeout(300);await evaluate("motion.phase='paused';motion.inspections=0;motion.frames=[]");
+    await evaluate("motion.createImageBitmap=createImageBitmap;globalThis.createImageBitmap=(...args)=>motion.createImageBitmap.apply(globalThis,args).then(bitmap=>new Promise(resolve=>setTimeout(()=>resolve(bitmap),250)))");
+    await set({quality:192});await page.waitForTimeout(50);await set({quality:224});await page.waitForTimeout(800);
+    const completed=await evaluate("({inspections:motion.inspections,frames:motion.frames.length})");
+    assert.ok(completed.inspections>=1,JSON.stringify(completed));
+    await page.waitForTimeout(400);assert.equal(await evaluate("motion.frames.length"),completed.frames);
+    await evaluate("motion.phase='';globalThis.createImageBitmap=motion.createImageBitmap");await set({quality:160});await page.locator('video').evaluate(video=>video.play());
   });
   await page.evaluate(() => { window.sceneMode='pink'; });
   await page.waitForFunction(() => document.documentElement.dataset.biliAmbientTone==='light');
@@ -230,14 +243,15 @@ try {
         const baselineIntervals=baseline.times.slice(1).map((time,i)=>time-baseline.times[i]).sort((a,b)=>a-b);
         const withoutEffect={fps:baseline.times.length*1000/baseline.elapsed,p95FrameIntervalMs:baselineIntervals[Math.floor(baselineIntervals.length*.95)],maxFrameIntervalMs:baselineIntervals.at(-1)};
         await set({enabled:true});
-        await page.waitForTimeout(500);await evaluate("motion.phase='fps';motion.frames=[];motion.uploads=0;motion.samples=0");
+        await page.waitForTimeout(500);await evaluate("motion.phase='fps';motion.frames=[];motion.uploads=0;motion.samples=0;motion.readbacks=0");
         const display=await displayCadence(12000),frames=await evaluate("motion.phase='';motion.frames");
         const intervals=frames.slice(1).map((frame,i)=>frame.time-frames[i].time).sort((a,b)=>a-b);
         const measured={elapsed:display.elapsed,fps:frames.length*1000/display.elapsed,displayFPS:display.times.length*1000/display.elapsed,sourceFPS:display.videoFrames*1000/display.elapsed,p95FrameIntervalMs:intervals[Math.floor(intervals.length*.95)],maxFrameIntervalMs:intervals.at(-1)};
-        Object.assign(measured,{withoutEffect},await evaluate("({uploads:motion.uploads,samples:motion.samples})"));
+        Object.assign(measured,{withoutEffect},await evaluate("({uploads:motion.uploads,samples:motion.samples,readbacks:motion.readbacks})"));
         measurements.encoded[name]=measured;
         assert.ok(measured.fps>=55 && measured.sourceFPS>=55 && measured.p95FrameIntervalMs<=34,JSON.stringify(measured));
         assert.ok(measured.uploads>=display.videoFrames*.9,JSON.stringify(measured));
+        assert.equal(measured.readbacks,0,JSON.stringify(measured));
       });
     }
     await page.locator('video').evaluate(video=>video.pause());

@@ -14,7 +14,7 @@
     };
   }
   class Inspection {
-    constructor() { this.generation=0;this.pending=false;this.result=null;this.failed=false; }
+    constructor(onReady=()=>{}) { this.onReady=onReady;this.generation=0;this.pending=false;this.result=null;this.failed=false; }
     reset() { this.generation++;this.result=null; }
     take() { const result=this.result;this.result=null;return result; }
     request(source) {
@@ -27,24 +27,26 @@
           this.worker=new Worker(this.url);
           this.worker.onmessage=({data})=>{
             clearTimeout(this.timeout);this.pending=false;
-            if(data.failed){this.disable();return;}
-            if(data.id===this.generation)this.result=data.pixels;
+            if(data.failed){this.disable(true);return;}
+            const retry=data.id!==this.generation;
+            if(!retry)this.result=data.pixels;
+            this.onReady(retry);
           };
-          this.worker.onerror=event=>{event.preventDefault();this.disable();};
+          this.worker.onerror=event=>{event.preventDefault();this.disable(true);};
         }
         const id=this.generation,job={};this.job=job;
         this.pending=true;
-        this.timeout=setTimeout(()=>this.disable(),3000);
+        this.timeout=setTimeout(()=>this.disable(true),3000);
         createImageBitmap(source).then(bitmap=>{
           if(this.job!==job){bitmap.close();return;}
-          if(!this.worker || id!==this.generation){bitmap.close();clearTimeout(this.timeout);this.pending=false;return;}
+          if(!this.worker || id!==this.generation){bitmap.close();clearTimeout(this.timeout);this.pending=false;this.onReady(true);return;}
           try{this.worker.postMessage({bitmap,id},[bitmap]);}
-          catch{bitmap.close();this.disable();}
-        },()=>{if(this.job===job)this.disable();});
+          catch{bitmap.close();this.disable(true);}
+        },()=>{if(this.job===job)this.disable(true);});
         return true;
       }catch{this.disable();return false;}
     }
-    disable() { this.dispose();this.failed=true; }
+    disable(notify=false) { this.dispose();this.failed=true;if(notify)this.onReady(true); }
     dispose() {
       this.reset();clearTimeout(this.timeout);this.pending=false;this.job=null;
       this.worker?.terminate();this.worker=null;
