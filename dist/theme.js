@@ -68,7 +68,7 @@
     }
     setLuminance(value) {
       this.luminance=value;
-      const next = this.theme===-1 ? "light" : this.theme===1 ? "dark" : value > (this.tone === "light" ? .58 : .7) ? "light" : "dark";
+      const next = this.theme===-1 ? "light" : this.theme===1 ? "dark" : value > (this.tone === "light" ? .48 : .56) ? "light" : "dark";
       if (next === this.tone) return;
       this.tone = next;
       if (this.enabled) document.documentElement.dataset.biliAmbientTone = next;

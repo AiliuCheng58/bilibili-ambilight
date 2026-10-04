@@ -9,9 +9,29 @@ test("appearance schema initialization keeps the enabled state and performance c
   const storage = { get: async () => old, set: async values => { saved = values; } };
   const settings = await globalThis.BiliAmbientSettings.load(storage);
   assert.deepEqual(settings, { ...defaults, enabled: false, fps: 12, quality: 96 });
-  assert.equal(saved.appearanceVersion, 3);
+  assert.equal(saved.appearanceVersion, 4);
   const current = { ...saved, brightness: 133, dim: 15 };
   assert.equal((await globalThis.BiliAmbientSettings.load({ get: async () => current })).brightness, 133);
+});
+test("motion defaults migrate as a group and preserve customized performance settings", async () => {
+  const load = async values => {
+    let saved;
+    const settings = await globalThis.BiliAmbientSettings.load({ get: async () => values, set: async next => { saved = next; } });
+    return { settings, saved };
+  };
+  const legacy = { ...defaults, appearanceVersion: 3, fps: 24, smoothing: 70, frameSync: 2, brightness: 133 };
+  const migrated = await load(legacy);
+  assert.equal(migrated.settings.fps, 0);
+  assert.equal(migrated.settings.smoothing, 0);
+  assert.equal(migrated.settings.frameSync, 1);
+  assert.equal(migrated.settings.brightness, 133);
+  assert.equal(migrated.saved.appearanceVersion, 4);
+  const custom = await load({ ...legacy, fps: 12 });
+  assert.equal(custom.settings.fps, 12);
+  assert.equal(custom.settings.smoothing, 70);
+  const current = await load({ ...legacy, appearanceVersion: 4 });
+  assert.equal(current.settings.fps, 24);
+  assert.equal(current.saved, undefined);
 });
 test("corrupt or out-of-range storage cannot create unbounded render settings", () => {
   assert.deepEqual(normalize(null), defaults);

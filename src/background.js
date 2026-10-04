@@ -16,13 +16,13 @@ chrome.storage.onChanged.addListener(async(changes,area)=>{
     if(Object.keys(changes).some(key=>Object.hasOwn(config.defaults,key)))syncSettings();
   }else if(area==="sync" && changes.profile?.newValue){
     const {syncSettings:enabled}=await chrome.storage.local.get("syncSettings");
-    if(enabled)await chrome.storage.local.set({...syncProfile(changes.profile.newValue),appearanceVersion:3});
+    if(enabled)await chrome.storage.local.set({...syncProfile(changes.profile.newValue),appearanceVersion:4});
   }
 });
 chrome.storage.local.get("syncSettings").then(async values=>{
   if(!values.syncSettings)return;
   const {profile}=await chrome.storage.sync.get("profile");
-  if(profile)await chrome.storage.local.set({...syncProfile(profile),appearanceVersion:3});else syncSettings();
+  if(profile)await chrome.storage.local.set({...syncProfile(profile),appearanceVersion:4});else syncSettings();
 }).catch(()=>{});
 chrome.commands.onCommand.addListener(async (command) => {
   if (command !== "toggle-ambient") return;

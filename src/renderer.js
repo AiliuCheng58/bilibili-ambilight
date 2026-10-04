@@ -58,11 +58,27 @@
       color+=random*noise*.025*strength;
       gl_FragColor=vec4(clamp(color,0.,1.),1.);
     }`;
+  const blurFragment = `precision highp float;
+    varying vec2 uv; uniform sampler2D image; uniform vec2 delta; uniform float coefficient,extent;
+    void main(){
+      vec3 color=texture2D(image,uv).rgb;
+      float total=1.,weight=1.,ratio=coefficient,squared=coefficient*coefficient;
+      for(int i=0;i<64;i++){
+        float x=float(i)*2.+1.;
+        if(x>extent)break;
+        weight*=ratio;ratio*=squared;float first=weight;
+        weight*=ratio;ratio*=squared;float second=weight;
+        float pair=first+second,offset=x+second/max(pair,.000001);
+        color+=(texture2D(image,uv+delta*offset).rgb+texture2D(image,uv-delta*offset).rgb)*pair;
+        total+=2.*pair;
+      }
+      gl_FragColor=vec4(color/total,1.);
+    }`;
   class ColorRenderer {
     constructor(parent, recover) {
       this.canvas = document.createElement("canvas");
       this.canvas.className = "bili-ambient-output";
-      this.gl = this.canvas.getContext("webgl", { alpha:false, antialias:false, depth:false, stencil:false, preserveDrawingBuffer:false });
+      this.gl = this.canvas.getContext("webgl", { alpha:true, antialias:false, depth:false, stencil:false, preserveDrawingBuffer:false, powerPreference:"low-power" });
       this.lost = false;
       this.failed = false;
       this.canvas.addEventListener("webglcontextlost", event => { event.preventDefault(); this.lost=true; this.canvas.style.display="none"; recover(); });
@@ -74,16 +90,21 @@
       const gl = this.gl;
       this.ready=false;
       this.textureWidth=0;this.textureHeight=0;
+      this.targets=[];this.targetWidth=0;this.targetHeight=0;this.projected=false;
       const compile = (type,source) => {
         const shader=gl.createShader(type);gl.shaderSource(shader,source);gl.compileShader(shader);
         if(!gl.getShaderParameter(shader,gl.COMPILE_STATUS)){gl.deleteShader(shader);throw new Error("Color shader compilation failed");}
         return shader;
       };
       try {
-        this.program=gl.createProgram();
-        const vs=compile(gl.VERTEX_SHADER,vertex), fs=compile(gl.FRAGMENT_SHADER,fragment);
-        gl.attachShader(this.program,vs);gl.attachShader(this.program,fs);gl.linkProgram(this.program);gl.deleteShader(vs);gl.deleteShader(fs);
-        if(!gl.getProgramParameter(this.program,gl.LINK_STATUS)) throw new Error("Color shader linking failed");
+        const program=source=>{
+          const result=gl.createProgram(),vs=compile(gl.VERTEX_SHADER,vertex),fs=compile(gl.FRAGMENT_SHADER,source);
+          gl.attachShader(result,vs);gl.attachShader(result,fs);gl.bindAttribLocation(result,0,"position");
+          gl.linkProgram(result);gl.deleteShader(vs);gl.deleteShader(fs);
+          if(!gl.getProgramParameter(result,gl.LINK_STATUS))throw new Error("Color shader linking failed");
+          return result;
+        };
+        this.program=program(fragment);this.blurProgram=program(blurFragment);
         gl.useProgram(this.program);
         this.buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,this.buffer);
         gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
@@ -93,25 +114,70 @@
         gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
         this.uniforms=Object.fromEntries(["image","vibrance","noise","oled","anchor","directions","viewport","seed","crop","edge","spread","style","sourceSize"].map(name=>[name,gl.getUniformLocation(this.program,name)]));
         gl.uniform1i(this.uniforms.image,0);
+        gl.useProgram(this.blurProgram);
+        gl.uniform1i(gl.getUniformLocation(this.blurProgram,"image"),0);
+        this.blurDelta=gl.getUniformLocation(this.blurProgram,"delta");
+        this.blurCoefficient=gl.getUniformLocation(this.blurProgram,"coefficient");
+        this.blurExtent=gl.getUniformLocation(this.blurProgram,"extent");
         gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);
         this.ready=true;
       } catch { this.failed=true; }
     }
     available(settings) { return settings.webGL && this.gl && !this.lost && !this.failed; }
     retry() { if(this.ready && !this.lost)this.failed=false; }
-    draw(source,background,crop,anchor,viewport,settings,now) {
+    allocateTargets(width,height) {
+      if(this.targetWidth===width && this.targetHeight===height)return;
+      const gl=this.gl;
+      for(const target of this.targets){gl.deleteTexture(target.texture);gl.deleteFramebuffer(target.framebuffer);}
+      this.targets=[];
+      for(let i=0;i<2;i++){
+        const texture=gl.createTexture(),framebuffer=gl.createFramebuffer();
+        this.targets.push({texture,framebuffer});gl.bindTexture(gl.TEXTURE_2D,texture);
+        gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+        gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,width,height,0,gl.RGBA,gl.UNSIGNED_BYTE,null);
+        gl.bindFramebuffer(gl.FRAMEBUFFER,framebuffer);
+        gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,texture,0);
+        if(gl.checkFramebufferStatus(gl.FRAMEBUFFER)!==gl.FRAMEBUFFER_COMPLETE)throw new Error("Blur framebuffer unavailable");
+      }
+      this.targetWidth=width;this.targetHeight=height;
+    }
+    reblur(radius,viewport) {
+      if(!this.projected || this.lost || this.failed)return;
+      const gl=this.gl;
+      // The two passes use CSS-pixel radii on a small raster; the full viewport is only composited.
+      gl.viewport(0,0,this.targetWidth,this.targetHeight);gl.useProgram(this.blurProgram);gl.activeTexture(gl.TEXTURE0);
+      const kernel=(pixels,x,y)=>{
+        const sigma=Math.max(.001,pixels);
+        gl.uniform1f(this.blurCoefficient,Math.exp(-.5/(sigma*sigma)));
+        gl.uniform1f(this.blurExtent,pixels>0?Math.ceil(sigma*3):0);
+        gl.uniform2f(this.blurDelta,x,y);gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+      };
+      gl.bindFramebuffer(gl.FRAMEBUFFER,this.targets[1].framebuffer);
+      gl.bindTexture(gl.TEXTURE_2D,this.targets[0].texture);
+      kernel(radius*this.targetWidth/viewport.width,1/this.targetWidth,0);
+      gl.bindFramebuffer(gl.FRAMEBUFFER,null);gl.bindTexture(gl.TEXTURE_2D,this.targets[1].texture);
+      kernel(radius*this.targetHeight/viewport.height,0,1/this.targetHeight);
+    }
+    draw(source,background,crop,anchor,viewport,settings,now,radius=settings.blur,directSource=null) {
       const usable=settings.webGL && this.gl && !this.lost && !this.failed;
       this.canvas.style.display=usable ? "block" : "none";
       if(!usable) return false;
       const gl=this.gl;
       try {
-        if(this.canvas.width!==background.width || this.canvas.height!==background.height){this.canvas.width=background.width;this.canvas.height=background.height;}
-        gl.viewport(0,0,background.width,background.height);gl.useProgram(this.program);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,this.texture);
-        const allocate=this.textureWidth!==source.width || this.textureHeight!==source.height;
-        if(allocate){
-          gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,source);
-          this.textureWidth=source.width;this.textureHeight=source.height;
-        }else gl.texSubImage2D(gl.TEXTURE_2D,0,0,0,gl.RGBA,gl.UNSIGNED_BYTE,source);
+        // A bounded bloom raster keeps the Gaussian kernel and GPU cost independent of video resolution.
+        const scale=settings.blur+settings.readingBlur>0?Math.min(1,256/Math.max(background.width,background.height)):1;
+        const width=Math.max(1,Math.round(background.width*scale)),height=Math.max(1,Math.round(background.height*scale));
+        if(this.canvas.width!==width || this.canvas.height!==height){this.canvas.width=width;this.canvas.height=height;}
+        this.allocateTargets(width,height);
+        gl.bindFramebuffer(gl.FRAMEBUFFER,this.targets[0].framebuffer);
+        gl.viewport(0,0,width,height);gl.useProgram(this.program);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,this.texture);
+        const input=directSource || source,inputWidth=input.videoWidth || input.width,inputHeight=input.videoHeight || input.height;
+        const allocate=this.textureWidth!==inputWidth || this.textureHeight!==inputHeight;
+        if(allocate || directSource){
+          gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,input);
+          this.textureWidth=inputWidth;this.textureHeight=inputHeight;
+        }else gl.texSubImage2D(gl.TEXTURE_2D,0,0,0,gl.RGBA,gl.UNSIGNED_BYTE,input);
         gl.uniform1f(this.uniforms.vibrance,settings.vibrance/100);
         gl.uniform1f(this.uniforms.noise,settings.debandingStrength/100);
         gl.uniform1f(this.uniforms.oled,settings.debandingBlendMode);
@@ -125,15 +191,19 @@
         gl.uniform4f(this.uniforms.anchor,anchor.left-viewport.left,anchor.top-viewport.top,anchor.left+anchor.width-viewport.left,anchor.top+anchor.height-viewport.top);
         gl.uniform4f(this.uniforms.directions,Number(settings.directionTopEnabled),Number(settings.directionRightEnabled),Number(settings.directionBottomEnabled),Number(settings.directionLeftEnabled));
         gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+        this.projected=true;this.reblur(radius,viewport);
         // Error queries synchronize with the GPU; allocations and context events bound validation.
         if(allocate && gl.getError()!==gl.NO_ERROR) throw new Error("Color rendering failed");
         return true;
       } catch {
-        this.failed=true;this.textureWidth=0;this.textureHeight=0;this.canvas.style.display="none";return false;
+        this.failed=true;this.projected=false;this.textureWidth=0;this.textureHeight=0;this.canvas.style.display="none";return false;
       }
     }
     dispose() {
-      if(this.gl && !this.lost){this.gl.deleteTexture(this.texture);this.gl.deleteBuffer(this.buffer);this.gl.deleteProgram(this.program);}
+      if(this.gl && !this.lost){
+        this.gl.deleteTexture(this.texture);this.gl.deleteBuffer(this.buffer);this.gl.deleteProgram(this.program);this.gl.deleteProgram(this.blurProgram);
+        for(const target of this.targets){this.gl.deleteTexture(target.texture);this.gl.deleteFramebuffer(target.framebuffer);}
+      }
       this.canvas.remove();
     }
   }

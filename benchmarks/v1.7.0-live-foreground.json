@@ -1,0 +1,53 @@
+{
+  "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36 Edg/154.0.0.0",
+  "comment": [
+    {
+      "color": "rgb(244, 245, 248)",
+      "filter": "none",
+      "id": "body",
+      "opacity": "1"
+    },
+    {
+      "color": "rgb(158, 158, 255)",
+      "filter": "none",
+      "id": "user-avatar",
+      "opacity": "1"
+    },
+    {
+      "color": "rgb(244, 245, 248)",
+      "filter": "none",
+      "id": "main",
+      "opacity": "1"
+    },
+    {
+      "color": "rgb(244, 245, 248)",
+      "filter": "none",
+      "id": "header",
+      "opacity": "1"
+    },
+    {
+      "color": "rgb(244, 245, 248)",
+      "filter": "none",
+      "id": "ornament",
+      "opacity": "1"
+    },
+    {
+      "color": "rgb(244, 245, 248)",
+      "filter": "none",
+      "id": "content",
+      "opacity": "1"
+    },
+    {
+      "color": "rgb(244, 245, 248)",
+      "filter": "none",
+      "id": "pictures",
+      "opacity": "1"
+    },
+    {
+      "color": "rgb(244, 245, 248)",
+      "filter": "none",
+      "id": "footer",
+      "opacity": "1"
+    }
+  ]
+}

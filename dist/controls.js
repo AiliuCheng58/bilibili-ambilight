@@ -27,7 +27,7 @@
       ["horizontalBarsClipPercentageReset","新视频重置手动裁切"], ["detectVideoFillScaleEnabled","裁切后填满播放器"]
     ]],
     ["页面与玻璃", [
-      ["siteThemeEnabled","全站玻璃主题"], ["siteVideoPreviews","视频预览实时取色"],
+      ["siteThemeEnabled","全站玻璃主题"], ["siteVideoPreviews","视频预览实时取色"], ["readingBlur","评论区额外柔化","px"],
       ["headerFillOpacity","导航栏玻璃浓度","%"], ["headerImagesOpacity","导航栏图像透明度","%"],
       ["headerShadowSize","导航文字阴影","px"], ["headerShadowOpacity","导航阴影浓度","%"],
       ["surroundingContentImagesOpacity","内容图像透明度","%"], ["surroundingContentShadowSize","内容文字阴影","px"],

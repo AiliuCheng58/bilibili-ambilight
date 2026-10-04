@@ -1,0 +1,50 @@
+{
+  "url": "https://www.bilibili.com/video/BV1Za4C6WEXv/",
+  "watch": {
+    "blur": "blur(42px) saturate(110%) brightness(125%) contrast(100%)",
+    "elapsed": 2408.199999999255,
+    "fps": 130.79765809903358,
+    "frames": 315,
+    "maxFrameIntervalMs": 29.099999999976717,
+    "p95DrawMs": 9.099999997764826,
+    "p95FrameIntervalMs": 12.600000000034925,
+    "scroll": 0,
+    "stats": "氛围光 137 FPS · WebGL\n视频 30 FPS · 显示 137 FPS\n视频 640×360\n采样 160×90 · 背景 160×114\n绘制 9.60 ms",
+    "videoFilter": "none",
+    "viewport": [
+      1920,
+      1080
+    ]
+  },
+  "reading": {
+    "blur": "blur(162px) saturate(110%) brightness(125%) contrast(100%)",
+    "elapsed": 2403.10000000149,
+    "fps": 228.4549124046688,
+    "frames": 549,
+    "maxFrameIntervalMs": 12.5,
+    "p95DrawMs": 5.300000000745058,
+    "p95FrameIntervalMs": 4.600000000034925,
+    "scroll": 1300,
+    "stats": "氛围光 231 FPS · WebGL\n视频 30 FPS · 显示 231 FPS\n视频 640×360\n采样 160×90 · 背景 160×114\n绘制 6.70 ms",
+    "videoFilter": "none",
+    "viewport": [
+      1920,
+      1080
+    ]
+  },
+  "cinemaReading": {
+    "blur": "blur(175px) saturate(110%) brightness(105%) contrast(100%)",
+    "elapsed": 2206.400000002235,
+    "fps": 144.57285293451167,
+    "frames": 319,
+    "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A788) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "p95DrawMs": 11.100000001490116,
+    "scroll": 850,
+    "stats": "氛围光 148 FPS · WebGL\n视频 30 FPS · 显示 148 FPS\n视频 640×360\n采样 160×90 · 背景 158×160\n绘制 13.70 ms",
+    "videoFilter": "none",
+    "viewport": [
+      778,
+      801
+    ]
+  }
+}

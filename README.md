@@ -1,24 +1,24 @@
-# Bili Ambient 1.6.0 · B站氛围光
+# Bili Ambient 1.7.0 · B站氛围光（预发布）
 
 适用于 Chrome / Edge 的 Manifest V3 扩展。Bilibili 主站及所有子域名共享全页氛围背景和玻璃主题，覆盖首页、搜索、分区、动态、个人空间、专栏、直播与播放页。视频播放时通过 WebGL 多层投影铺满视口，滚动时保留原播放器的投影位置；静态页面沿用最近视频的色彩。
 
-[公开源码](https://github.com/AiliuCheng58/bilibili-ambilight) · [下载最新版](https://github.com/AiliuCheng58/bilibili-ambilight/releases/latest) · [反馈问题](https://github.com/AiliuCheng58/bilibili-ambilight/issues) · [MIT 许可](LICENSE)
+[公开源码](https://github.com/AiliuCheng58/bilibili-ambilight) · [下载 1.7.0 预发布版](https://github.com/AiliuCheng58/bilibili-ambilight/releases/tag/v1.7.0) · [反馈问题](https://github.com/AiliuCheng58/bilibili-ambilight/issues) · [MIT 许可](LICENSE)
 
 ## 安装和更新
 
-1. 下载并解压 [bilibili-ambilight-v1.6.0.zip](https://github.com/AiliuCheng58/bilibili-ambilight/releases/download/v1.6.0/bilibili-ambilight-v1.6.0.zip)。
+1. 下载并解压 [bilibili-ambilight-v1.7.0.zip](https://github.com/AiliuCheng58/bilibili-ambilight/releases/download/v1.7.0/bilibili-ambilight-v1.7.0.zip)。
 2. Chrome 打开 `chrome://extensions/`；Edge 打开 `edge://extensions/`。
 3. 开启“开发者模式”，点击“加载已解压的扩展程序”。
 4. 选择直接包含 `manifest.json` 的 `bilibili-ambilight` 文件夹。
 5. 刷新已打开的 Bilibili 页面。
 
-更新已有安装时，将新包解压到原来的扩展目录，在扩展管理页点击“重新加载”，再刷新 Bilibili 页面。已保存的 1.2 及后续版本参数继续保留。源码包的顶层目录和 `dist` 均可直接加载。
+更新已有安装时，将新包解压到原来的扩展目录，在扩展管理页点击“重新加载”，再刷新 Bilibili 页面。已保存的参数继续保留；使用旧版默认的 24 FPS、70% 时间平滑和解码帧同步组合时，更新为显示帧同步、不限帧率和即时跟色。自定义性能参数继续保留。源码包的顶层目录和 `dist` 均可直接加载。
 
 ## 使用
 
 点击播放器控制栏中的彩色圆形按钮、页面右下角的圆形入口，或浏览器工具栏上的扩展图标，打开设置。播放器菜单在全屏中也可使用；按 Escape 先关闭菜单。完整设置页提供搜索、JSON 导入和导出。
 
-默认“通透”预设以低浓度玻璃显示视频颜色。“影院”增加背景深浅，“省电”降低光效帧率和采样精度。背景亮度、玻璃浓度、背景柔化和边缘过渡可分别调节。
+默认“通透”预设以低浓度玻璃显示视频颜色。“影院”增加背景深浅，“省电”降低光效帧率和采样精度。背景亮度、玻璃浓度、背景柔化和边缘过渡可分别调节。默认跟随显示刷新节奏绘制，关闭时间平滑和帧混合；实际新画面频率仍取决于视频源。设备、浏览器和页面负载下的实测结果见性能报告。
 
 | 功能 | 可调内容 |
 | --- | --- |
@@ -27,7 +27,7 @@
 | 过渡 | 时间平滑、淡入时间、闪烁抑制、前后视频帧插值 |
 | 性能 | 帧率上限、视频 / 显示 / 解码帧同步、采样精度、渲染精度比例、静态画面省电、页面加载优先 |
 | 黑边与裁切 | 上下 / 左右 / 纯色边框检测、历史帧平均、偏移和容差、手动裁切、画面填充、新视频重置裁切 |
-| 页面 | 导航和内容玻璃、图像透明度、文字和面板阴影、灰度底色、明暗配色、推荐独立滚动、隐藏滚动条 |
+| 页面 | 评论区额外柔化、导航和内容玻璃、图像透明度、文字和面板阴影、灰度底色、明暗配色、推荐独立滚动、隐藏滚动条 |
 | 全站 | 全站玻璃开关、固定静态背景、最近视频配色、跨标签页颜色传播、可见视频预览实时取色 |
 | 播放器 | 普通 / 宽屏 / 全屏画面缩放、播放器阴影、启用视图选择、宽屏沉浸模式 |
 | 特殊画面 | HDR 背景滤镜、VR / 360 画布接入、画中画期间继续背景、嵌入播放器开关 |
@@ -43,7 +43,7 @@
 
 “页面与玻璃”中的“全站玻璃主题”控制非播放页面的效果，“视频预览实时取色”控制预览接入。页面结构通过共享样式和分批 DOM 检查接入，新增卡片与弹层自动更新。封面、二维码、验证控件和播放器画面保持独立显示。
 
-滚动小窗继续播放时，背景保留原播放器的投影位置。普通全屏和网页全屏随播放器尺寸调整，背景与设置菜单挂载到全屏容器。关闭效果后恢复页面配色和视频显示。
+播放器逐渐滚出视口时，背景在 180 ms 内平滑增加柔化，默认额外增加 120 px；回到播放器时恢复。滚动小窗继续播放时，背景保留原播放器的投影位置并进入阅读柔化状态。评论文字、头像和视频前景保持清晰。“页面与玻璃”中的“评论区额外柔化”可调节强度，设为 0 可关闭。普通全屏和网页全屏随播放器尺寸调整，背景与设置菜单挂载到全屏容器。关闭效果后恢复页面配色和视频显示。
 
 | 默认按键 | 操作 |
 | --- | --- |
@@ -81,10 +81,11 @@ npm run test:advanced
 npm run test:site
 npm run test:transitions
 npm run test:performance
+npm run test:motion
 ./tools/package.ps1
 ```
 
-测试结果保存在 `test-results`。高级检查可通过 `BILI_TEST_CHECK` 环境变量指定名称片段。`BILI_TEST_BROWSER` 可指定测试 Chromium，`BILI_TEST_MODULES` 可指定已有 Playwright 模块目录，`BILI_TEST_RESULTS` 可指定结果目录。
+测试结果保存在 `test-results`。高级检查可通过 `BILI_TEST_CHECK` 环境变量指定名称片段。`BILI_TEST_BROWSER` 可指定测试 Chromium，`BILI_TEST_MODULES` 可指定已有 Playwright 模块目录，`BILI_TEST_RESULTS` 可指定结果目录。`test:motion` 同时测量显示节奏、实际 GPU 输出的跟色响应和滚动柔化。设置 `BILI_TEST_GPU=low-power` 可请求低功耗 GPU；运动检查还支持 `high-performance`。GPU 类型以结果中的实际渲染器为准。提供 `BILI_TEST_MEDIA` 指向 1080P/60 FPS WebM 文件时，额外运行两个 12 秒解码场景；输入生成方法见性能报告。
 
 打包脚本生成安装包、源码包和 SHA-256 校验文件，核对版本、依赖和运行文件哈希。功能与像素检查见 [验证报告](验证报告.md)，基准方法和原始数据见 [性能报告](性能报告.md)。
 
@@ -98,7 +99,7 @@ benchmarks/   性能基准原始记录
 
 ## 实现与来源
 
-内容脚本寻找当前主播放器，通过 DOM、尺寸、播放和全屏事件接入视频节点与 VR 画布。帧缓冲完成裁切识别和时间处理；WebGL 着色器直接计算视口到源画面的投影，并处理自然鲜艳度、方向和去色带。GPU 上下文丢失时切换 Canvas 2D，恢复后重新启用 WebGL。
+内容脚本寻找当前主播放器，通过 DOM、尺寸、播放和全屏事件接入视频节点与 VR 画布。帧缓冲完成裁切识别和时间处理；WebGL 着色器直接计算视口到源画面的投影，并处理自然鲜艳度、方向和去色带。默认即时跟色路径直接上传视频纹理；GPU 投影后执行水平、垂直两次高斯模糊。启用背景柔化时，投影缓冲长边最多 256 px，源采样精度独立设置；关闭所有柔化后按配置使用完整投影精度。暂停滚动复用投影纹理并仅更新柔化。GPU 上下文丢失时切换 Canvas 2D，恢复后重新启用 WebGL。
 
 玻璃界面使用透明底色与 `backdrop-filter`，视频和弹幕保持独立前景。评论组件的开放 Shadow DOM 接入局部主题。文字配色使用周围背景亮度及滤镜参数，以滞回阈值避免频繁切换。
 

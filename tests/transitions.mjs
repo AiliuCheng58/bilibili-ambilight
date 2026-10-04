@@ -17,7 +17,7 @@ const fixture = await readFile(resolve(root, "tests/site-fixture.html"), "utf8")
 const context = await playwright.chromium.launchPersistentContext(resolve(results, "profile"), {
   headless: true, channel: "chromium", executablePath: process.env.BILI_TEST_BROWSER || undefined,
   viewport: { width: 1280, height: 900 },
-  args: [`--disable-extensions-except=${resolve(root, "dist")}`, `--load-extension=${resolve(root, "dist")}`, "--autoplay-policy=no-user-gesture-required"]
+  args: [`--disable-extensions-except=${resolve(root, "dist")}`, `--load-extension=${resolve(root, "dist")}`, "--autoplay-policy=no-user-gesture-required", ...(process.env.BILI_TEST_GPU === "low-power" ? ["--force_low_power_gpu"] : [])]
 });
 const checks = [], errors = [], samples = {};
 try {
@@ -51,7 +51,9 @@ try {
   const finish = selector => page.locator(selector).evaluate(element => element.getAnimations()[0]?.finish());
   const check = async (name, action) => { await action(); checks.push(name); console.log("PASS " + name); };
   await set({ brightness: 100, saturation: 100, contrast: 100, dim: 0 });
-  await palette([210, 70, 100]); await page.waitForTimeout(500);
+  await palette([210, 70, 100]);
+  await page.waitForFunction(() => document.querySelector('.bili-ambient-site-field')?.style.background.includes('210, 70, 100'));
+  await page.locator('.bili-ambient-site-previous').waitFor({state:'detached'});
   await check("palette changes preserve the outgoing colors and interpolate the composited pixels", async () => {
     samples.before = await sample();
     await palette([50, 110, 210]);

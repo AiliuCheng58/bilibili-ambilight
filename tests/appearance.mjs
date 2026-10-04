@@ -18,7 +18,7 @@ const fixture = await readFile(resolve(root, "tests/fixture.html"), "utf8");
 const context = await playwright.chromium.launchPersistentContext(resolve(resultsDir, "profile"), {
   headless: true, channel: "chromium", executablePath: process.env.BILI_TEST_BROWSER || undefined,
   viewport: { width: 1280, height: 900 },
-  args: [`--disable-extensions-except=${extension}`, `--load-extension=${extension}`, "--autoplay-policy=no-user-gesture-required"]
+  args: [`--disable-extensions-except=${extension}`, `--load-extension=${extension}`, "--autoplay-policy=no-user-gesture-required", ...(process.env.BILI_TEST_GPU === "low-power" ? ["--force_low_power_gpu"] : [])]
 });
 const checks = [];
 try {

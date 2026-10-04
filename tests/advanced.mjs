@@ -14,7 +14,7 @@ await mkdir(results,{recursive:true});
 const fixture=await readFile(resolve(root,"tests/fixture.html"),"utf8");
 const context=await playwright.chromium.launchPersistentContext(resolve(results,"profile"),{
   headless:true,channel:"chromium",executablePath:process.env.BILI_TEST_BROWSER || undefined,
-  viewport:{width:1280,height:900},args:[`--disable-extensions-except=${extension}`,`--load-extension=${extension}`,"--autoplay-policy=no-user-gesture-required"]
+  viewport:{width:1280,height:900},args:[`--disable-extensions-except=${extension}`,`--load-extension=${extension}`,"--autoplay-policy=no-user-gesture-required", ...(process.env.BILI_TEST_GPU === "low-power" ? ["--force_low_power_gpu"] : [])]
 });
 // Decode Chromium screenshot pixels to verify the composited output, including GPU rendering.
 function averagePNG(buffer,area){
@@ -153,8 +153,11 @@ try {
     assert.equal((await status()).framesRendered,before.framesRendered);await page.locator("video").evaluate(v=>v.play());
   });
   await check("resolution scaling changes the real render buffers",async()=>{
+    const original=(await status()).settings;
     await set({resolution:200});await page.waitForFunction(()=>document.querySelector(".bili-ambient-frame").width===320);
-    assert.equal(await page.locator(".bili-ambient-output").evaluate(c=>c.width),320);await set({resolution:100});
+    assert.equal(await page.locator(".bili-ambient-output").evaluate(c=>c.width),256);
+    await set({blur:0,readingBlur:0});await page.waitForFunction(()=>document.querySelector(".bili-ambient-output").width===320);
+    await set({resolution:100,blur:original.blur,readingBlur:original.readingBlur});
   });
   await check("video synchronization, noise and graphics workarounds restore the native player",async()=>{
     await set({videoOverlayEnabled:true,videoDebandingStrength:50,chromiumBugVideoJitterWorkaround:true,chromiumDirectVideoOverlayWorkaround:true});
@@ -250,6 +253,8 @@ try {
     await set({frameBlending:true,frameBlendingSmoothness:100,frameSync:0,smoothing:0,fps:60});
     await page.evaluate(async()=>{const c=document.createElement("canvas");c.width=64;c.height=36;const ctx=c.getContext("2d");ctx.fillStyle="#ff0000";ctx.fillRect(0,0,64,36);window.blendTestCanvas=c;const v=document.querySelector("video");v.srcObject.getTracks().forEach(t=>t.stop());v.srcObject=c.captureStream(6);await v.play();});
     await page.waitForFunction(()=>{const c=document.querySelector(".bili-ambient-frame");return c.getContext("2d").getImageData(0,0,1,1).data[0]>240;});
+    // Establish a six-FPS source interval before measuring the color transition.
+    await page.waitForTimeout(200);
     const samples=await page.evaluate(()=>new Promise(resolve=>{const c=window.blendTestCanvas,ctx=c.getContext("2d");ctx.fillStyle="#0000ff";ctx.fillRect(0,0,64,36);document.querySelector("video").srcObject.getVideoTracks()[0].requestFrame();const start=performance.now(),samples=[];function read(){const frame=document.querySelector(".bili-ambient-frame");samples.push(Array.from(frame.getContext("2d").getImageData(0,0,1,1).data));if(performance.now()-start>700)resolve(samples);else requestAnimationFrame(read);}requestAnimationFrame(read);}));
     const source=await page.locator("video").evaluate(v=>{const c=document.createElement("canvas");c.width=c.height=1;const ctx=c.getContext("2d");ctx.drawImage(v,0,0,1,1);return {pixels:Array.from(ctx.getImageData(0,0,1,1).data),quality:v.getVideoPlaybackQuality(),paused:v.paused,currentTime:v.currentTime};});
     assert.ok(samples.some(rgb=>rgb[0]>20 && rgb[2]>20),JSON.stringify({samples,source,status:await status()}));assert.ok(samples.at(-1)[2]>240 && samples.at(-1)[0]<5);

@@ -60,6 +60,12 @@
   let detail = "等待 Bilibili 播放器";
   let lastGeometry = "";
   let lastMask = "";
+  let readingId = null;
+  let readingProgress = 0;
+  let readingTarget = 0;
+  let readingFrom = 0;
+  let readingStarted = 0;
+  let colorFilter = "";
   const resizeObserver = new ResizeObserver(queueLayout);
   const ancestorObserver = new MutationObserver(queueLayout);
 
@@ -143,6 +149,7 @@
   }
   function hide(next, message) {
     visible = false;
+    cancelReading();
     setLayerVisible(false, true);
     theme.disable();
     site.hide();
@@ -156,6 +163,7 @@
     if (!settings.siteThemeEnabled) return hide("waiting", "等待 Bilibili 播放器");
     if (!video && state === "site" && theme.enabled && theme.settings === settings && site.host?.isConnected) return;
     visible = false;
+    cancelReading();
     setLayerVisible(false);
     cancelFrame();
     videoEffects.suspend();
@@ -173,6 +181,35 @@
   function fail(message) {
     failures = 3;
     hide("error", message);
+  }
+  function cancelReading() {
+    if (readingId !== null) cancelAnimationFrame(readingId);
+    readingId = null;
+  }
+  function backgroundBlur() { return settings.blur + settings.readingBlur * readingProgress; }
+  function paintReading() {
+    if (!canvas || !viewport) return;
+    canvas.style.filter = `blur(${backgroundBlur()}px) ${colorFilter}`;
+    if (renderer.available(settings)) renderer.reblur(backgroundBlur(), viewport);
+  }
+  function animateReading(now) {
+    readingId = null;
+    if (!visible || stopped || document.hidden) return;
+    const t = Math.max(0, Math.min(1, (now - readingStarted) / 180));
+    readingProgress = readingFrom + (readingTarget - readingFrom) * (1 - Math.pow(1 - t, 3));
+    paintReading();
+    if (t < 1) readingId = requestAnimationFrame(animateReading);
+  }
+  function updateReading(projection, floating) {
+    const occlusion = (Math.min(96, innerHeight * .08) - projection.top) / Math.max(1, projection.height);
+    const t = Math.max(0, Math.min(1, (occlusion - .15) / .8));
+    const target = !settings.readingBlur || mode === "FULLSCREEN" || !config.isPlaybackPage(location.href) ? 0 : floating ? 1 : t * t * (3 - 2 * t);
+    if (!visible || matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      cancelReading();readingProgress = readingTarget = target;paintReading();return;
+    }
+    if (target === readingTarget && (readingId !== null || readingProgress === target)) return;
+    readingFrom = readingProgress;readingTarget = target;readingStarted = performance.now();
+    if (readingId === null) readingId = requestAnimationFrame(animateReading);
   }
   function updateLayout() {
     layoutId = null;
@@ -241,17 +278,20 @@
       lastGeometry = geometry;
     }
     // Overscan keeps blur from exposing an unpainted band at the viewport boundary.
-    const bleed = settings.blur * 3;
+    const bleed = (settings.blur + settings.readingBlur) * 3;
     viewport = { left: -bleed, top: -bleed, width: innerWidth + bleed * 2, height: innerHeight + bleed * 2 };
     const brightness=Math.max(0,settings.brightness+(isHDR?settings.hdrBrightness-100:0)),contrast=Math.max(0,settings.contrast+(isHDR?settings.hdrContrast-100:0)),saturation=Math.max(0,settings.saturation+(isHDR?settings.hdrSaturation-100:0));
     effectBrightness=brightness;effectContrast=contrast;
+    colorFilter = `saturate(${saturation}%) brightness(${brightness}%) contrast(${contrast}%)`;
     const backgroundStyle = {
       left: `${-bleed}px`, top: `${-bleed}px`,
       width: `${innerWidth + bleed * 2}px`, height: `${innerHeight + bleed * 2}px`,
-      filter: `blur(${settings.blur}px) saturate(${saturation}%) brightness(${brightness}%) contrast(${contrast}%)`
+      filter: colorFilter
     };
     Object.assign(canvas.style, backgroundStyle);
     Object.assign(renderer.canvas.style, backgroundStyle);
+    updateReading(projection, floating);
+    canvas.style.filter = `blur(${backgroundBlur()}px) ${colorFilter}`;
     host.style.setProperty("--bili-ambient-base", `rgb(${Array(3).fill(Math.round(settings.pageBackgroundGreyness*2.55)).join(",")})`);
     edgeCanvas.style.filter = `blur(${Math.max(0, settings.blur * .6)}px) saturate(${saturation}%) contrast(${contrast}%)`;
     const maskKey=[width,height,spread,settings.spreadFadeStart,settings.spreadFadeCurve,settings.directionTopEnabled,settings.directionRightEnabled,settings.directionBottomEnabled,settings.directionLeftEnabled].join(",");
@@ -351,7 +391,8 @@
         const adjusted=Math.max(0,Math.min(1,(luminance*effectBrightness/100-.5)*effectContrast/100+.5));
         theme.setLuminance(adjusted*(1-settings.dim/100)+settings.pageBackgroundGreyness/100*settings.dim/100);
       }
-      rendererName = renderer.draw(frame,canvas,crop,anchor,viewport,settings,now) ? "WebGL" : "Canvas 2D";
+      rendererName = renderer.draw(frame,canvas,crop,anchor,viewport,settings,now,backgroundBlur(),frameAlpha===1 && !settings.frameBlending?mediaSource:null) ? "WebGL" : "Canvas 2D";
+      canvas.style.visibility = rendererName === "WebGL" ? "hidden" : "visible";
       if(rendererName === "Canvas 2D"){
         if(!projected)globalThis.BiliAmbientProjection.extendFrame(ctx, frame, anchor, viewport, crop, settings);
         globalThis.BiliAmbientProjection.fallbackFilters(ctx,anchor,viewport,settings,now);
@@ -371,7 +412,7 @@
       failures = 0;
       lastFrame = now;
       framesRendered++;
-      stats.draw(now,performance.now()-drawStart,frame,canvas,crop,settings,rendererName,video);
+      stats.draw(now,performance.now()-drawStart,frame,rendererName === "WebGL" ? renderer.canvas : canvas,crop,settings,rendererName,video);
       // Preserve the sampling deadline when source FPS is not a multiple of the cap.
       const interval = 1000 / Math.min(settings.fps || Infinity, energyFps);
       nextFrameAt = force || !Number.isFinite(nextFrameAt) ? now + interval : Math.max(now, nextFrameAt + interval);
@@ -414,6 +455,7 @@
   function detachVideo() {
     site.save();
     cancelFrame();
+    cancelReading();readingProgress = readingTarget = 0;
     mediaAbort?.abort();
     mediaAbort = null;
     resizeObserver.disconnect();
@@ -524,6 +566,7 @@
     if (!Object.keys(patch).length) return;
     const previouslyEnabled = settings.enabled;
     settings = config.normalize({ ...settings, ...patch });
+    nextFrameAt = -Infinity;
     projectionDirty = true;
     blender.reset();
     menu.setSettings(settings);

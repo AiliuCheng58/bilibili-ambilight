@@ -8,17 +8,17 @@
     spread: 100,
     blur: 42,
     saturation: 110,
-    smoothing: 70,
+    smoothing: 0,
     dim: 8,
     glassOpacity: 8,
     glassBlur: 24,
-    fps: 24,
+    fps: 0,
     quality: 160,
     webGL: true, contrast: 100, vibrance: 100, debandingStrength: 0, debandingBlendMode: 0,
     edge: 2.5, spreadFadeStart: 15, spreadFadeCurve: 35,
     directionTopEnabled: true, directionRightEnabled: true, directionBottomEnabled: true, directionLeftEnabled: true,
     frameFading: 0, flickerReduction: 0, frameBlending: false, frameBlendingSmoothness: 80,
-    frameSync: 2, energySaver: false, fixedPosition: true,
+    frameSync: 1, energySaver: false, fixedPosition: true, readingBlur: 120,
     detectHorizontalBarSizeEnabled: true, detectVerticalBarSizeEnabled: true, detectColoredHorizontalBarSizeEnabled: false,
     detectHorizontalBarSizeOffsetPercentage: 0, barSizeDetectionAverageHistorySize: 4,
     barSizeDetectionAllowedElementsPercentage: 20, barSizeDetectionAllowedUnevenBarsPercentage: 10,
@@ -44,7 +44,7 @@
     glassOpacity: [0, 100], glassBlur: [0, 40],
     fps: [0, 60], quality: [64, 640], contrast: [0,200], vibrance: [0,200], debandingStrength: [0,100], debandingBlendMode: [0,1],
     edge: [1,25,.1], spreadFadeStart: [-50,100,.1], spreadFadeCurve: [1,100],
-    frameFading: [0,15000], flickerReduction: [0,100], frameBlendingSmoothness: [0,100], frameSync: [0,2],
+    frameFading: [0,15000], flickerReduction: [0,100], frameBlendingSmoothness: [0,100], frameSync: [0,2], readingBlur: [0,240],
     detectHorizontalBarSizeOffsetPercentage: [-5,5,.1], barSizeDetectionAverageHistorySize: [1,30],
     barSizeDetectionAllowedElementsPercentage: [10,90], barSizeDetectionAllowedUnevenBarsPercentage: [1,50],
     horizontalBarsClipPercentage: [0,40,.1], verticalBarsClipPercentage: [0,40,.1],
@@ -96,9 +96,17 @@
   }
   async function load(storage) {
     const values = await storage.get(null);
-    if (values.appearanceVersion === 3) return normalize(values);
+    if (values.appearanceVersion === 4) return normalize(values);
+    if (values.appearanceVersion === 3) {
+      const migrated = normalize(values);
+      if (values.fps === 24 && values.smoothing === 70 && values.frameSync === 2 && !values.frameBlending && !values.frameFading) {
+        Object.assign(migrated, { fps: defaults.fps, smoothing: defaults.smoothing, frameSync: defaults.frameSync });
+      }
+      await storage.set({ ...migrated, appearanceVersion: 4 });
+      return migrated;
+    }
     const migrated = normalize({ enabled: values.enabled, fps: values.fps, quality: values.quality });
-    await storage.set({ ...migrated, appearanceVersion: 3 });
+    await storage.set({ ...migrated, appearanceVersion: 4 });
     return migrated;
   }
   function viewAllowed(mode, selection) {
