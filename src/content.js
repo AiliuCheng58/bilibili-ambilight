@@ -47,6 +47,7 @@
   let sampleLuminance = null;
   let decodedFrame = -1;
   let sampledFrame = null;
+  let canReadFrameTime = true;
   let sampleRevision = 0;
   let framesRendered = 0;
   let lastInspection = -Infinity;
@@ -355,13 +356,21 @@
   function queueLayout() {
     if (!stopped && layoutId === null) layoutId = requestAnimationFrame(updateLayout);
   }
-  function draw(now, force = false) {
+  function readVideoFrameKey() {
+    // Frame timestamps and presentation counters can advance on different browser callbacks.
+    const presented=video.getVideoPlaybackQuality?.().totalVideoFrames ?? null;
+    if(canReadFrameTime && typeof VideoFrame === "function"){
+      try{const snapshot=new VideoFrame(video),timestamp=snapshot.timestamp;snapshot.close();return `${timestamp}:${presented}`;}
+      catch{canReadFrameTime=false;}
+    }
+    return presented;
+  }
+  function draw(now, force = false, frameTime) {
     if (!visible || !ctx || video.readyState < 2) return;
     if (!force && now < nextFrameAt - 1) return;
     try {
       const drawStart = performance.now();
-      const quality = mediaSource === video ? video.getVideoPlaybackQuality?.() : null;
-      const presentedFrame = quality ? quality.totalVideoFrames : null;
+      const presentedFrame = mediaSource === video && playerVisible ? frameTime ?? readVideoFrameKey() : null;
       const temporal = settings.smoothing || settings.frameFading || settings.flickerReduction || settings.frameBlending;
       // Display refreshes can outnumber video frames. Temporal effects and mutable VR canvases still sample every draw.
       // Chromium can defer offscreen frame counters until a draw requests the current video pixels.
@@ -469,8 +478,9 @@
     frameKind = null;
     if (!video?.isConnected) { discover(); return; }
     if (!visible || !settings.enabled || document.hidden || ((video.paused || video.ended) && mediaSource===video)) return;
-    if(settings.frameSync===0 && !settings.frameBlending && mediaSource===video){const decoded=video.getVideoPlaybackQuality?.().totalVideoFrames ?? video.currentTime;if(decoded===decodedFrame){scheduleFrame();return;}decodedFrame=decoded;}
-    draw(now);
+    let frameTime;
+    if(settings.frameSync===0 && !settings.frameBlending && mediaSource===video && playerVisible){frameTime=readVideoFrameKey() ?? video.currentTime;if(frameTime===decodedFrame){scheduleFrame();return;}decodedFrame=frameTime;}
+    draw(now,false,frameTime);
     scheduleFrame();
   }
   function scheduleFrame() {
@@ -487,6 +497,7 @@
     renderer?.retry();
     failures = 0;
     fresh = true;
+    canReadFrameTime = true;
     lastFrame = -Infinity;
     nextFrameAt = -Infinity;
     detector.reset();
@@ -505,6 +516,7 @@
     video?.style.removeProperty("--bili-ambient-video-clip");
     video?.style.removeProperty("--bili-ambient-video-fill");
     video = null;
+    canReadFrameTime = true;
     mediaSource = null;
     renderer?.releaseSource();
     inspector.dispose();

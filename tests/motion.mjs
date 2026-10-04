@@ -47,7 +47,7 @@ try {
   for (const id of worlds.keys()) { world = id; if (await evaluate("typeof BiliAmbientRenderer === 'function'")) break; }
   assert.equal(await evaluate("typeof BiliAmbientRenderer"), "function");
   const set = values => worker.evaluate(values => chrome.storage.local.set(values), values);
-  const check = async (name, action) => { await action(); checks.push(name); console.log("PASS " + name); };
+  const check = async (name, action) => { if(process.env.BILI_TEST_CHECK && !name.includes(process.env.BILI_TEST_CHECK))return;await action(); checks.push(name); console.log("PASS " + name); };
   const blur = () => page.locator(".bili-ambient-background").evaluate(c => Number(c.style.filter.match(/blur\(([\d.]+)px\)/)[1]));
   measurements.gpu = await page.locator('.bili-ambient-output').evaluate(c => {
     const gl=c.getContext('webgl'), extension=gl.getExtension('WEBGL_debug_renderer_info');
@@ -100,12 +100,12 @@ try {
     };
   })()`);
   const displayCadence = (duration = 2200) => page.evaluate(duration => new Promise(resolve => {
-      const video = document.querySelector('video'), start = performance.now(), before = video.getVideoPlaybackQuality().totalVideoFrames;
+      const video = document.querySelector('video'), start = performance.now(), before = video.getVideoPlaybackQuality();
       const times = [];
       const tick = now => {
         times.push(now);
         if(now-start<duration) requestAnimationFrame(tick);
-        else resolve({ times, videoFrames: video.getVideoPlaybackQuality().totalVideoFrames-before, elapsed: now-start });
+        else {const after=video.getVideoPlaybackQuality();resolve({ times, videoFrames: after.totalVideoFrames-before.totalVideoFrames, droppedFrames:after.droppedVideoFrames-before.droppedVideoFrames, elapsed: now-start });}
       };
       requestAnimationFrame(tick);
   }), duration);
@@ -141,6 +141,34 @@ try {
     assert.ok(decoded && projected, JSON.stringify(colors));
     measurements.decodedToAmbientMs = Math.max(0, projected.time-decoded.time);
     assert.ok(measurements.decodedToAmbientMs <= 34, JSON.stringify(colors));
+  });
+  await check("new video colors remain current while the playback quality counter lags",async()=>{
+    for(const frameSync of [1,0]){
+      await set({frameSync});
+      await page.evaluate(()=>{window.sceneColor='#ff0000';});await page.waitForTimeout(350);
+      await evaluate("motion.phase='color';motion.colors=[];motion.quality=HTMLVideoElement.prototype.getVideoPlaybackQuality;motion.frozenQuality=motion.quality.call(document.querySelector('video'));HTMLVideoElement.prototype.getVideoPlaybackQuality=()=>motion.frozenQuality");
+      await page.waitForTimeout(50);await page.evaluate(()=>{window.sceneColor='#0000ff';});await page.waitForTimeout(200);
+      const colors=await evaluate("motion.phase='';HTMLVideoElement.prototype.getVideoPlaybackQuality=motion.quality;motion.colors");
+      const blue=pixel=>pixel[2]>220 && pixel[0]<20;
+      const decoded=colors.find(frame=>blue(frame.video)),projected=colors.find(frame=>blue(frame.light));
+      assert.ok(decoded && projected && projected.time-decoded.time<=34,JSON.stringify({frameSync,colors}));
+    }
+    await set({frameSync:1});
+  });
+  await check("video frame timestamp fallback preserves color updates without repeated errors",async()=>{
+    await evaluate("motion.VideoFrame=VideoFrame;motion.frameTimeErrors=0");
+    for(const unavailable of [true,false]){
+      await evaluate(unavailable?"globalThis.VideoFrame=undefined":"globalThis.VideoFrame=class{constructor(){motion.frameTimeErrors++;throw new DOMException('','SecurityError');}}");
+      await page.locator('video').evaluate(v=>v.dispatchEvent(new Event('seeked')));
+      await page.evaluate(()=>{window.sceneMode='solid';window.sceneColor='#ff0000';});await page.waitForTimeout(350);
+      await evaluate("motion.phase='color';motion.colors=[]");
+      await page.evaluate(()=>{window.sceneColor='#0000ff';});await page.waitForTimeout(200);
+      const colors=await evaluate("motion.phase='';motion.colors");
+      assert.ok(colors.some(frame=>frame.video[2]>220 && frame.light[2]>220 && frame.light[0]<20),JSON.stringify(colors));
+    }
+    assert.equal(await evaluate("motion.frameTimeErrors"),1);
+    await evaluate("globalThis.VideoFrame=motion.VideoFrame");
+    await page.locator('video').evaluate(v=>v.dispatchEvent(new Event('seeked')));
   });
   await check("slow video frames are uploaded once while ambient rendering follows the display", async () => {
     await page.evaluate(async()=>{
@@ -246,11 +274,11 @@ try {
         await page.waitForTimeout(500);await evaluate("motion.phase='fps';motion.frames=[];motion.uploads=0;motion.samples=0;motion.readbacks=0");
         const display=await displayCadence(12000),frames=await evaluate("motion.phase='';motion.frames");
         const intervals=frames.slice(1).map((frame,i)=>frame.time-frames[i].time).sort((a,b)=>a-b);
-        const measured={elapsed:display.elapsed,fps:frames.length*1000/display.elapsed,displayFPS:display.times.length*1000/display.elapsed,sourceFPS:display.videoFrames*1000/display.elapsed,p95FrameIntervalMs:intervals[Math.floor(intervals.length*.95)],maxFrameIntervalMs:intervals.at(-1)};
+        const measured={elapsed:display.elapsed,fps:frames.length*1000/display.elapsed,displayFPS:display.times.length*1000/display.elapsed,sourceFPS:display.videoFrames*1000/display.elapsed,droppedFrames:display.droppedFrames,p95FrameIntervalMs:intervals[Math.floor(intervals.length*.95)],maxFrameIntervalMs:intervals.at(-1)};
         Object.assign(measured,{withoutEffect},await evaluate("({uploads:motion.uploads,samples:motion.samples,readbacks:motion.readbacks})"));
         measurements.encoded[name]=measured;
         assert.ok(measured.fps>=55 && measured.sourceFPS>=55 && measured.p95FrameIntervalMs<=34,JSON.stringify(measured));
-        assert.ok(measured.uploads>=display.videoFrames*.9,JSON.stringify(measured));
+        assert.ok(measured.uploads>=(display.videoFrames-display.droppedFrames)*.9,JSON.stringify(measured));
         assert.equal(measured.readbacks,0,JSON.stringify(measured));
       });
     }

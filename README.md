@@ -1,12 +1,12 @@
-# Bili Ambient 1.7.2 · B站氛围光（预发布）
+# Bili Ambient 1.7.3 · B站氛围光（预发布）
 
 适用于 Chrome / Edge 的 Manifest V3 扩展。Bilibili 主站及所有子域名共享全页氛围背景和玻璃主题，覆盖首页、搜索、分区、动态、个人空间、专栏、直播与播放页。视频播放时通过 WebGL 多层投影铺满视口，滚动时保留原播放器的投影位置；静态页面沿用最近视频的色彩。
 
-[公开源码](https://github.com/AiliuCheng58/bilibili-ambilight) · [下载 1.7.2 预发布版](https://github.com/AiliuCheng58/bilibili-ambilight/releases/tag/v1.7.2) · [反馈问题](https://github.com/AiliuCheng58/bilibili-ambilight/issues) · [MIT 许可](LICENSE)
+[公开源码](https://github.com/AiliuCheng58/bilibili-ambilight) · [下载 1.7.3 预发布版](https://github.com/AiliuCheng58/bilibili-ambilight/releases/tag/v1.7.3) · [反馈问题](https://github.com/AiliuCheng58/bilibili-ambilight/issues) · [MIT 许可](LICENSE)
 
 ## 安装和更新
 
-1. 下载并解压 [bilibili-ambilight-v1.7.2.zip](https://github.com/AiliuCheng58/bilibili-ambilight/releases/download/v1.7.2/bilibili-ambilight-v1.7.2.zip)。
+1. 下载并解压 [bilibili-ambilight-v1.7.3.zip](https://github.com/AiliuCheng58/bilibili-ambilight/releases/download/v1.7.3/bilibili-ambilight-v1.7.3.zip)。
 2. Chrome 打开 `chrome://extensions/`；Edge 打开 `edge://extensions/`。
 3. 开启“开发者模式”，点击“加载已解压的扩展程序”。
 4. 选择直接包含 `manifest.json` 的 `bilibili-ambilight` 文件夹。
@@ -103,7 +103,7 @@ benchmarks/   性能基准原始记录
 
 玻璃界面使用透明底色与 `backdrop-filter`，视频和弹幕保持独立前景。评论组件的开放 Shadow DOM 接入局部主题。文字配色使用周围背景亮度及滤镜参数，以滞回阈值避免频繁切换。
 
-可见播放器的重复显示帧复用视频纹理；播放器滚出视口后继续主动取帧，使背景跟随当前画面。像素检测通过 Worker 与 OffscreenCanvas 低频执行，裁切、周围亮度与页面配色共用返回的像素数组，GPU 供光画布保持独立。首次接入、跳转进度和设置变化也通过后台检测更新；过期结果会触发重新检测。暂停时接收检测结果后更新一次，随后保持空闲。后台检测不可用时自动使用同步检测。时间混合缓冲请求 16 位浮点色彩，以保留高刷新率下的小幅渐变。
+可见播放器结合当前视频帧的时间戳与呈现计数识别新画面，两个指标均未改变时复用纹理；播放器滚出视口后继续主动取帧，使背景跟随当前画面。帧时间戳不可访问时采用呈现计数。像素检测通过 Worker 与 OffscreenCanvas 低频执行，裁切、周围亮度与页面配色共用返回的像素数组，GPU 供光画布保持独立。首次接入、跳转进度和设置变化也通过后台检测更新；过期结果会触发重新检测。暂停时接收检测结果后更新一次，随后保持空闲。后台检测不可用时自动使用同步检测。时间混合缓冲请求 16 位浮点色彩，以保留高刷新率下的小幅渐变。
 
 全站主题通过 `site.js` 与 `site.css` 管理固定背景、配色和通用表面。中性容器与文字按批次检查，品牌色与媒体内容保留原有配色；关闭效果时清理主题标记。使用 Navigation 事件和路由轮询接入单页导航，DOM 与媒体事件处理播放器的异步出现与替换。
 
