@@ -49,6 +49,32 @@ html[data-bili-ambient] :is(input:not([type="checkbox"]):not([type="radio"]):not
 }
 html[data-bili-ambient] :is(input,textarea)::placeholder { color: var(--bili-ambient-text3) !important; }
 html[data-bili-ambient] :is(.bili-video-card,.bili-dyn-item,.space-card,.search-content,.article-content) img { opacity: var(--bili-ambient-content-images,1); }
+/* Message surfaces consume both solid colors and RGB channels; keep them on the same reading palette. */
+html[data-bili-ambient] .message-layout {
+  --bg1: #202530 !important;
+  --bg1_rgb: 32,37,48 !important;
+  --bg2: #1a1f2b !important;
+  --bg3: #29303d !important;
+  --bg1_float: #202530 !important;
+  --bg1_float_rgb: 32,37,48 !important;
+  text-shadow: none !important;
+}
+html[data-bili-ambient][data-bili-ambient-tone="light"] .message-layout {
+  --bg1: #fff !important;
+  --bg1_rgb: 255,255,255 !important;
+  --bg2: #f1f2f3 !important;
+  --bg3: #f6f7f8 !important;
+  --bg1_float: #fff !important;
+  --bg1_float_rgb: 255,255,255 !important;
+  --line_regular: rgba(29,35,50,.16) !important;
+  --line_light: rgba(29,35,50,.1) !important;
+  --line_bold: rgba(29,35,50,.24) !important;
+}
+html[data-bili-ambient] .message-layout :is(.message-aside,.message-main) {
+  background-color: rgba(var(--bg1_rgb),.92) !important;
+  backdrop-filter: blur(var(--bili-ambient-glass-blur,24px)) !important;
+  -webkit-backdrop-filter: blur(var(--bili-ambient-glass-blur,24px)) !important;
+}
 .bili-ambient-settings-button[data-site="true"] {
   position: fixed !important;
   inset: auto 16px 24px auto !important;

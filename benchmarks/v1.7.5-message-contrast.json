@@ -1,0 +1,182 @@
+[
+  {
+    "name": "auto-dark",
+    "role": "primary",
+    "ink": [
+      29,
+      35,
+      50
+    ],
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "contrast": 15.68671130025631
+  },
+  {
+    "name": "auto-dark",
+    "role": "secondary",
+    "ink": [
+      65,
+      76,
+      96
+    ],
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "contrast": 8.651069014958484
+  },
+  {
+    "name": "auto-dark",
+    "role": "tertiary",
+    "ink": [
+      88,
+      102,
+      125
+    ],
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "contrast": 5.814559466401278
+  },
+  {
+    "name": "auto-light",
+    "role": "primary",
+    "ink": [
+      29,
+      35,
+      50
+    ],
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "contrast": 15.68671130025631
+  },
+  {
+    "name": "auto-light",
+    "role": "secondary",
+    "ink": [
+      65,
+      76,
+      96
+    ],
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "contrast": 8.651069014958484
+  },
+  {
+    "name": "auto-light",
+    "role": "tertiary",
+    "ink": [
+      88,
+      102,
+      125
+    ],
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "contrast": 5.814559466401278
+  },
+  {
+    "name": "forced-dark",
+    "role": "primary",
+    "ink": [
+      244,
+      245,
+      248
+    ],
+    "background": [
+      32,
+      37,
+      48
+    ],
+    "contrast": 14.07374062779326
+  },
+  {
+    "name": "forced-dark",
+    "role": "secondary",
+    "ink": [
+      206,
+      210,
+      221
+    ],
+    "background": [
+      32,
+      37,
+      48
+    ],
+    "contrast": 10.146024400855019
+  },
+  {
+    "name": "forced-dark",
+    "role": "tertiary",
+    "ink": [
+      170,
+      178,
+      195
+    ],
+    "background": [
+      32,
+      37,
+      48
+    ],
+    "contrast": 7.20773857115363
+  },
+  {
+    "name": "forced-light",
+    "role": "primary",
+    "ink": [
+      29,
+      35,
+      50
+    ],
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "contrast": 15.68671130025631
+  },
+  {
+    "name": "forced-light",
+    "role": "secondary",
+    "ink": [
+      65,
+      76,
+      96
+    ],
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "contrast": 8.651069014958484
+  },
+  {
+    "name": "forced-light",
+    "role": "tertiary",
+    "ink": [
+      88,
+      102,
+      125
+    ],
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "contrast": 5.814559466401278
+  }
+]

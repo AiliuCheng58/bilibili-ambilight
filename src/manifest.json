@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Bili Ambient · B站氛围光",
-  "version": "1.7.4",
+  "version": "1.7.5",
   "description": "Bilibili 全站玻璃主题与视频氛围光，支持首页、搜索、动态、空间、直播及播放页。",
   "minimum_chrome_version": "109",
   "permissions": ["storage"],

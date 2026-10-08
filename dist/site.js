@@ -3,7 +3,7 @@
   const paletteKey = "sitePalette";
   const defaultPalette = [[42, 94, 128], [104, 69, 133], [37, 64, 91]];
   const attributes = ["data-bili-ambient-surface", "data-bili-ambient-ink"];
-  const excluded = '#bili-ambient-layer,#bili-ambient-site-backdrop,#bili-ambient-menu,.bili-ambient-settings-button,.bili-ambient-player,.bpx-player-container,.bilibili-player,.live-player-mounter,video,canvas,svg,iframe,.bili-banner,.bili-video-card__image,.cover,.pic,.picture,.avatar,.qr-code,[class*="qrcode"],[class*="captcha"],[class*="geetest"]';
+  const excluded = '#bili-ambient-layer,#bili-ambient-site-backdrop,#bili-ambient-menu,.bili-ambient-settings-button,.bili-ambient-player,.bpx-player-container,.bilibili-player,.live-player-mounter,.message-layout,video,canvas,svg,iframe,.bili-banner,.bili-video-card__image,.cover,.pic,.picture,.avatar,.qr-code,[class*="qrcode"],[class*="captcha"],[class*="geetest"]';
   const colors = value => value?.match(/[\d.]+/g)?.map(Number) || [];
   const neutral = rgba => rgba.length >= 3 && Math.max(...rgba.slice(0, 3)) - Math.min(...rgba.slice(0, 3)) < 36;
   const validPalette = value => Array.isArray(value) && value.length === 3 && value.every(c => Array.isArray(c) && c.length === 3 && c.every(n => Number.isInteger(n) && n >= 0 && n <= 255));

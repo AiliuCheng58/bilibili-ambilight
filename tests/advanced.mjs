@@ -12,6 +12,7 @@ catch(error) { if(!process.env.BILI_TEST_MODULES)throw error;playwright=createRe
 const extension=resolve(root,"dist"), results=resolve(process.env.BILI_TEST_RESULTS || resolve(root,"test-results/advanced"));
 await mkdir(results,{recursive:true});
 const fixture=await readFile(resolve(root,"tests/fixture.html"),"utf8");
+const messageFixture=await readFile(resolve(root,"tests/message-fixture.html"),"utf8");
 const context=await playwright.chromium.launchPersistentContext(resolve(results,"profile"),{
   headless:true,channel:"chromium",executablePath:process.env.BILI_TEST_BROWSER || undefined,
   viewport:{width:1280,height:900},args:[`--disable-extensions-except=${extension}`,`--load-extension=${extension}`,"--autoplay-policy=no-user-gesture-required", ...(process.env.BILI_TEST_GPU === "low-power" ? ["--force_low_power_gpu"] : [])]
@@ -39,6 +40,7 @@ try {
   await worker.evaluate(()=>chrome.storage.local.clear());
   await context.route("https://www.bilibili.com/**",r=>r.fulfill({contentType:"text/html",body:fixture}));
   await context.route("https://player.bilibili.com/**",r=>r.fulfill({contentType:"text/html",body:fixture}));
+  await context.route("https://message.bilibili.com/**",r=>r.fulfill({contentType:"text/html",body:messageFixture}));
   const liveFixture=fixture.replace('class="bili-header__bar"','class="link-navbar-ctnr"').replace('class="bpx-player-video-wrap"','class="live-player-mounter"').replace('<aside class="right-container">','<aside class="right-container"><section class="chat-history-panel" style="background:#f6f7f8"><div class="chat-items"><div class="chat-item"><span class="danmaku-item-right" style="color:#333">直播聊天验证</span></div></div></section>');
   await context.route("https://live.bilibili.com/**",r=>r.fulfill({contentType:"text/html",body:liveFixture}));
   const previousTabs=await worker.evaluate(async()=> (await chrome.tabs.query({})).map(t=>t.id));
@@ -136,6 +138,40 @@ try {
     }
     await page.locator('header').evaluate(e=>e.className='bili-header__bar');
     await page.locator('#glass-pattern').evaluate(e=>e.remove());await page.locator('#glass-popover').evaluate(e=>e.remove());
+  });
+  await check("message text retains reading contrast across bright and dark site palettes",async()=>{
+    const messages=await context.newPage();
+    try {
+      await messages.goto('https://message.bilibili.com/');
+      await messages.waitForFunction(()=>document.documentElement.hasAttribute('data-bili-ambient'));
+      const luminance=rgb=>rgb.map(v=>v/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4).reduce((sum,v,i)=>sum+v*[.2126,.7152,.0722][i],0);
+      const contrast=(a,b)=>{const x=luminance(a),y=luminance(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05);};
+      const measurements=[];
+      for(const [name,theme,tone,palette] of [['auto-dark',0,'dark',[[42,94,128],[104,69,133],[37,64,91]]],['auto-light',0,'light',[[250,240,250],[240,250,240],[250,250,240]]],['forced-dark',1,'dark',[[250,240,250],[240,250,240],[250,250,240]]],['forced-light',-1,'light',[[0,0,0],[0,0,0],[0,0,0]]]]) {
+        await set({theme,sitePalette:palette,glassBlur:40});
+        await messages.waitForFunction(tone=>document.documentElement.dataset.biliAmbientTone===tone,tone);
+        await messages.waitForTimeout(500);
+        const screen=await messages.screenshot({path:resolve(results,`message-${name}.png`)});
+        for(const [role,suffix] of [['primary',':not(.secondary):not(.tertiary)'],['secondary','.secondary'],['tertiary','.tertiary']]) {
+          const area=selector=>messages.locator(selector+suffix).boundingBox();
+          const ink=averagePNG(screen,await area('.contrast-probe'));
+          const background=averagePNG(screen,await area('.blank-probe'));
+          const ratio=contrast(ink,background);
+          measurements.push({name,role,ink,background,contrast:ratio});
+          assert.ok(ratio>=4.5,`${tone}${suffix}: reading contrast ${ratio.toFixed(2)} (${ink} / ${background})`);
+        }
+        const clear=await messages.locator('.reading-probe').evaluate(e=>{
+          const chain=[];for(let node=e;node&&node!==document.body;node=node.parentElement){const s=getComputedStyle(node);chain.push({filter:s.filter,backdrop:s.backdropFilter,shadow:s.textShadow});}return chain;
+        });
+        assert.ok(clear.every(s=>s.filter==='none'&&s.shadow==='none'),JSON.stringify(clear));
+        assert.equal(await messages.locator('.msg-text-is-me').evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(0, 174, 236)');
+        await messages.getByLabel('消息输入').fill('测试输入');
+        assert.equal(await messages.getByLabel('消息输入').inputValue(),'测试输入');
+      }
+      await writeFile(resolve(results,'message-contrast.json'),JSON.stringify(measurements,null,2));
+      await set({enabled:false});await messages.waitForFunction(()=>!document.documentElement.hasAttribute('data-bili-ambient'));
+      assert.equal(await messages.locator('.reading-probe').evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(255, 255, 255)');
+    } finally {await messages.close();await set({enabled:true,theme:0,glassBlur:24,sitePalette:[[42,94,128],[104,69,133],[37,64,91]]});}
   });
   await check("static-scene energy saving reduces actual draw calls",async()=>{
     await scene("solid","#885599");await set({energySaver:true});await page.waitForTimeout(3000);
