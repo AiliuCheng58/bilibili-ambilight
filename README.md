@@ -1,12 +1,12 @@
-# Bili Ambient 1.7.5 · B站氛围光（预发布）
+# Bili Ambient 1.7.6 · B站氛围光（预发布）
 
 适用于 Chrome / Edge 的 Manifest V3 扩展。Bilibili 主站及所有子域名共享全页氛围背景和玻璃主题，覆盖首页、搜索、分区、动态、个人空间、专栏、直播与播放页。视频播放时通过 WebGL 多层投影铺满视口，滚动时保留原播放器的投影位置；静态页面沿用最近视频的色彩。
 
-[公开源码](https://github.com/AiliuCheng58/bilibili-ambilight) · [下载 1.7.5 预发布版](https://github.com/AiliuCheng58/bilibili-ambilight/releases/tag/v1.7.5) · [反馈问题](https://github.com/AiliuCheng58/bilibili-ambilight/issues) · [MIT 许可](LICENSE)
+[公开源码](https://github.com/AiliuCheng58/bilibili-ambilight) · [下载 1.7.6 预发布版](https://github.com/AiliuCheng58/bilibili-ambilight/releases/tag/v1.7.6) · [反馈问题](https://github.com/AiliuCheng58/bilibili-ambilight/issues) · [MIT 许可](LICENSE)
 
 ## 安装和更新
 
-1. 下载并解压 [bilibili-ambilight-v1.7.5.zip](https://github.com/AiliuCheng58/bilibili-ambilight/releases/download/v1.7.5/bilibili-ambilight-v1.7.5.zip)。
+1. 下载并解压 [bilibili-ambilight-v1.7.6.zip](https://github.com/AiliuCheng58/bilibili-ambilight/releases/download/v1.7.6/bilibili-ambilight-v1.7.6.zip)。
 2. Chrome 打开 `chrome://extensions/`；Edge 打开 `edge://extensions/`。
 3. 开启“开发者模式”，点击“加载已解压的扩展程序”。
 4. 选择直接包含 `manifest.json` 的 `bilibili-ambilight` 文件夹。
@@ -35,7 +35,7 @@
 | 统计 | 视频 / 显示 / 光效帧率、绘制耗时曲线、采样和投影分辨率、边框检测结果 |
 | 配置 | 本地保存、预设、自定义快捷键、JSON 备份、可选浏览器账号同步 |
 
-背景接入视频投稿、番剧、课程、`player.bilibili.com` 嵌入播放器，以及 `live.bilibili.com` 直播间。播放页暂停时保留最后一帧；页面进入后台时暂停绘制。默认在画中画期间暂停，可通过设置继续页面背景。
+背景接入视频投稿、番剧、课程、`player.bilibili.com` 嵌入播放器，以及 `live.bilibili.com` 直播间。播放页暂停或短暂缓冲时保留最后一帧；缓冲结束后直接继续跟色。页面进入后台时暂停绘制。默认在画中画期间暂停，可通过设置继续页面背景。
 
 没有主播放器时，页面显示固定的柔和色彩背景。首次使用采用蓝紫配色；播放过可读取像素的视频后，最近画面的边缘配色保存在本机，并在其他 B 站标签页更新。静态背景不启动视频渲染循环。首页、搜索、动态等页面中的可见播放预览可接入实时投影；预览暂停、移出视口或被替换后，返回静态背景。
 

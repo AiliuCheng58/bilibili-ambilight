@@ -252,7 +252,13 @@
     createLayer();
     if (!mountLayer()) return hide("fullscreen", "原生视频全屏，等待退出全屏");
     if (failures >= 3 || !ctx || !edgeCtx || !frameCtx) return hide("error", "无法绘制视频画面，可关闭再开启氛围光重试");
-    if (video.readyState < 2 || !video.videoWidth) return showSite();
+    if (video.readyState < 2 || !video.videoWidth) {
+      if (!visible) return showSite();
+      // A transient seek or buffer gap keeps the last projection until video pixels are drawable.
+      cancelFrame();
+      setState("buffering", "视频加载中 · 保留最近画面的背景");
+      return;
+    }
     theme.apply(settings);
     site.enableSurfaces();
     theme.setPlayer(video);

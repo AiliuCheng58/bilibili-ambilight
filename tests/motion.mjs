@@ -169,6 +169,51 @@ try {
     await evaluate("globalThis.VideoFrame=motion.VideoFrame");
     await page.locator('video').evaluate(v=>v.dispatchEvent(new Event('seeked')));
   });
+  await check("buffering preserves the displayed light and resumes new frames without a handoff",async()=>{
+    const pixel=async()=>{
+      const image=await page.screenshot();
+      return page.evaluate(async data=>{
+        const image=new Image();image.src='data:image/png;base64,'+data;await image.decode();
+        const canvas=document.createElement('canvas');canvas.width=canvas.height=1;
+        const ctx=canvas.getContext('2d');ctx.drawImage(image,4,880,1,1,0,0,1,1);
+        return Array.from(ctx.getImageData(0,0,1,1).data).slice(0,3);
+      },image.toString('base64'));
+    };
+    measurements.buffering=[];
+    await set({brightness:100,saturation:100,contrast:100,dim:0});
+    await evaluate("motion.readyState=Object.getOwnPropertyDescriptor(HTMLMediaElement.prototype,'readyState')");
+    try{
+      for(const floating of [false,true]){
+        if(floating){
+          await page.evaluate(()=>{scrollTo(0,1200);Object.assign(document.querySelector('.bpx-player-container').style,{position:'fixed',width:'320px',height:'180px',right:'24px',bottom:'24px'});});
+          await page.waitForFunction(()=>document.querySelector('.bili-ambient-background').style.filter.startsWith('blur(162px)'));
+        }
+        await page.evaluate(()=>{window.sceneMode='solid';window.sceneColor='#ff0000';});
+        await page.waitForTimeout(350);
+        const before=await pixel();
+        assert.ok(before[0]>240 && before[2]<15,JSON.stringify({floating,before}));
+        await evaluate("Object.defineProperty(HTMLMediaElement.prototype,'readyState',{configurable:true,get(){return this===document.querySelector('video')?1:motion.readyState.get.call(this)}});document.querySelector('video').dispatchEvent(new Event('seeking'))");
+        await page.waitForTimeout(80);
+        const held=await pixel();
+        const state=await page.locator('#bili-ambient-layer').evaluate(e=>({state:e.dataset.state,visible:e.dataset.visible,opacity:Number(getComputedStyle(e).opacity),transition:e.hasAttribute('data-transition')}));
+        assert.ok(held.every((v,i)=>Math.abs(v-before[i])<=4),JSON.stringify({floating,before,held,state}));
+        assert.equal(state.state,'buffering');assert.equal(state.visible,'true');assert.equal(state.opacity,1);assert.equal(state.transition,false);
+        await page.evaluate(()=>{window.sceneColor='#0000ff';});
+        await page.waitForFunction(()=>{const canvas=document.createElement('canvas');canvas.width=canvas.height=1;const ctx=canvas.getContext('2d');ctx.drawImage(document.querySelector('video'),0,0,1,1);return ctx.getImageData(0,0,1,1).data[2]>240;});
+        await evaluate("Object.defineProperty(HTMLMediaElement.prototype,'readyState',motion.readyState);document.querySelector('video').dispatchEvent(new Event('seeked'))");
+        await page.waitForFunction(()=>document.querySelector('#bili-ambient-layer').dataset.state==='active');
+        const resumed=await pixel();
+        assert.ok(resumed[2]>240 && resumed[0]<15,JSON.stringify({floating,resumed}));
+        assert.equal(await page.locator('#bili-ambient-layer').evaluate(e=>e.hasAttribute('data-transition')),false);
+        if(floating)assert.equal(await blur(),162);
+        measurements.buffering.push({floating,before,held,resumed,state});
+      }
+    }finally{
+      await evaluate("Object.defineProperty(HTMLMediaElement.prototype,'readyState',motion.readyState);document.querySelector('video').dispatchEvent(new Event('seeked'))");
+      await page.evaluate(()=>{document.querySelector('.bpx-player-container').removeAttribute('style');scrollTo(0,0);});
+      await set({brightness:125,saturation:110,contrast:100,dim:8});
+    }
+  });
   await check("slow video frames are uploaded once while ambient rendering follows the display", async () => {
     await page.evaluate(async()=>{
       const video=document.querySelector('video');video.srcObject.getTracks().forEach(track=>track.stop());
