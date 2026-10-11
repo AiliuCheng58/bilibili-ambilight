@@ -363,13 +363,12 @@
     if (!stopped && layoutId === null) layoutId = requestAnimationFrame(updateLayout);
   }
   function readVideoFrameKey() {
-    // Frame timestamps and presentation counters can advance on different browser callbacks.
-    const presented=video.getVideoPlaybackQuality?.().totalVideoFrames ?? null;
+    // Presentation counters can advance before the available video frame changes.
     if(canReadFrameTime && typeof VideoFrame === "function"){
-      try{const snapshot=new VideoFrame(video),timestamp=snapshot.timestamp;snapshot.close();return `${timestamp}:${presented}`;}
+      try{const snapshot=new VideoFrame(video),timestamp=snapshot.timestamp;snapshot.close();return timestamp;}
       catch{canReadFrameTime=false;}
     }
-    return presented;
+    return video.getVideoPlaybackQuality?.().totalVideoFrames ?? null;
   }
   function draw(now, force = false, frameTime) {
     if (!visible || !ctx || video.readyState < 2) return;

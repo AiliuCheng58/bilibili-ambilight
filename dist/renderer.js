@@ -92,6 +92,7 @@
       this.textureWidth=0;this.textureHeight=0;
       this.uploadedSource=null;this.uploadedRevision=null;
       this.targets=[];this.targetWidth=0;this.targetHeight=0;this.projected=false;
+      this.projectionKey=null;this.blurX=this.blurY=null;
       const compile = (type,source) => {
         const shader=gl.createShader(type);gl.shaderSource(shader,source);gl.compileShader(shader);
         if(!gl.getShaderParameter(shader,gl.COMPILE_STATUS)){gl.deleteShader(shader);throw new Error("Color shader compilation failed");}
@@ -130,6 +131,7 @@
     allocateTargets(width,height) {
       if(this.targetWidth===width && this.targetHeight===height)return;
       const gl=this.gl;
+      this.projected=false;
       for(const target of this.targets){gl.deleteTexture(target.texture);gl.deleteFramebuffer(target.framebuffer);}
       this.targets=[];
       for(let i=0;i<2;i++){
@@ -146,6 +148,8 @@
     }
     reblur(radius,viewport) {
       if(!this.projected || this.lost || this.failed)return;
+      const blurX=radius*this.targetWidth/viewport.width,blurY=radius*this.targetHeight/viewport.height;
+      if(this.blurX===blurX && this.blurY===blurY)return;
       const gl=this.gl;
       // The two passes use CSS-pixel radii on a small raster; the full viewport is only composited.
       gl.viewport(0,0,this.targetWidth,this.targetHeight);gl.useProgram(this.blurProgram);gl.activeTexture(gl.TEXTURE0);
@@ -157,9 +161,10 @@
       };
       gl.bindFramebuffer(gl.FRAMEBUFFER,this.targets[1].framebuffer);
       gl.bindTexture(gl.TEXTURE_2D,this.targets[0].texture);
-      kernel(radius*this.targetWidth/viewport.width,1/this.targetWidth,0);
+      kernel(blurX,1/this.targetWidth,0);
       gl.bindFramebuffer(gl.FRAMEBUFFER,null);gl.bindTexture(gl.TEXTURE_2D,this.targets[1].texture);
-      kernel(radius*this.targetHeight/viewport.height,0,1/this.targetHeight);
+      kernel(blurY,0,1/this.targetHeight);
+      this.blurX=blurX;this.blurY=blurY;
     }
     draw(source,background,crop,anchor,viewport,settings,now,radius=settings.blur,directSource=null,sourceRevision=null) {
       const usable=settings.webGL && this.gl && !this.lost && !this.failed;
@@ -170,13 +175,23 @@
         // A bounded bloom raster keeps the Gaussian kernel and GPU cost independent of video resolution.
         const scale=settings.blur+settings.readingBlur>0?Math.min(1,256/Math.max(background.width,background.height)):1;
         const width=Math.max(1,Math.round(background.width*scale)),height=Math.max(1,Math.round(background.height*scale));
-        if(this.canvas.width!==width || this.canvas.height!==height){this.canvas.width=width;this.canvas.height=height;}
+        if(this.canvas.width!==width || this.canvas.height!==height){this.canvas.width=width;this.canvas.height=height;this.projected=false;}
         this.allocateTargets(width,height);
-        gl.bindFramebuffer(gl.FRAMEBUFFER,this.targets[0].framebuffer);
-        gl.viewport(0,0,width,height);gl.useProgram(this.program);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,this.texture);
         const input=directSource || source,inputWidth=input.videoWidth || input.width,inputHeight=input.videoHeight || input.height;
         const allocate=this.textureWidth!==inputWidth || this.textureHeight!==inputHeight;
-        if(allocate || input!==this.uploadedSource || sourceRevision===null || sourceRevision!==this.uploadedRevision){
+        const upload=allocate || input!==this.uploadedSource || sourceRevision===null || sourceRevision!==this.uploadedRevision;
+        const seed=settings.debandingStrength?Math.floor(now/100):0;
+        const projectionKey=[viewport.width,viewport.height,source.width*crop.width,source.height*crop.height,
+          crop.x,crop.y,crop.width,crop.height,anchor.left-viewport.left,anchor.top-viewport.top,
+          anchor.left+anchor.width-viewport.left,anchor.top+anchor.height-viewport.top,
+          settings.vibrance,settings.debandingStrength,settings.debandingBlendMode,seed,
+          settings.edge,settings.spread,settings.projectionStyle,Number(settings.directionTopEnabled),
+          Number(settings.directionRightEnabled),Number(settings.directionBottomEnabled),Number(settings.directionLeftEnabled)].join(",");
+        // Retain the composited canvas between source frames; only changed inputs invalidate the projection.
+        if(!upload && this.projected && this.projectionKey===projectionKey){this.reblur(radius,viewport);return true;}
+        gl.bindFramebuffer(gl.FRAMEBUFFER,this.targets[0].framebuffer);
+        gl.viewport(0,0,width,height);gl.useProgram(this.program);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,this.texture);
+        if(upload){
           if(allocate || directSource){
             gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,input);
             this.textureWidth=inputWidth;this.textureHeight=inputHeight;
@@ -186,7 +201,7 @@
         gl.uniform1f(this.uniforms.vibrance,settings.vibrance/100);
         gl.uniform1f(this.uniforms.noise,settings.debandingStrength/100);
         gl.uniform1f(this.uniforms.oled,settings.debandingBlendMode);
-        gl.uniform1f(this.uniforms.seed,Math.floor(now/100));
+        gl.uniform1f(this.uniforms.seed,seed);
         gl.uniform2f(this.uniforms.viewport,viewport.width,viewport.height);
         gl.uniform2f(this.uniforms.sourceSize,source.width*crop.width,source.height*crop.height);
         gl.uniform4f(this.uniforms.crop,crop.x,crop.y,crop.width,crop.height);
@@ -196,7 +211,8 @@
         gl.uniform4f(this.uniforms.anchor,anchor.left-viewport.left,anchor.top-viewport.top,anchor.left+anchor.width-viewport.left,anchor.top+anchor.height-viewport.top);
         gl.uniform4f(this.uniforms.directions,Number(settings.directionTopEnabled),Number(settings.directionRightEnabled),Number(settings.directionBottomEnabled),Number(settings.directionLeftEnabled));
         gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
-        this.projected=true;this.reblur(radius,viewport);
+        this.projected=true;this.projectionKey=projectionKey;this.blurX=this.blurY=null;
+        this.reblur(radius,viewport);
         // Error queries synchronize with the GPU; allocations and context events bound validation.
         if(allocate && gl.getError()!==gl.NO_ERROR) throw new Error("Color rendering failed");
         return true;

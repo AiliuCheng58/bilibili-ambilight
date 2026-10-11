@@ -54,7 +54,7 @@ try {
     return extension?gl.getParameter(extension.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER);
   });
   await evaluate(`(() => {
-    globalThis.motion = { phase: '', frames: [], blurs: [], colors: [], uploads:0, samples:0, inspections:0, readbacks:0 };
+    globalThis.motion = { phase: '', frames: [], blurs: [], colors: [], uploads:0, samples:0, inspections:0, readbacks:0, gpuPasses:0 };
     const read=CanvasRenderingContext2D.prototype.getImageData;
     CanvasRenderingContext2D.prototype.getImageData=function(...args){if(motion.phase==='reuse' || motion.phase==='fps')motion.readbacks++;return read.apply(this,args);};
     const take=BiliAmbientInspection.prototype.take;
@@ -80,6 +80,11 @@ try {
         return original.apply(this,args);
       };
     }
+    const gpuDraw=WebGLRenderingContext.prototype.drawArrays;
+    WebGLRenderingContext.prototype.drawArrays=function(...args){
+      if(motion.phase==='reuse' && this.canvas.className==='bili-ambient-output')motion.gpuPasses++;
+      return gpuDraw.apply(this,args);
+    };
     const drawImage=CanvasRenderingContext2D.prototype.drawImage;
     CanvasRenderingContext2D.prototype.drawImage=function(...args){
       if((motion.phase==='reuse' || motion.phase==='fps') && this.canvas.className==='bili-ambient-frame')motion.samples++;
@@ -220,16 +225,36 @@ try {
       video.srcObject=scene.captureStream(6);await video.play();
     });
     await page.waitForTimeout(600);
-    await evaluate("motion.phase='reuse';motion.frames=[];motion.uploads=0;motion.samples=0;motion.inspections=0;motion.readbacks=0");
+    await evaluate("motion.phase='reuse';motion.frames=[];motion.uploads=0;motion.samples=0;motion.inspections=0;motion.readbacks=0;motion.gpuPasses=0");
     const display=await displayCadence(1600);
-    const reuse=await evaluate("motion.phase='';({uploads:motion.uploads,samples:motion.samples,inspections:motion.inspections,readbacks:motion.readbacks,frames:motion.frames.length})");
+    const reuse=await evaluate("motion.phase='';({uploads:motion.uploads,samples:motion.samples,inspections:motion.inspections,readbacks:motion.readbacks,gpuPasses:motion.gpuPasses,frames:motion.frames.length})");
     measurements.reuse={...reuse,decodedFrames:display.videoFrames,displayFrames:display.times.length};
     assert.ok(display.videoFrames>0 && reuse.uploads>0,JSON.stringify(measurements.reuse));
     assert.ok(reuse.frames>=display.times.length*.93,JSON.stringify(measurements.reuse));
     assert.ok(reuse.uploads<=display.videoFrames+2 && reuse.samples<=display.videoFrames+2,JSON.stringify(measurements.reuse));
     assert.ok(reuse.uploads>=display.videoFrames-2 && reuse.inspections>=3,JSON.stringify(measurements.reuse));
     assert.equal(reuse.readbacks,0,JSON.stringify(measurements.reuse));
+    assert.ok(reuse.gpuPasses>=reuse.uploads && reuse.gpuPasses<=reuse.uploads*3+6,JSON.stringify(measurements.reuse));
     await page.evaluate(async()=>{const video=document.querySelector('video');video.srcObject.getTracks().forEach(track=>track.stop());await window.attachSource(video);});
+  });
+  await check("presentation counter changes retain the decoded frame until its pixels advance",async()=>{
+    await page.evaluate(async()=>{
+      const video=document.querySelector('video');video.srcObject.getTracks().forEach(track=>track.stop());
+      video.srcObject=scene.captureStream(6);await video.play();
+    });
+    await page.waitForTimeout(600);
+    await evaluate("motion.quality=HTMLVideoElement.prototype.getVideoPlaybackQuality;motion.counter=0;HTMLVideoElement.prototype.getVideoPlaybackQuality=function(){const q=motion.quality.call(this);return this===document.querySelector('video')?{totalVideoFrames:++motion.counter,droppedVideoFrames:q.droppedVideoFrames}:q;}");
+    try {
+      await evaluate("motion.phase='reuse';motion.frames=[];motion.uploads=0;motion.samples=0;motion.gpuPasses=0");
+      const display=await displayCadence(1600);
+      const cadence=await evaluate("motion.phase='';({uploads:motion.uploads,samples:motion.samples,gpuPasses:motion.gpuPasses,frames:motion.frames.length})");
+      measurements.counterCadence={...cadence,decodedFrames:display.videoFrames,displayFrames:display.times.length};
+      assert.ok(display.videoFrames>0 && cadence.uploads>=display.videoFrames-2 && cadence.uploads<=display.videoFrames+2,JSON.stringify(measurements.counterCadence));
+      assert.ok(cadence.frames>=display.times.length*.93 && cadence.gpuPasses<=cadence.uploads*3+6,JSON.stringify(measurements.counterCadence));
+    } finally {
+      await evaluate("motion.phase='';HTMLVideoElement.prototype.getVideoPlaybackQuality=motion.quality");
+      await page.evaluate(async()=>{const video=document.querySelector('video');video.srcObject.getTracks().forEach(track=>track.stop());await window.attachSource(video);});
+    }
   });
   await check("paused playback consumes a completed inspection and then stays idle",async()=>{
     await page.locator('video').evaluate(video=>video.pause());
@@ -240,6 +265,49 @@ try {
     assert.ok(completed.inspections>=1,JSON.stringify(completed));
     await page.waitForTimeout(400);assert.equal(await evaluate("motion.frames.length"),completed.frames);
     await evaluate("motion.phase='';globalThis.createImageBitmap=motion.createImageBitmap");await set({quality:160});await page.locator('video').evaluate(video=>video.play());
+  });
+  await check("cached GPU output updates source colors, crop, directions, blur and animated noise",async()=>{
+    await page.locator('video').evaluate(video=>video.pause());await page.waitForTimeout(300);
+    const result=await evaluate(`(() => {
+      const parent=document.createElement('div'),renderer=new BiliAmbientRenderer(parent,()=>{});
+      const source=document.createElement('canvas'),background=document.createElement('canvas');
+      source.width=64;source.height=36;background.width=128;background.height=88;
+      const ctx=source.getContext('2d'),settings={...BiliAmbientSettings.defaults,blur:0};
+      const viewport={left:0,top:0,width:128,height:88},anchor={left:32,top:20,width:64,height:48};
+      let crop={x:0,y:0,width:1,height:1},revision=1;const stages=[];
+      const paint=color=>{ctx.fillStyle=color;ctx.fillRect(0,0,64,36);};
+      const draw=(name,now=0,radius=0)=>{
+        motion.phase='reuse';motion.gpuPasses=0;
+        const ok=renderer.draw(source,background,crop,anchor,viewport,settings,now,radius,null,revision);
+        const pixel=new Uint8Array(4);renderer.gl.readPixels(4,44,1,1,renderer.gl.RGBA,renderer.gl.UNSIGNED_BYTE,pixel);
+        stages.push({name,ok,passes:motion.gpuPasses,pixel:Array.from(pixel)});motion.phase='';
+      };
+      try {
+        paint('#ff0000');draw('red');draw('held',50);
+        paint('#0000ff');revision++;draw('blue');
+        settings.directionLeftEnabled=false;draw('direction');settings.directionLeftEnabled=true;
+        paint('#0000ff');ctx.fillStyle='#ff0000';ctx.fillRect(0,0,32,36);revision++;
+        crop={x:.75,y:0,width:.25,height:1};draw('right-crop');crop.x=0;draw('left-crop');
+        draw('reading',50,80);draw('reading-held',60,80);
+        paint('#b86b84');revision++;settings.vibrance=0;draw('gray');
+        settings.debandingStrength=100;draw('noise');draw('noise-held',50);draw('noise-next',100);
+        settings.debandingStrength=0;revision=null;draw('mutable');draw('mutable-next',50);
+        revision=4;draw('restored');renderer.releaseSource();draw('released');
+        background.width=160;draw('resized');
+        return {stages,width:renderer.canvas.width};
+      } finally {motion.phase='';renderer.dispose();}
+    })()`);
+    const stages=Object.fromEntries(result.stages.map(stage=>[stage.name,stage]));
+    assert.ok(result.stages.every(stage=>stage.ok),JSON.stringify(result));
+    for(const name of ['held','reading-held','noise-held'])assert.equal(stages[name].passes,0,JSON.stringify(result));
+    assert.ok(stages.reading.passes>0 && stages.reading.passes<=2,JSON.stringify(result));
+    for(const name of ['red','blue','direction','right-crop','left-crop','gray','noise','noise-next','mutable','mutable-next','released','resized'])assert.ok(stages[name].passes>0 && stages[name].passes<=3,JSON.stringify(result));
+    for(const name of ['red','held','left-crop'])assert.ok(stages[name].pixel[0]>240 && stages[name].pixel[2]<15,JSON.stringify(result));
+    for(const name of ['blue','right-crop'])assert.ok(stages[name].pixel[2]>240 && stages[name].pixel[0]<15,JSON.stringify(result));
+    assert.ok(stages.direction.pixel.slice(0,3).every(v=>v<15),JSON.stringify(result));
+    assert.ok(Math.max(...stages.gray.pixel.slice(0,3))-Math.min(...stages.gray.pixel.slice(0,3))<5,JSON.stringify(result));
+    assert.equal(result.width,160);measurements.gpuReuse=result;
+    await page.locator('video').evaluate(video=>video.play());
   });
   await page.evaluate(() => { window.sceneMode='pink'; });
   await page.waitForFunction(() => document.documentElement.dataset.biliAmbientTone==='light');
