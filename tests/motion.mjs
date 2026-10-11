@@ -256,6 +256,41 @@ try {
       await page.evaluate(async()=>{const video=document.querySelector('video');video.srcObject.getTracks().forEach(track=>track.stop());await window.attachSource(video);});
     }
   });
+  await check("offscreen playback refreshes pixels while reusing unchanged GPU frames",async()=>{
+    await page.evaluate(async()=>{
+      const video=document.querySelector('video');video.srcObject.getTracks().forEach(track=>track.stop());
+      video.srcObject=scene.captureStream(6);await video.play();scrollTo(0,1000);
+    });
+    await page.waitForTimeout(600);
+    assert.ok(await page.locator('video').evaluate(v=>v.getBoundingClientRect().bottom<=0));
+    await evaluate("motion.offscreenVideoFrame=VideoFrame;motion.phase='reuse';motion.frames=[];motion.uploads=0;motion.samples=0;motion.gpuPasses=0;motion.readbacks=0");
+    try {
+      const display=await displayCadence(1600);
+      const reuse=await evaluate("motion.phase='';({uploads:motion.uploads,samples:motion.samples,gpuPasses:motion.gpuPasses,readbacks:motion.readbacks,frames:motion.frames.length})");
+      measurements.offscreenReuse={...reuse,decodedFrames:display.videoFrames,displayFrames:display.times.length};
+      assert.ok(display.videoFrames>0 && reuse.uploads>=display.videoFrames-2 && reuse.uploads<=display.videoFrames+2,JSON.stringify(measurements.offscreenReuse));
+      assert.ok(reuse.samples>=display.times.length*.93 && reuse.frames>=display.times.length*.93,JSON.stringify(measurements.offscreenReuse));
+      assert.ok(reuse.gpuPasses>=reuse.uploads && reuse.gpuPasses<=reuse.uploads*3+6,JSON.stringify(measurements.offscreenReuse));
+      assert.equal(reuse.readbacks,0);
+      measurements.offscreenResponse=[];
+      for(const timestamp of [true,false]){
+        if(!timestamp)await evaluate("globalThis.VideoFrame=undefined;document.querySelector('video').dispatchEvent(new Event('seeked'))");
+        await page.evaluate(()=>{window.sceneMode='solid';window.sceneColor='#ff0000';});await page.waitForTimeout(350);
+        await evaluate("motion.phase='color';motion.colors=[]");
+        await page.evaluate(()=>{window.sceneColor='#0000ff';});await page.waitForTimeout(350);
+        const colors=await evaluate("motion.phase='';motion.colors"),blue=p=>p[2]>220 && p[0]<20;
+        const decoded=colors.find(frame=>blue(frame.video)),projected=colors.find(frame=>blue(frame.light));
+        assert.ok(decoded && projected,JSON.stringify({timestamp,colors}));
+        const response=Math.max(0,projected.time-decoded.time);
+        assert.ok(response<=34,JSON.stringify({timestamp,response,colors}));
+        measurements.offscreenResponse.push({timestamp,response});
+        assert.equal(await blur(),162);
+      }
+    } finally {
+      await evaluate("motion.phase='';globalThis.VideoFrame=motion.offscreenVideoFrame;document.querySelector('video').dispatchEvent(new Event('seeked'))");
+      await page.evaluate(async()=>{const video=document.querySelector('video');video.srcObject.getTracks().forEach(track=>track.stop());await window.attachSource(video);scrollTo(0,0);});
+    }
+  });
   await check("paused playback consumes a completed inspection and then stays idle",async()=>{
     await page.locator('video').evaluate(video=>video.pause());
     await page.waitForTimeout(300);await evaluate("motion.phase='paused';motion.inspections=0;motion.frames=[]");

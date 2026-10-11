@@ -1,0 +1,6131 @@
+{
+  "cases": {
+    "offscreen-reading": {
+      "without": null,
+      "enabled": null,
+      "compositor": {
+        "histogram": {
+          "0": 50,
+          "-1": 168,
+          "-2": 15,
+          "-3": 1
+        },
+        "mirrorHistogram": {
+          "0": 234
+        },
+        "distinctSourceColors": 27,
+        "samples": [
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                40,
+                40
+              ],
+              "id": 0,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                40,
+                40
+              ],
+              "id": 0,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.058042
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                40,
+                40
+              ],
+              "id": 0,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                40,
+                40
+              ],
+              "id": 0,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.064298
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                129,
+                39,
+                39
+              ],
+              "id": 1,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                40,
+                40
+              ],
+              "id": 0,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.081327
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                129,
+                39,
+                39
+              ],
+              "id": 1,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                39,
+                39
+              ],
+              "id": 1,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.09127
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                40,
+                39
+              ],
+              "id": 2,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                39,
+                39
+              ],
+              "id": 1,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.107982
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                130,
+                42
+              ],
+              "id": 3,
+              "distance": 2,
+              "margin": 86
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                40,
+                39
+              ],
+              "id": 2,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.129956
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                131,
+                41
+              ],
+              "id": 5,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                130,
+                42
+              ],
+              "id": 3,
+              "distance": 2,
+              "margin": 86
+            },
+            "lag": -2,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.14506
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                131,
+                41
+              ],
+              "id": 5,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                131,
+                41
+              ],
+              "id": 5,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.149564
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                41,
+                220,
+                41
+              ],
+              "id": 6,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                41,
+                220,
+                41
+              ],
+              "id": 6,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.168617
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                129,
+                220,
+                39
+              ],
+              "id": 7,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                41,
+                220,
+                41
+              ],
+              "id": 6,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.175619
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                129,
+                220,
+                39
+              ],
+              "id": 7,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                220,
+                39
+              ],
+              "id": 7,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.188763
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                219,
+                40
+              ],
+              "id": 8,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                219,
+                40
+              ],
+              "id": 8,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.204109
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                39,
+                132
+              ],
+              "id": 9,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                219,
+                40
+              ],
+              "id": 8,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.211485
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                39,
+                132
+              ],
+              "id": 9,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                39,
+                132
+              ],
+              "id": 9,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.228013
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                219,
+                39,
+                130
+              ],
+              "id": 11,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                40,
+                128
+              ],
+              "id": 10,
+              "distance": 2,
+              "margin": 86
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.235844
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                219,
+                39,
+                130
+              ],
+              "id": 11,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                219,
+                39,
+                130
+              ],
+              "id": 11,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.247739
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                130,
+                130
+              ],
+              "id": 12,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                219,
+                39,
+                130
+              ],
+              "id": 11,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.266643
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                130,
+                130
+              ],
+              "id": 13,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                130,
+                130
+              ],
+              "id": 12,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.278824
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                130,
+                130
+              ],
+              "id": 14,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                130,
+                130
+              ],
+              "id": 14,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.291377
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                220,
+                129
+              ],
+              "id": 15,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                130,
+                130
+              ],
+              "id": 14,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.31499
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                220,
+                130
+              ],
+              "id": 16,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                220,
+                129
+              ],
+              "id": 15,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.320166
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                220,
+                130
+              ],
+              "id": 16,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                220,
+                130
+              ],
+              "id": 16,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.337413
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                219,
+                219,
+                129
+              ],
+              "id": 17,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "mirror": {
+              "rgb": [
+                219,
+                219,
+                129
+              ],
+              "id": 17,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.346128
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                219,
+                219,
+                129
+              ],
+              "id": 17,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "mirror": {
+              "rgb": [
+                219,
+                219,
+                129
+              ],
+              "id": 17,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.357707
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                41,
+                220
+              ],
+              "id": 18,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                41,
+                220
+              ],
+              "id": 18,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.375563
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                129,
+                40,
+                220
+              ],
+              "id": 19,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                40,
+                220
+              ],
+              "id": 19,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.380657
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                219,
+                40,
+                219
+              ],
+              "id": 20,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                219,
+                40,
+                219
+              ],
+              "id": 20,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.399906
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                129,
+                219
+              ],
+              "id": 21,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                219,
+                40,
+                219
+              ],
+              "id": 20,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.41423
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                129,
+                219
+              ],
+              "id": 21,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                129,
+                219
+              ],
+              "id": 21,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.420838
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                130,
+                220
+              ],
+              "id": 22,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                129,
+                219
+              ],
+              "id": 21,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.443625
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                132,
+                219
+              ],
+              "id": 23,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                132,
+                219
+              ],
+              "id": 23,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.450689
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                220,
+                221
+              ],
+              "id": 24,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                132,
+                219
+              ],
+              "id": 23,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.473092
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                220,
+                221
+              ],
+              "id": 24,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                220,
+                221
+              ],
+              "id": 24,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.478396
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                220,
+                221
+              ],
+              "id": 24,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                220,
+                221
+              ],
+              "id": 24,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.498798
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                129,
+                221,
+                220
+              ],
+              "id": 25,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                221,
+                220
+              ],
+              "id": 25,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.513715
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                220,
+                220
+              ],
+              "id": 26,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                221,
+                220
+              ],
+              "id": 25,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.529926
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                220,
+                220
+              ],
+              "id": 26,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                220,
+                220
+              ],
+              "id": 26,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.543928
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                40,
+                40
+              ],
+              "id": 0,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                40,
+                40
+              ],
+              "id": 0,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.549227
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                40,
+                39
+              ],
+              "id": 2,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                39,
+                39
+              ],
+              "id": 1,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.573602
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                40,
+                39
+              ],
+              "id": 2,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                40,
+                39
+              ],
+              "id": 2,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.578879
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                131,
+                41
+              ],
+              "id": 5,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                131,
+                38
+              ],
+              "id": 4,
+              "distance": 2.23606797749979,
+              "margin": 86.7864010963245
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.606589
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                131,
+                41
+              ],
+              "id": 5,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                131,
+                41
+              ],
+              "id": 5,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.612904
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                41,
+                220,
+                41
+              ],
+              "id": 6,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                131,
+                41
+              ],
+              "id": 5,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.633831
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                219,
+                40
+              ],
+              "id": 8,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                220,
+                39
+              ],
+              "id": 7,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.662703
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                219,
+                40
+              ],
+              "id": 8,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                219,
+                40
+              ],
+              "id": 8,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.667914
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                40,
+                128
+              ],
+              "id": 10,
+              "distance": 2,
+              "margin": 86
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                39,
+                132
+              ],
+              "id": 9,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.692746
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                219,
+                39,
+                130
+              ],
+              "id": 11,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                40,
+                128
+              ],
+              "id": 10,
+              "distance": 2,
+              "margin": 86
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.699171
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                219,
+                39,
+                130
+              ],
+              "id": 11,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                219,
+                39,
+                130
+              ],
+              "id": 11,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.717675
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                219,
+                39,
+                130
+              ],
+              "id": 11,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                219,
+                39,
+                130
+              ],
+              "id": 11,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.724565
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                41,
+                131,
+                131
+              ],
+              "id": 12,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "mirror": {
+              "rgb": [
+                41,
+                131,
+                131
+              ],
+              "id": 12,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.75004
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                130,
+                130
+              ],
+              "id": 13,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                41,
+                131,
+                131
+              ],
+              "id": 12,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.758858
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                220,
+                129
+              ],
+              "id": 15,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                220,
+                129
+              ],
+              "id": 15,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.789856
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                220,
+                129
+              ],
+              "id": 15,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                220,
+                129
+              ],
+              "id": 15,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.804708
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                220,
+                130
+              ],
+              "id": 16,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                220,
+                129
+              ],
+              "id": 15,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.811023
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                220,
+                130
+              ],
+              "id": 16,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                220,
+                130
+              ],
+              "id": 16,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.82729
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                129,
+                40,
+                220
+              ],
+              "id": 19,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                220,
+                130
+              ],
+              "id": 16,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -3,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.844766
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                219,
+                40,
+                219
+              ],
+              "id": 20,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                40,
+                220
+              ],
+              "id": 19,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.856141
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                219,
+                40,
+                219
+              ],
+              "id": 20,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                219,
+                40,
+                219
+              ],
+              "id": 20,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.862226
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                219,
+                40,
+                219
+              ],
+              "id": 20,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                219,
+                40,
+                219
+              ],
+              "id": 20,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.882731
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                129,
+                219
+              ],
+              "id": 21,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                219,
+                40,
+                219
+              ],
+              "id": 20,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.890999
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                132,
+                219
+              ],
+              "id": 23,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                129,
+                219
+              ],
+              "id": 21,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -2,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.906111
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                220,
+                221
+              ],
+              "id": 24,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                132,
+                219
+              ],
+              "id": 23,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.937905
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                220,
+                220
+              ],
+              "id": 26,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                220,
+                221
+              ],
+              "id": 24,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "lag": -2,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.943442
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                220,
+                220
+              ],
+              "id": 26,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                220,
+                220
+              ],
+              "id": 26,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.962009
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                220,
+                220
+              ],
+              "id": 26,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                220,
+                220
+              ],
+              "id": 26,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.967443
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                129,
+                39,
+                39
+              ],
+              "id": 1,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                40,
+                40
+              ],
+              "id": 0,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702426.996558
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                40,
+                39
+              ],
+              "id": 2,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                39,
+                39
+              ],
+              "id": 1,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.003831
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                130,
+                42
+              ],
+              "id": 3,
+              "distance": 2,
+              "margin": 86
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                40,
+                39
+              ],
+              "id": 2,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.025643
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                130,
+                42
+              ],
+              "id": 3,
+              "distance": 2,
+              "margin": 86
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                130,
+                42
+              ],
+              "id": 3,
+              "distance": 2,
+              "margin": 86
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.050824
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                131,
+                38
+              ],
+              "id": 4,
+              "distance": 2.23606797749979,
+              "margin": 86.7864010963245
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                130,
+                42
+              ],
+              "id": 3,
+              "distance": 2,
+              "margin": 86
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.069768
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                131,
+                38
+              ],
+              "id": 4,
+              "distance": 2.23606797749979,
+              "margin": 86.7864010963245
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                131,
+                38
+              ],
+              "id": 4,
+              "distance": 2.23606797749979,
+              "margin": 86.7864010963245
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.076918
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                129,
+                220,
+                39
+              ],
+              "id": 7,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                41,
+                220,
+                41
+              ],
+              "id": 6,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.103788
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                39,
+                132
+              ],
+              "id": 9,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                220,
+                39
+              ],
+              "id": 7,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -2,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.112622
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                40,
+                128
+              ],
+              "id": 10,
+              "distance": 2,
+              "margin": 86
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                39,
+                132
+              ],
+              "id": 9,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.129047
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                219,
+                39,
+                130
+              ],
+              "id": 11,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                40,
+                128
+              ],
+              "id": 10,
+              "distance": 2,
+              "margin": 86
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.144323
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                130,
+                130
+              ],
+              "id": 12,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                219,
+                39,
+                130
+              ],
+              "id": 11,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.166975
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                130,
+                130
+              ],
+              "id": 13,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                130,
+                130
+              ],
+              "id": 12,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.179818
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                130,
+                130
+              ],
+              "id": 14,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                130,
+                130
+              ],
+              "id": 13,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.197349
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                220,
+                129
+              ],
+              "id": 15,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                130,
+                130
+              ],
+              "id": 14,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.219494
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                220,
+                130
+              ],
+              "id": 16,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                220,
+                129
+              ],
+              "id": 15,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.244434
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                219,
+                219,
+                129
+              ],
+              "id": 17,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                220,
+                130
+              ],
+              "id": 16,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.25258
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                41,
+                220
+              ],
+              "id": 18,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                219,
+                219,
+                129
+              ],
+              "id": 17,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.277986
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                129,
+                40,
+                220
+              ],
+              "id": 19,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                41,
+                220
+              ],
+              "id": 18,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.287993
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                219,
+                40,
+                219
+              ],
+              "id": 20,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                40,
+                220
+              ],
+              "id": 19,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.312717
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                129,
+                219
+              ],
+              "id": 21,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                219,
+                40,
+                219
+              ],
+              "id": 20,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.318921
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                130,
+                220
+              ],
+              "id": 22,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                129,
+                219
+              ],
+              "id": 21,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.342254
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                132,
+                219
+              ],
+              "id": 23,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                130,
+                220
+              ],
+              "id": 22,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.364799
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                220,
+                221
+              ],
+              "id": 24,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                132,
+                219
+              ],
+              "id": 23,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.374768
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                220,
+                220
+              ],
+              "id": 26,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                220,
+                221
+              ],
+              "id": 24,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "lag": -2,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.398457
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                40,
+                40
+              ],
+              "id": 0,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                40,
+                40
+              ],
+              "id": 0,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.44149
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                129,
+                39,
+                39
+              ],
+              "id": 1,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                40,
+                40
+              ],
+              "id": 0,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.464657
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                40,
+                39
+              ],
+              "id": 2,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                39,
+                39
+              ],
+              "id": 1,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.474178
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                130,
+                42
+              ],
+              "id": 3,
+              "distance": 2,
+              "margin": 86
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                40,
+                39
+              ],
+              "id": 2,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.496648
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                131,
+                38
+              ],
+              "id": 4,
+              "distance": 2.23606797749979,
+              "margin": 86.7864010963245
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                130,
+                42
+              ],
+              "id": 3,
+              "distance": 2,
+              "margin": 86
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.507983
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                131,
+                41
+              ],
+              "id": 5,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                131,
+                38
+              ],
+              "id": 4,
+              "distance": 2.23606797749979,
+              "margin": 86.7864010963245
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.517938
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                41,
+                220,
+                41
+              ],
+              "id": 6,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                131,
+                41
+              ],
+              "id": 5,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.540784
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                129,
+                220,
+                39
+              ],
+              "id": 7,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                41,
+                220,
+                41
+              ],
+              "id": 6,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.548084
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                39,
+                132
+              ],
+              "id": 9,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                220,
+                39
+              ],
+              "id": 7,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -2,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.572086
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                40,
+                128
+              ],
+              "id": 10,
+              "distance": 2,
+              "margin": 86
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                39,
+                132
+              ],
+              "id": 9,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.593453
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                219,
+                39,
+                130
+              ],
+              "id": 11,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                40,
+                128
+              ],
+              "id": 10,
+              "distance": 2,
+              "margin": 86
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.615049
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                41,
+                131,
+                131
+              ],
+              "id": 12,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "mirror": {
+              "rgb": [
+                219,
+                39,
+                130
+              ],
+              "id": 11,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.634689
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                130,
+                130
+              ],
+              "id": 13,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                41,
+                131,
+                131
+              ],
+              "id": 12,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.651273
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                130,
+                130
+              ],
+              "id": 14,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                130,
+                130
+              ],
+              "id": 13,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.661011
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                220,
+                129
+              ],
+              "id": 15,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                130,
+                130
+              ],
+              "id": 14,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.681424
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                220,
+                130
+              ],
+              "id": 16,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                220,
+                129
+              ],
+              "id": 15,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.7042
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                41,
+                220
+              ],
+              "id": 18,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                220,
+                130
+              ],
+              "id": 16,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -2,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.731226
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                129,
+                40,
+                220
+              ],
+              "id": 19,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                41,
+                220
+              ],
+              "id": 18,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.755651
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                219,
+                40,
+                219
+              ],
+              "id": 20,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                40,
+                220
+              ],
+              "id": 19,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.766232
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                129,
+                219
+              ],
+              "id": 21,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                129,
+                219
+              ],
+              "id": 21,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.801219
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                130,
+                220
+              ],
+              "id": 22,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                130,
+                220
+              ],
+              "id": 22,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.823993
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                220,
+                221
+              ],
+              "id": 24,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                130,
+                220
+              ],
+              "id": 22,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -2,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.833661
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                129,
+                221,
+                220
+              ],
+              "id": 25,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                220,
+                221
+              ],
+              "id": 24,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.849907
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                220,
+                220
+              ],
+              "id": 26,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                221,
+                220
+              ],
+              "id": 25,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.880103
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                40,
+                40
+              ],
+              "id": 0,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                220,
+                220
+              ],
+              "id": 26,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.889474
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                40,
+                39
+              ],
+              "id": 2,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                40,
+                40
+              ],
+              "id": 0,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -2,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.918142
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                130,
+                42
+              ],
+              "id": 3,
+              "distance": 2,
+              "margin": 86
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                40,
+                39
+              ],
+              "id": 2,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.932527
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                131,
+                38
+              ],
+              "id": 4,
+              "distance": 2.23606797749979,
+              "margin": 86.7864010963245
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                130,
+                42
+              ],
+              "id": 3,
+              "distance": 2,
+              "margin": 86
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.960217
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                131,
+                41
+              ],
+              "id": 5,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                131,
+                38
+              ],
+              "id": 4,
+              "distance": 2.23606797749979,
+              "margin": 86.7864010963245
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.971042
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                41,
+                220,
+                41
+              ],
+              "id": 6,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                131,
+                41
+              ],
+              "id": 5,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702427.998757
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                129,
+                220,
+                39
+              ],
+              "id": 7,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                41,
+                220,
+                41
+              ],
+              "id": 6,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.011986
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                39,
+                132
+              ],
+              "id": 9,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                220,
+                39
+              ],
+              "id": 7,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -2,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.021038
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                40,
+                128
+              ],
+              "id": 10,
+              "distance": 2,
+              "margin": 86
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                39,
+                132
+              ],
+              "id": 9,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.049398
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                219,
+                39,
+                130
+              ],
+              "id": 11,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                40,
+                128
+              ],
+              "id": 10,
+              "distance": 2,
+              "margin": 86
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.055865
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                130,
+                130
+              ],
+              "id": 12,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                219,
+                39,
+                130
+              ],
+              "id": 11,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.083369
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                130,
+                130
+              ],
+              "id": 13,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                130,
+                130
+              ],
+              "id": 12,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.095257
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                130,
+                130
+              ],
+              "id": 14,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                130,
+                130
+              ],
+              "id": 13,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.119399
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                220,
+                129
+              ],
+              "id": 15,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                130,
+                130
+              ],
+              "id": 14,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.137259
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                220,
+                130
+              ],
+              "id": 16,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                220,
+                129
+              ],
+              "id": 15,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.156454
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                219,
+                219,
+                129
+              ],
+              "id": 17,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                220,
+                130
+              ],
+              "id": 16,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.167468
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                41,
+                220
+              ],
+              "id": 18,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                219,
+                219,
+                129
+              ],
+              "id": 17,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.189495
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                129,
+                40,
+                220
+              ],
+              "id": 19,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                41,
+                220
+              ],
+              "id": 18,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.200423
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                219,
+                40,
+                219
+              ],
+              "id": 20,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                40,
+                220
+              ],
+              "id": 19,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.221992
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                129,
+                219
+              ],
+              "id": 21,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                219,
+                40,
+                219
+              ],
+              "id": 20,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.229714
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                132,
+                219
+              ],
+              "id": 23,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                129,
+                219
+              ],
+              "id": 21,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -2,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.254575
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                220,
+                221
+              ],
+              "id": 24,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                220,
+                221
+              ],
+              "id": 24,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.279462
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                129,
+                221,
+                220
+              ],
+              "id": 25,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                220,
+                221
+              ],
+              "id": 24,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.297454
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                220,
+                220
+              ],
+              "id": 26,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                221,
+                220
+              ],
+              "id": 25,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.319056
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                40,
+                40
+              ],
+              "id": 0,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                40,
+                40
+              ],
+              "id": 0,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.346207
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                129,
+                39,
+                39
+              ],
+              "id": 1,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                40,
+                40
+              ],
+              "id": 0,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.371826
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                40,
+                39
+              ],
+              "id": 2,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                39,
+                39
+              ],
+              "id": 1,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.37807
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                131,
+                38
+              ],
+              "id": 4,
+              "distance": 2.23606797749979,
+              "margin": 86.7864010963245
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                40,
+                39
+              ],
+              "id": 2,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "lag": -2,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.401187
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                131,
+                41
+              ],
+              "id": 5,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                131,
+                38
+              ],
+              "id": 4,
+              "distance": 2.23606797749979,
+              "margin": 86.7864010963245
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.422428
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                41,
+                220,
+                41
+              ],
+              "id": 6,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                131,
+                41
+              ],
+              "id": 5,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.443435
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                129,
+                220,
+                39
+              ],
+              "id": 7,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                41,
+                220,
+                41
+              ],
+              "id": 6,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.464208
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                219,
+                40
+              ],
+              "id": 8,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                220,
+                39
+              ],
+              "id": 7,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.481556
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                39,
+                132
+              ],
+              "id": 9,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                219,
+                40
+              ],
+              "id": 8,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.499201
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                40,
+                128
+              ],
+              "id": 10,
+              "distance": 2,
+              "margin": 86
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                39,
+                132
+              ],
+              "id": 9,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.520058
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                219,
+                39,
+                130
+              ],
+              "id": 11,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                40,
+                128
+              ],
+              "id": 10,
+              "distance": 2,
+              "margin": 86
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.525759
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                41,
+                131,
+                131
+              ],
+              "id": 12,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "mirror": {
+              "rgb": [
+                219,
+                39,
+                130
+              ],
+              "id": 11,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.551776
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                130,
+                130
+              ],
+              "id": 13,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                41,
+                131,
+                131
+              ],
+              "id": 12,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.556862
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                130,
+                130
+              ],
+              "id": 14,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                130,
+                130
+              ],
+              "id": 13,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.58277
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                220,
+                129
+              ],
+              "id": 15,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                130,
+                130
+              ],
+              "id": 14,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.588353
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                220,
+                130
+              ],
+              "id": 16,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                220,
+                129
+              ],
+              "id": 15,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.611376
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                219,
+                219,
+                129
+              ],
+              "id": 17,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                220,
+                130
+              ],
+              "id": 16,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.628309
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                41,
+                220
+              ],
+              "id": 18,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                219,
+                219,
+                129
+              ],
+              "id": 17,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.648144
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                129,
+                40,
+                220
+              ],
+              "id": 19,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                41,
+                220
+              ],
+              "id": 18,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.663022
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                219,
+                40,
+                219
+              ],
+              "id": 20,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                40,
+                220
+              ],
+              "id": 19,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.68181
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                129,
+                219
+              ],
+              "id": 21,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                219,
+                40,
+                219
+              ],
+              "id": 20,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.700744
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                130,
+                220
+              ],
+              "id": 22,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                129,
+                219
+              ],
+              "id": 21,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.706622
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                132,
+                219
+              ],
+              "id": 23,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                130,
+                220
+              ],
+              "id": 22,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.733408
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                129,
+                221,
+                220
+              ],
+              "id": 25,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                132,
+                219
+              ],
+              "id": 23,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "lag": -2,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.737386
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                220,
+                220
+              ],
+              "id": 26,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                221,
+                220
+              ],
+              "id": 25,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.771295
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                40,
+                40
+              ],
+              "id": 0,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                220,
+                220
+              ],
+              "id": 26,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.792223
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                129,
+                39,
+                39
+              ],
+              "id": 1,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                40,
+                40
+              ],
+              "id": 0,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.814129
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                40,
+                39
+              ],
+              "id": 2,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                39,
+                39
+              ],
+              "id": 1,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.83106
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                130,
+                42
+              ],
+              "id": 3,
+              "distance": 2,
+              "margin": 86
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                40,
+                39
+              ],
+              "id": 2,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.849034
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                131,
+                38
+              ],
+              "id": 4,
+              "distance": 2.23606797749979,
+              "margin": 86.7864010963245
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                130,
+                42
+              ],
+              "id": 3,
+              "distance": 2,
+              "margin": 86
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.866879
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                131,
+                41
+              ],
+              "id": 5,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                131,
+                38
+              ],
+              "id": 4,
+              "distance": 2.23606797749979,
+              "margin": 86.7864010963245
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.883764
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                41,
+                220,
+                41
+              ],
+              "id": 6,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                131,
+                41
+              ],
+              "id": 5,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.902703
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                129,
+                220,
+                39
+              ],
+              "id": 7,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                41,
+                220,
+                41
+              ],
+              "id": 6,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.909136
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                219,
+                40
+              ],
+              "id": 8,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                220,
+                39
+              ],
+              "id": 7,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.932283
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                39,
+                132
+              ],
+              "id": 9,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                219,
+                40
+              ],
+              "id": 8,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.938529
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                40,
+                128
+              ],
+              "id": 10,
+              "distance": 2,
+              "margin": 86
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                39,
+                132
+              ],
+              "id": 9,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.966375
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                219,
+                39,
+                130
+              ],
+              "id": 11,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                40,
+                128
+              ],
+              "id": 10,
+              "distance": 2,
+              "margin": 86
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702428.971792
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                130,
+                130
+              ],
+              "id": 12,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                219,
+                39,
+                130
+              ],
+              "id": 11,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.000644
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                130,
+                130
+              ],
+              "id": 13,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                130,
+                130
+              ],
+              "id": 12,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.006073
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                130,
+                130
+              ],
+              "id": 14,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                130,
+                130
+              ],
+              "id": 13,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.030274
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                220,
+                129
+              ],
+              "id": 15,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                130,
+                130
+              ],
+              "id": 14,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.036376
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                220,
+                130
+              ],
+              "id": 16,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                220,
+                129
+              ],
+              "id": 15,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.066405
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                219,
+                219,
+                129
+              ],
+              "id": 17,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "mirror": {
+              "rgb": [
+                219,
+                219,
+                129
+              ],
+              "id": 17,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.084628
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                41,
+                220
+              ],
+              "id": 18,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                219,
+                219,
+                129
+              ],
+              "id": 17,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.092216
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                219,
+                40,
+                219
+              ],
+              "id": 20,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                41,
+                220
+              ],
+              "id": 18,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": -2,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.121163
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                129,
+                219
+              ],
+              "id": 21,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                219,
+                40,
+                219
+              ],
+              "id": 20,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.140857
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                130,
+                220
+              ],
+              "id": 22,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                129,
+                219
+              ],
+              "id": 21,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.16372
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                132,
+                219
+              ],
+              "id": 23,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                130,
+                220
+              ],
+              "id": 22,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.183242
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                220,
+                221
+              ],
+              "id": 24,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                132,
+                219
+              ],
+              "id": 23,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.202851
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                129,
+                221,
+                220
+              ],
+              "id": 25,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                220,
+                221
+              ],
+              "id": 24,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.209593
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                220,
+                220
+              ],
+              "id": 26,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                221,
+                220
+              ],
+              "id": 25,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.229058
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                40,
+                40
+              ],
+              "id": 0,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                40,
+                40
+              ],
+              "id": 0,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.25739
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                129,
+                39,
+                39
+              ],
+              "id": 1,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                40,
+                40
+              ],
+              "id": 0,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.280871
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                40,
+                39
+              ],
+              "id": 2,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                39,
+                39
+              ],
+              "id": 1,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.303006
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                130,
+                42
+              ],
+              "id": 3,
+              "distance": 2,
+              "margin": 86
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                40,
+                39
+              ],
+              "id": 2,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.30869
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                131,
+                41
+              ],
+              "id": 5,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                130,
+                42
+              ],
+              "id": 3,
+              "distance": 2,
+              "margin": 86
+            },
+            "lag": -2,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.335725
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                41,
+                220,
+                41
+              ],
+              "id": 6,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                131,
+                41
+              ],
+              "id": 5,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.357602
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                129,
+                220,
+                39
+              ],
+              "id": 7,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                41,
+                220,
+                41
+              ],
+              "id": 6,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.377428
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                219,
+                40
+              ],
+              "id": 8,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                220,
+                39
+              ],
+              "id": 7,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.391803
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                39,
+                132
+              ],
+              "id": 9,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                219,
+                40
+              ],
+              "id": 8,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.404946
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                40,
+                128
+              ],
+              "id": 10,
+              "distance": 2,
+              "margin": 86
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                39,
+                132
+              ],
+              "id": 9,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.424328
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                219,
+                39,
+                130
+              ],
+              "id": 11,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                40,
+                128
+              ],
+              "id": 10,
+              "distance": 2,
+              "margin": 86
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.431815
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                41,
+                131,
+                131
+              ],
+              "id": 12,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "mirror": {
+              "rgb": [
+                219,
+                39,
+                130
+              ],
+              "id": 11,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.456356
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                130,
+                130
+              ],
+              "id": 13,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                41,
+                131,
+                131
+              ],
+              "id": 12,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.476191
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                130,
+                130
+              ],
+              "id": 14,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                130,
+                130
+              ],
+              "id": 13,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.492431
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                220,
+                129
+              ],
+              "id": 15,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                130,
+                130
+              ],
+              "id": 14,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.515968
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                220,
+                130
+              ],
+              "id": 16,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                220,
+                129
+              ],
+              "id": 15,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.530522
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                219,
+                219,
+                129
+              ],
+              "id": 17,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                220,
+                130
+              ],
+              "id": 16,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.544041
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                41,
+                220
+              ],
+              "id": 18,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                41,
+                220
+              ],
+              "id": 18,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.558551
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                129,
+                40,
+                220
+              ],
+              "id": 19,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                41,
+                220
+              ],
+              "id": 18,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.572863
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                219,
+                40,
+                219
+              ],
+              "id": 20,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                40,
+                220
+              ],
+              "id": 19,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.585809
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                129,
+                219
+              ],
+              "id": 21,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                219,
+                40,
+                219
+              ],
+              "id": 20,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.60211
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                130,
+                220
+              ],
+              "id": 22,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                129,
+                219
+              ],
+              "id": 21,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.617256
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                132,
+                219
+              ],
+              "id": 23,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                130,
+                220
+              ],
+              "id": 22,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.635855
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                220,
+                221
+              ],
+              "id": 24,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                132,
+                219
+              ],
+              "id": 23,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.656407
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                129,
+                221,
+                220
+              ],
+              "id": 25,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                220,
+                221
+              ],
+              "id": 24,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.670165
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                220,
+                220
+              ],
+              "id": 26,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                221,
+                220
+              ],
+              "id": 25,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.685518
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                40,
+                40
+              ],
+              "id": 0,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                40,
+                40
+              ],
+              "id": 0,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.706503
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                129,
+                39,
+                39
+              ],
+              "id": 1,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                40,
+                40
+              ],
+              "id": 0,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.719773
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                40,
+                39
+              ],
+              "id": 2,
+              "distance": 1,
+              "margin": 89.00555538409837
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                39,
+                39
+              ],
+              "id": 1,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.734515
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                130,
+                42
+              ],
+              "id": 3,
+              "distance": 2,
+              "margin": 86
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                130,
+                42
+              ],
+              "id": 3,
+              "distance": 2,
+              "margin": 86
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.756807
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                131,
+                38
+              ],
+              "id": 4,
+              "distance": 2.23606797749979,
+              "margin": 86.7864010963245
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                130,
+                42
+              ],
+              "id": 3,
+              "distance": 2,
+              "margin": 86
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.77432
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                131,
+                41
+              ],
+              "id": 5,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                131,
+                38
+              ],
+              "id": 4,
+              "distance": 2.23606797749979,
+              "margin": 86.7864010963245
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.787759
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                41,
+                220,
+                41
+              ],
+              "id": 6,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                131,
+                41
+              ],
+              "id": 5,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.81182
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                129,
+                220,
+                39
+              ],
+              "id": 7,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                41,
+                220,
+                41
+              ],
+              "id": 6,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.827589
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                219,
+                40
+              ],
+              "id": 8,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                129,
+                220,
+                39
+              ],
+              "id": 7,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.834742
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                39,
+                132
+              ],
+              "id": 9,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                219,
+                40
+              ],
+              "id": 8,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.85309
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                40,
+                128
+              ],
+              "id": 10,
+              "distance": 2,
+              "margin": 86
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                39,
+                132
+              ],
+              "id": 9,
+              "distance": 2.23606797749979,
+              "margin": 85.76961365726741
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.871098
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                219,
+                39,
+                130
+              ],
+              "id": 11,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                40,
+                128
+              ],
+              "id": 10,
+              "distance": 2,
+              "margin": 86
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.888059
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                130,
+                130
+              ],
+              "id": 12,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                219,
+                39,
+                130
+              ],
+              "id": 11,
+              "distance": 1.4142135623730951,
+              "margin": 87.59140423785342
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.906811
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                130,
+                130
+              ],
+              "id": 13,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                130,
+                130
+              ],
+              "id": 12,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.924188
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                220,
+                130,
+                130
+              ],
+              "id": 14,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                130,
+                130,
+                130
+              ],
+              "id": 13,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.937542
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                220,
+                129
+              ],
+              "id": 15,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                220,
+                130,
+                130
+              ],
+              "id": 14,
+              "distance": 0,
+              "margin": 90
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.957173
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                130,
+                220,
+                130
+              ],
+              "id": 16,
+              "distance": 0,
+              "margin": 90
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                220,
+                129
+              ],
+              "id": 15,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.974565
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                219,
+                219,
+                129
+              ],
+              "id": 17,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "mirror": {
+              "rgb": [
+                219,
+                219,
+                129
+              ],
+              "id": 17,
+              "distance": 1.7320508075688772,
+              "margin": 87.27918443832579
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702429.994699
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                40,
+                41,
+                220
+              ],
+              "id": 18,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                41,
+                220
+              ],
+              "id": 18,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": 0,
+            "mirrorLag": 0,
+            "timestamp": 1791702430.012963
+          },
+          {
+            "video": null,
+            "ambient": {
+              "rgb": [
+                129,
+                40,
+                220
+              ],
+              "id": 19,
+              "distance": 1,
+              "margin": 88
+            },
+            "mirror": {
+              "rgb": [
+                40,
+                41,
+                220
+              ],
+              "id": 18,
+              "distance": 1,
+              "margin": 88
+            },
+            "lag": -1,
+            "mirrorLag": 0,
+            "timestamp": 1791702430.018998
+          }
+        ]
+      }
+    }
+  },
+  "limits": "The mirror and GPU output can have different compositor phases. Cyclic colors cannot distinguish whole-period differences, and capture cadence is not physical display cadence or latency.",
+  "environment": {
+    "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/148.0.0.0 Safari/537.36",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "dpr": 1,
+    "source": "1920x1080 VP9 60fps, 27 unique solid RGB colors changing every frame"
+  },
+  "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A788) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "date": "2026-10-11",
+  "code": {
+    "contentSHA256": "670c895397a26d8119cd54d9a7c41e7b68130d6f61983fdfdd3ecb0f5aa7a08a",
+    "rendererSHA256": "10f546c2619a9c2a088002491a10761db40d786b45f4b4b011cb065b1a8cb2a6"
+  },
+  "method": "Fully offscreen 1920x1080 VP9 60fps playback, 27-color cyclic input, neutral filters, 162px reading blur. Independent fixed Canvas 2D mirror requests current video pixels on each display callback. Four seconds of CDP JPEG95 compositor captures are classified after capture. Signed lag is mirror frame minus ambient frame modulo 27; positive values indicate ambient behind the mirror. Native video is outside the capture viewport.",
+  "summary": {
+    "samples": 234,
+    "sameFrame": 50,
+    "withinOne": 218,
+    "withinTwo": 233,
+    "maxDifference": 3,
+    "ambientBehindMirror": 0
+  }
+}

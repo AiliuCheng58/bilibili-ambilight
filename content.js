@@ -402,7 +402,14 @@
       if (sample) {
         const sourceFrame=settings.frameBlending?blender.sample(mediaSource,frame.width,frame.height,now,settings.frameBlendingSmoothness,fresh):mediaSource;
         frameCtx.drawImage(sourceFrame, 0, 0, frame.width, frame.height);
-        sampledFrame=presentedFrame;sampleRevision++;
+        let sampledKey=presentedFrame;
+        // Demand offscreen pixels before reading their timestamp; unavailable timestamps retain active refreshes.
+        if(mediaSource===video && !playerVisible && !temporal && canReadFrameTime && typeof VideoFrame==="function"){
+          sampledKey=readVideoFrameKey();
+          if(!canReadFrameTime)sampledKey=null;
+        }
+        if(fresh || force || temporal || sampledKey===null || sampledKey!==sampledFrame)sampleRevision++;
+        sampledFrame=sampledKey;
       }
       frameCtx.globalAlpha = 1;
       const immediateInspection=fresh || lastInspection===-Infinity;
