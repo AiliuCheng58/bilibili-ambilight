@@ -1,0 +1,198 @@
+{
+  "report": {
+    "counterFPS": 29,
+    "playing": {
+      "elapsed": 3012.475,
+      "projection": {
+        "count": 1438,
+        "ms": 82.09999999590218,
+        "max": 1.3999999994412065
+      },
+      "metrics": {
+        "TaskDuration": 0.5125919999999999,
+        "ScriptDuration": 0.315377,
+        "LayoutDuration": 0,
+        "RecalcStyleDuration": 0,
+        "LayoutCount": 0,
+        "RecalcStyleCount": 0
+      }
+    },
+    "pausedScroll": {
+      "elapsed": 573.1979000000001,
+      "geometryRead": {
+        "count": 88,
+        "ms": 26.800000002607703,
+        "max": 0.7000000001862645
+      },
+      "styleRead": {
+        "count": 88,
+        "ms": 0.2999999998137355,
+        "max": 0.20000000018626451
+      },
+      "themeApply": {
+        "count": 88,
+        "ms": 0.10000000055879354,
+        "max": 0.10000000055879354
+      },
+      "metrics": {
+        "TaskDuration": 0.19393700000000003,
+        "ScriptDuration": 0.08160299999999998,
+        "LayoutDuration": 0,
+        "RecalcStyleDuration": 0.043552,
+        "LayoutCount": 0,
+        "RecalcStyleCount": 169
+      }
+    },
+    "pausedIdle": {
+      "elapsed": 2106.204200000001,
+      "metrics": {
+        "TaskDuration": 0.21155000000000013,
+        "ScriptDuration": 0.05934000000000006,
+        "LayoutDuration": 0,
+        "RecalcStyleDuration": 0.011446999999999999,
+        "LayoutCount": 0,
+        "RecalcStyleCount": 25
+      }
+    },
+    "pausedResize": {
+      "elapsed": 162.54249999999956,
+      "geometryRead": {
+        "count": 3,
+        "ms": 1.2000000001862645,
+        "max": 0.7999999998137355
+      },
+      "styleRead": {
+        "count": 3,
+        "ms": 0,
+        "max": 0
+      },
+      "themeApply": {
+        "count": 3,
+        "ms": 0,
+        "max": 0
+      },
+      "projection": {
+        "count": 6,
+        "ms": 46.49999999906868,
+        "max": 36.299999999813735
+      },
+      "metrics": {
+        "TaskDuration": 0.07747100000000007,
+        "ScriptDuration": 0.056386999999999965,
+        "LayoutDuration": 0.0007069999999999993,
+        "RecalcStyleDuration": 0.005137000000000003,
+        "LayoutCount": 6,
+        "RecalcStyleCount": 13
+      }
+    },
+    "lateComment": true,
+    "staticScroll": {
+      "elapsed": 397.02120000000104,
+      "metrics": {
+        "TaskDuration": 0.034724000000000005,
+        "ScriptDuration": 0.007349,
+        "LayoutDuration": 0,
+        "RecalcStyleDuration": 0,
+        "LayoutCount": 0,
+        "RecalcStyleCount": 0
+      }
+    },
+    "feedInsertion": {
+      "elapsed": 240.8757999999998,
+      "styleRead": {
+        "count": 1801,
+        "ms": 2.4999999972060323,
+        "max": 0.19999999925494194
+      },
+      "surfaceRead": {
+        "count": 1801,
+        "ms": 45.79999999701977,
+        "max": 7.900000000372529
+      },
+      "surfaceBatch": {
+        "count": 22,
+        "ms": 55.30000000074506,
+        "max": 8
+      },
+      "surfaceMarks": 1359,
+      "surfacePending": 0,
+      "geometryRead": {
+        "count": 450,
+        "ms": 1.299999998882413,
+        "max": 0.10000000055879354
+      },
+      "metrics": {
+        "TaskDuration": 0.198556,
+        "ScriptDuration": 0.052748,
+        "LayoutDuration": 0.036548000000000004,
+        "RecalcStyleDuration": 0.028373000000000002,
+        "LayoutCount": 22,
+        "RecalcStyleCount": 24
+      }
+    },
+    "unthemedCards": 0,
+    "feedRestyle": {
+      "elapsed": 337.7986000000001,
+      "styleRead": {
+        "count": 1801,
+        "ms": 3.300000000745058,
+        "max": 0.2999999998137355
+      },
+      "surfaceRead": {
+        "count": 1801,
+        "ms": 81.29999999795109,
+        "max": 8.900000000372529
+      },
+      "surfaceBatch": {
+        "count": 24,
+        "ms": 91.1000000005588,
+        "max": 9.199999999254942
+      },
+      "surfaceMarks": 1359,
+      "surfacePending": 0,
+      "geometryRead": {
+        "count": 450,
+        "ms": 25.000000000931323,
+        "max": 1.7000000001862645
+      },
+      "metrics": {
+        "TaskDuration": 0.20044900000000004,
+        "ScriptDuration": 0.057524000000000006,
+        "LayoutDuration": 0.046153999999999994,
+        "RecalcStyleDuration": 0.037770000000000005,
+        "LayoutCount": 47,
+        "RecalcStyleCount": 48
+      }
+    },
+    "feedRemoval": {
+      "elapsed": 133.3293999999987,
+      "surfaceBatch": {
+        "count": 1,
+        "ms": 0.7000000001862645,
+        "max": 0.7000000001862645
+      },
+      "surfaceMarks": 9,
+      "surfacePending": 0,
+      "metrics": {
+        "TaskDuration": 0.008769999999999945,
+        "ScriptDuration": 0.0008209999999999884,
+        "LayoutDuration": 0.00008400000000000074,
+        "RecalcStyleDuration": 0,
+        "LayoutCount": 1,
+        "RecalcStyleCount": 0
+      }
+    },
+    "environment": {
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/148.0.0.0 Safari/537.36",
+      "renderer": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A788) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+    }
+  },
+  "errors": [],
+  "date": "2026-10-11",
+  "version": "1.7.9",
+  "code": {
+    "contentSHA256": "8434a65f0491d84e721f7c5d6a4d92d8e885df65bec90257063001d391e1a718",
+    "rendererSHA256": "10f546c2619a9c2a088002491a10761db40d786b45f4b4b011cb065b1a8cb2a6"
+  },
+  "method": "Isolated MV3 Chromium on Intel UHD. Projection counts aggregate the viewport renderer and the player-halo renderer. Interface calls include reuse of cached GPU output; counts are not GPU passes or distinct video frames."
+}

@@ -64,6 +64,7 @@ try {
     const ctx = probe.getContext('2d', { willReadFrequently: true });
     BiliAmbientRenderer.prototype.draw = function(...args) {
       const started = performance.now(), result = draw.apply(this, args);
+      if(this.canvas.className!=='bili-ambient-output')return result;
       if (motion.phase === 'fps' || motion.phase === 'reuse' || motion.phase === 'paused') motion.frames.push({ time: args[6], cost: performance.now() - started });
       if (motion.phase === 'color') {
         ctx.drawImage(document.querySelector('video'), 0, 0, 1, 1);
@@ -92,7 +93,7 @@ try {
     };
     BiliAmbientRenderer.prototype.reblur = function(...args) {
       const result = reblur.apply(this, args);
-      if (motion.phase === 'blur' && this.projected && !this.lost) {
+      if (motion.phase === 'blur' && this.canvas.className==='bili-ambient-output' && this.projected && !this.lost) {
         const width = this.canvas.width, height = this.canvas.height, pixels = new Uint8Array(width*height*4);
         this.gl.readPixels(0,0,width,height,this.gl.RGBA,this.gl.UNSIGNED_BYTE,pixels);
         let edge = 0;

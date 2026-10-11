@@ -22,6 +22,11 @@
   let ctx = null;
   let edgeCanvas = null;
   let edgeCtx = null;
+  let edgeRenderer = null;
+  let edgeSettings = null;
+  let edgeViewport = null;
+  let edgeRevision = 0;
+  let edgeSampleRevision = -1;
   let frame = null;
   let frameCtx = null;
   let inspectionCtx = null;
@@ -118,6 +123,8 @@
     });
     canvas.addEventListener("contextrestored", recover);
     halo.append(edgeCanvas);
+    edgeRenderer = new globalThis.BiliAmbientRenderer(halo, () => { projectionDirty = true; queueLayout(); });
+    edgeRenderer.canvas.className = "bili-ambient-halo-output";
     host.append(frame, canvas);
     renderer = new globalThis.BiliAmbientRenderer(host, recover);
     host.append(halo, shade);
@@ -292,8 +299,10 @@
         left: "0px", top: "0px", transform: `translate3d(${projection.left - spread}px,${projection.top - spread}px,0)`,
         width: `${outerWidth}px`, height: `${outerHeight}px`
       });
-      edgeCanvas.style.setProperty("--fade-x", `${spread / outerWidth * 100}%`);
-      edgeCanvas.style.setProperty("--fade-y", `${spread / outerHeight * 100}%`);
+      for (const edge of [edgeCanvas,edgeRenderer.canvas]) {
+        edge.style.setProperty("--fade-x", `${spread / outerWidth * 100}%`);
+        edge.style.setProperty("--fade-y", `${spread / outerHeight * 100}%`);
+      }
       lastGeometry = geometry;
     }
     // Overscan keeps blur from exposing an unpainted band at the viewport boundary.
@@ -313,6 +322,11 @@
     canvas.style.filter = `blur(${backgroundBlur()}px) ${colorFilter}`;
     host.style.setProperty("--bili-ambient-base", `rgb(${Array(3).fill(Math.round(settings.pageBackgroundGreyness*2.55)).join(",")})`);
     edgeCanvas.style.filter = `blur(${Math.max(0, settings.blur * .6)}px) saturate(${saturation}%) contrast(${contrast}%)`;
+    edgeRenderer.canvas.style.filter = `saturate(${saturation}%) contrast(${contrast}%)`;
+    edgeViewport = { left:0, top:0, width:outerWidth, height:outerHeight };
+    // Blur the cropped edge image before CSS scaling; full-size filter surfaces are costly beside native video.
+    edgeSettings = { ...settings, blur:Math.max(0,settings.blur*.6), readingBlur:0, vibrance:100, debandingStrength:0, projectionStyle:0,
+      directionTopEnabled:true, directionRightEnabled:true, directionBottomEnabled:true, directionLeftEnabled:true };
     const maskKey=[width,height,spread,settings.spreadFadeStart,settings.spreadFadeCurve,settings.directionTopEnabled,settings.directionRightEnabled,settings.directionBottomEnabled,settings.directionLeftEnabled].join(",");
     if(lastMask!==maskKey){
       const gradient=(size,first,last,direction)=>{
@@ -322,7 +336,8 @@
         return `linear-gradient(to ${direction},${stops.join(",")})`;
       };
       const mask=`${gradient(outerWidth,settings.directionLeftEnabled,settings.directionRightEnabled,"right")},${gradient(outerHeight,settings.directionTopEnabled,settings.directionBottomEnabled,"bottom")}`;
-      edgeCanvas.style.maskImage=mask;lastMask=maskKey;
+      for (const edge of [edgeCanvas,edgeRenderer.canvas]) edge.style.maskImage=mask;
+      lastMask=maskKey;
     }
     halo.style.opacity = String(.14 * brightness / 100);
     halo.style.display = playerVisible && !floating ? "block" : "none";
@@ -464,9 +479,14 @@
         if(video.style.getPropertyValue("--bili-ambient-video-clip")!==clip)video.style.setProperty("--bili-ambient-video-clip",clip);
         if(video.style.getPropertyValue("--bili-ambient-video-fill")!==fill)video.style.setProperty("--bili-ambient-video-fill",fill);
       }else{video.style.removeProperty("--bili-ambient-video-clip");video.style.removeProperty("--bili-ambient-video-fill");}
-      if (sample || inspect || force || settings.debandingStrength) {
-        edgeCtx.drawImage(frame, frame.width * crop.x, frame.height * crop.y, frame.width * crop.width, frame.height * crop.height, 0, 0, edgeCanvas.width, edgeCanvas.height);
-        globalThis.BiliAmbientProjection.fallbackFilters(edgeCtx,{left:0,top:0,width:edgeCanvas.width,height:edgeCanvas.height},{left:0,top:0,width:edgeCanvas.width,height:edgeCanvas.height},settings,now);
+      if (halo.style.display !== "none") {
+        if (sample || inspect || force || settings.debandingStrength || edgeSampleRevision !== sampleRevision) {
+          edgeCtx.drawImage(frame, frame.width * crop.x, frame.height * crop.y, frame.width * crop.width, frame.height * crop.height, 0, 0, edgeCanvas.width, edgeCanvas.height);
+          globalThis.BiliAmbientProjection.fallbackFilters(edgeCtx,{left:0,top:0,width:edgeCanvas.width,height:edgeCanvas.height},{left:0,top:0,width:edgeCanvas.width,height:edgeCanvas.height},settings,now);
+          edgeSampleRevision = sampleRevision; edgeRevision++;
+        }
+        const edgeGPU = edgeRenderer.draw(edgeCanvas,edgeCanvas,globalThis.BiliAmbientProjection.fullFrame,edgeViewport,edgeViewport,edgeSettings,now,edgeSettings.blur,null,edgeRevision);
+        edgeCanvas.style.visibility = edgeGPU ? "hidden" : "visible";
       }
       videoEffects.draw(settings,frameAlpha,now,host);
       fresh = false;
@@ -536,6 +556,7 @@
     canReadFrameTime = true;
     mediaSource = null;
     renderer?.releaseSource();
+    edgeRenderer?.releaseSource(); edgeSampleRevision = -1;
     inspector.dispose();
     inspectedPixels=null;
     theme.setPlayer(null);
@@ -554,6 +575,7 @@
     resetClips();
     video = next;
     renderer?.retry();
+    edgeRenderer?.retry();
     failures = 0;
     lastFrame = -Infinity;
     nextFrameAt = -Infinity;
@@ -565,7 +587,7 @@
     for (const event of ["pause", "ended"]) video.addEventListener(event, () => { projectionDirty = true; }, options);
     for (const event of ["emptied", "loadstart"]) video.addEventListener(event, () => { resetClips(); recover(); }, options);
     for(const event of ["seeking","seeked"])video.addEventListener(event,recover,options);
-    video.addEventListener("loadeddata",()=>renderer?.retry(),options);
+    video.addEventListener("loadeddata",()=>{renderer?.retry();edgeRenderer?.retry();},options);
     video.addEventListener("error", () => hide("waiting", "等待播放器恢复视频"), options);
     video.addEventListener("timeupdate", () => { if (video.paused) queueLayout(); }, options);
     resizeObserver.observe(video);
@@ -708,6 +730,7 @@
       site.dispose();
       menu.dispose();
       renderer?.dispose();
+      edgeRenderer?.dispose();
       stats?.dispose();
       layerAnimation?.cancel();
       clearInterval(routeTimer);

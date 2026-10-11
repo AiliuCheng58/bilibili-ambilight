@@ -34,7 +34,7 @@ function averagePNG(buffer,area){
   const rgb=[0,0,0];for(let y=region.y;y<region.y+region.height;y++)for(let x=region.x;x<region.x+region.width;x++)for(let c=0;c<3;c++)rgb[c]+=rows[y*stride+x*channels+c];
   return rgb.map(v=>v/(region.width*region.height));
 }
-const checks=[];
+const checks=[],measurements={};
 try {
   const worker=context.serviceWorkers()[0] || await context.waitForEvent("serviceworker");
   await worker.evaluate(()=>chrome.storage.local.clear());
@@ -72,6 +72,31 @@ try {
     await page.locator(".bili-ambient-output").evaluate(c=>{window.testContextLoss=c.getContext("webgl").getExtension("WEBGL_lose_context");window.testContextLoss.loseContext();});
     await page.waitForFunction(()=>document.querySelector("#bili-ambient-layer").dataset.renderer==="Canvas 2D");assert.ok((await pixel())[0]>100);
     await page.evaluate(()=>window.testContextLoss.restoreContext());await page.waitForFunction(()=>document.querySelector("#bili-ambient-layer").dataset.renderer==="WebGL");
+  });
+  await check("player halo keeps its soft edge while GPU blur falls back and recovers",async()=>{
+    await set({blur:42});await scene('edges');await page.locator('video').evaluate(v=>v.pause());await page.waitForTimeout(400);
+    const halo=page.locator('.bili-ambient-halo-output'),legacy=page.locator('.bili-ambient-halo > canvas:not(.bili-ambient-halo-output)');
+    assert.equal(await halo.count(),1);
+    assert.ok(!(await halo.evaluate(c=>getComputedStyle(c).filter)).includes('blur('));
+    assert.equal(await legacy.evaluate(c=>getComputedStyle(c).visibility),'hidden');
+    const mask=await halo.evaluate(c=>getComputedStyle(c).maskImage);
+    assert.notEqual(mask,'none');assert.equal(mask,await legacy.evaluate(c=>getComputedStyle(c).maskImage));
+    assert.ok(await halo.evaluate(c=>Math.max(c.width,c.height)<=256));
+    const box=await page.locator('video').boundingBox();
+    const clips=[{x:Math.floor(box.x+box.width*.18),y:Math.floor(box.y-24),width:16,height:16},{x:Math.floor(box.x-24),y:Math.floor(box.y+box.height*.4),width:16,height:16}];
+    const samples=async()=>Promise.all(clips.map(clip=>page.screenshot({clip}).then(averagePNG)));
+    const before=await samples();
+    await halo.evaluate(c=>{window.haloContextLoss=c.getContext('webgl').getExtension('WEBGL_lose_context');window.haloContextLoss.loseContext();});
+    await page.waitForFunction(()=>getComputedStyle(document.querySelector('.bili-ambient-halo > canvas:not(.bili-ambient-halo-output)')).visibility==='visible');
+    assert.ok((await legacy.evaluate(c=>getComputedStyle(c).filter)).includes('blur('));
+    const fallback=await samples();
+    assert.ok(fallback.every((rgb,i)=>rgb.every((v,c)=>Math.abs(v-before[i][c])<6)),JSON.stringify({before,fallback}));
+    await page.evaluate(()=>window.haloContextLoss.restoreContext());
+    await page.waitForFunction(()=>getComputedStyle(document.querySelector('.bili-ambient-halo > canvas:not(.bili-ambient-halo-output)')).visibility==='hidden');
+    const restored=await samples();
+    assert.ok(restored.every((rgb,i)=>rgb.every((v,c)=>Math.abs(v-before[i][c])<3)),JSON.stringify({before,restored}));
+    measurements.halo={before,fallback,restored};
+    await set({blur:10});await page.locator('video').evaluate(v=>v.play());
   });
   await check("vibrance changes projected colors while decoded video colors stay intact",async()=>{
     await scene("solid","#b86b84");await set({vibrance:0});await page.waitForTimeout(150);
@@ -206,9 +231,20 @@ try {
     await page.locator(".bili-ambient-video-sync").waitFor({state:"detached"});assert.equal(await page.locator("video").evaluate(v=>getComputedStyle(v).opacity),"1");
   });
   await check("video overlay drop protection returns to native video",async()=>{
-    await page.locator("video").evaluate(v=>{window.originalPlaybackQuality=v.getVideoPlaybackQuality;let frames=0;v.getVideoPlaybackQuality=()=>({totalVideoFrames:frames+=10,droppedVideoFrames:Math.floor(frames*.5)});});
-    await set({videoOverlayEnabled:true,videoOverlaySyncThreshold:5});await page.waitForFunction(()=>!document.querySelector("video").classList.contains("bili-ambient-synchronized"));assert.equal((await status()).videoOverlay,false);
-    await set({videoOverlayEnabled:false});await page.locator("video").evaluate(v=>v.getVideoPlaybackQuality=window.originalPlaybackQuality);
+    const session=await context.newCDPSession(page),worlds=[];
+    session.on('Runtime.executionContextCreated',({context})=>worlds.push(context.id));await session.send('Runtime.enable');
+    let world;const run=async expression=>{const r=await session.send('Runtime.evaluate',{contextId:world,expression,returnByValue:true,awaitPromise:true});if(r.exceptionDetails)throw new Error(r.exceptionDetails.exception?.description||r.exceptionDetails.text);return r.result.value;};
+    for(const id of worlds){world=id;if(await run("typeof BiliAmbientVideoEffects==='function'"))break;}
+    assert.equal(await run("typeof BiliAmbientVideoEffects"),'function');
+    await run("(()=>{const video=document.querySelector('video');globalThis.overlayQuality=video.getVideoPlaybackQuality;globalThis.overlayProbeFrames=0;video.getVideoPlaybackQuality=()=>({totalVideoFrames:overlayProbeFrames+=10,droppedVideoFrames:Math.floor(overlayProbeFrames*.5)});})()");
+    try {
+      await set({videoOverlayEnabled:true,videoOverlaySyncThreshold:5});
+      const protectedFrame=await run("new Promise(resolve=>{const finish=value=>{clearInterval(timer);clearTimeout(timeout);resolve(value);};const timer=setInterval(()=>{if(overlayProbeFrames>=20 && !document.querySelector('video').classList.contains('bili-ambient-synchronized'))finish(true);},16);const timeout=setTimeout(()=>finish(false),3000);})");
+      assert.ok(protectedFrame);assert.equal((await status()).videoOverlay,false);
+      measurements.dropProtection=await run('({observedFrames:overlayProbeFrames,threshold:5})');
+    } finally {
+      await set({videoOverlayEnabled:false});await run("document.querySelector('video').getVideoPlaybackQuality=overlayQuality");await session.detach();
+    }
   });
   await check("HDR filters apply by selection and player metadata",async()=>{
     await set({hdrMode:1,hdrBrightness:80,hdrContrast:90,hdrSaturation:120});
@@ -297,6 +333,6 @@ try {
     await page.locator("video").evaluate(async v=>{v.srcObject.getTracks().forEach(t=>t.stop());await window.attachSource(v);});
     await set({frameBlending:false,frameBlendingSmoothness:80,frameSync:2,fps:24});
   });
-  assert.deepEqual(errors,[]);await writeFile(resolve(results,"results.json"),JSON.stringify({checks,errors},null,2));
+  assert.deepEqual(errors,[]);await writeFile(resolve(results,"results.json"),JSON.stringify({checks,errors,measurements},null,2));
   console.log(`${checks.length}/${checks.length} advanced checks passed.`);
 } finally { await context.close(); }
