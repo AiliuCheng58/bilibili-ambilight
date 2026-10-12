@@ -91,6 +91,7 @@
     window.attachSource(document.querySelector("video"));
     document.querySelector("#fullscreen").addEventListener("click", () => document.querySelector(".bpx-player-container").requestFullscreen());
     customElements.define("bili-rich-text",class extends HTMLElement{constructor(){super();this.attachShadow({mode:"open"}).innerHTML='<span>评论内容与操作保持清晰。</span>';}});
+    customElements.define("bili-comment-reply-renderer",class extends HTMLElement{constructor(){super();this.attachShadow({mode:"open"}).innerHTML='<style>:host{display:block;--text1:#18191c}#main{color:var(--text1);padding:20px}</style><div id="body"><div id="main"><bili-rich-text></bili-rich-text></div><div id="footer"></div></div>';}});
     customElements.define("bili-comment-renderer",class extends HTMLElement{constructor(){super();this.attachShadow({mode:"open"}).innerHTML='<style>:host{display:block;--bg1:#fff;--text1:#18191c}#content{background:var(--bg1);color:var(--text1);padding:20px;border-bottom:1px solid #8883}</style><div id="content"><bili-rich-text></bili-rich-text></div>';}});
     customElements.define("bili-comments",class extends HTMLElement{constructor(){super();this.attachShadow({mode:"open"}).innerHTML='<style>:host{display:block;--bg1:#fff;--text1:#18191c}#title{background:var(--bg1);color:var(--text1);font-size:24px;padding:20px}</style><div id="title">评论</div>'+Array(15).fill('<bili-comment-renderer></bili-comment-renderer>').join('');}});
   </script>

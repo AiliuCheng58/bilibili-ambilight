@@ -32,12 +32,15 @@
     :host-context(html[data-bili-ambient-tone="light"]) { color-scheme: light; }
   `;
   function textRect(target) {
+    const visible=rect=>rect.width>0 && rect.height>0 && rect.bottom>0 && rect.top<innerHeight && rect.right>0 && rect.left<innerWidth;
+    const bounds=target.getBoundingClientRect();
+    if (bounds.width>0 && bounds.height>0 && !visible(bounds)) return null;
     const nodes=[target];
     while (nodes.length) {
       const node=nodes.pop();
       if (node.nodeType===Node.TEXT_NODE && node.textContent.trim()) {
         const range=document.createRange();range.selectNodeContents(node);
-        const rect=Array.from(range.getClientRects()).find(r=>r.width>0 && r.height>0);
+        const rect=Array.from(range.getClientRects()).find(visible);
         if (rect) return rect;
       } else {
         // Comment rich text is rendered inside its own open shadow tree.
@@ -107,9 +110,9 @@
       for (const [root,record] of this.roots) {
         let ink=null;
         if (this.sampler && this.theme===0 && root.host.isConnected) {
-          const target=root.querySelector('#content,#title');
+          const target=root.querySelector('#content,#title,bili-rich-text');
           if (target) {
-            // Block boxes include empty space and comment pictures; sample the text's first rendered line.
+            // Block boxes include empty space and pictures; sample the first visible text line.
             const rect=textRect(target);
             if (!rect) continue;
             if (rect.width>0 && rect.height>0 && rect.bottom>0 && rect.top<innerHeight && rect.right>0 && rect.left<innerWidth) {

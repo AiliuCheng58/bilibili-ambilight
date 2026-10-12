@@ -111,8 +111,39 @@ try {
     await page.evaluate(()=>{const hosts=document.querySelector('bili-comments').shadowRoot.querySelectorAll('bili-comment-renderer');hosts[0].style.top='720px';hosts[1].style.top='120px';window.dispatchEvent(new Event('scroll'));});
     await page.waitForTimeout(300);const moved=await read();assert.equal(moved[0].color,samples[1].color);assert.equal(moved[1].color,samples[0].color);
     measurements.readingMoved=moved;
+    const previousText=await page.evaluate(()=>{
+      const host=document.querySelector('bili-comments').shadowRoot.querySelector('bili-comment-renderer');
+      const span=host.shadowRoot.querySelector('bili-rich-text').shadowRoot.querySelector('span'),text=span.textContent;
+      host.style.top='-220px';span.textContent=Array(22).fill('可见评论正文').join('\n');span.style.whiteSpace='pre-line';
+      window.dispatchEvent(new Event('scroll'));return text;
+    });
+    await page.waitForTimeout(300);
+    const clipped=await page.evaluate(()=>{
+      const target=document.querySelector('bili-comments').shadowRoot.querySelector('bili-comment-renderer').shadowRoot.querySelector('#content');
+      const text=target.querySelector('bili-rich-text').shadowRoot.querySelector('span').firstChild,range=document.createRange();range.selectNodeContents(text);
+      const lines=Array.from(range.getClientRects());return {color:getComputedStyle(target).color,firstLineY:lines[0].top,visibleLineY:lines.find(r=>r.bottom>0&&r.top<innerHeight)?.top};
+    });
+    measurements.readingClipped=clipped;assert.ok(clipped.firstLineY<0&&clipped.visibleLineY>=-24);assert.equal(clipped.color,samples[0].color);
+    await page.evaluate(text=>{
+      const host=document.querySelector('bili-comments').shadowRoot.querySelector('bili-comment-renderer'),span=host.shadowRoot.querySelector('bili-rich-text').shadowRoot.querySelector('span');
+      span.textContent=text;span.style.removeProperty('white-space');host.style.top='720px';
+    },previousText);
     await set({theme:1});await page.waitForTimeout(300);assert.ok((await read()).every(s=>s.color==='rgb(244, 245, 248)'));
     await page.evaluate(()=>document.querySelector('bili-comments').shadowRoot.querySelectorAll('[data-reading-contrast]').forEach(e=>{e.removeAttribute('style');e.removeAttribute('data-reading-contrast');}));
+    await set({theme:0,projectionStyle:1,blur:10,brightness:100,saturation:100,dim:0});await scene('solid','#ff0000');
+  });
+  await check("reply rich text follows local reading brightness",async()=>{
+    await set({theme:0,projectionStyle:0,blur:42,brightness:100,saturation:100,dim:8});await scene('readingContrast');
+    await page.evaluate(()=>{const reply=document.createElement('bili-comment-reply-renderer');reply.style.cssText='position:fixed;left:1050px;top:120px;width:210px;z-index:10';document.querySelector('bili-comments').shadowRoot.append(reply);});
+    const samples=[];
+    for(const [top,color] of [[720,'rgb(255, 255, 255)'],[120,'rgb(0, 0, 0)']]){
+      await page.evaluate(top=>{document.querySelector('bili-comments').shadowRoot.querySelector('bili-comment-reply-renderer').style.top=top+'px';window.dispatchEvent(new Event('scroll'));},top);
+      await page.waitForTimeout(500);
+      const actual=await page.evaluate(()=>{const reply=document.querySelector('bili-comments').shadowRoot.querySelector('bili-comment-reply-renderer'),span=reply.shadowRoot.querySelector('bili-rich-text').shadowRoot.querySelector('span'),s=getComputedStyle(span);return {color:s.color,filter:s.filter};});
+      samples.push({top,...actual});assert.equal(actual.color,color);assert.equal(actual.filter,'none');
+    }
+    measurements.replyReading=samples;
+    await page.evaluate(()=>document.querySelector('bili-comments').shadowRoot.querySelector('bili-comment-reply-renderer').remove());
     await set({theme:0,projectionStyle:1,blur:10,brightness:100,saturation:100,dim:0});await scene('solid','#ff0000');
   });
   await check("vibrance changes projected colors while decoded video colors stay intact",async()=>{

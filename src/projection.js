@@ -108,11 +108,17 @@
     const bandX=Math.max(1/(width*crop.width),settings.edge/100),bandY=Math.max(1/(height*crop.height),settings.edge/100);
     const light=(x,y)=>{const index=(y*width+x)*4;return (data[index]*.2126+data[index+1]*.7152+data[index+2]*.0722)/255;};
     let luminance = 0, count = 0;
-    const columns=region?12:Math.ceil(width/4),rows=region?4:Math.ceil(height/4);
+    const blurred=region?.blur>0;
+    const columns=blurred?9:region?12:Math.ceil(width/4),rows=blurred?9:region?4:Math.ceil(height/4);
+    // Combine the text area and Gaussian bloom footprint; overscan pixels contribute to visible blur.
+    const sigmaX=blurred?Math.hypot(region.blur,region.width/Math.sqrt(12)):0;
+    const sigmaY=blurred?Math.hypot(region.blur,region.height/Math.sqrt(12)):0;
     for (let y = 0; y < rows; y++) for (let x = 0; x < columns; x++) {
-      const vx = region ? region.left+(x+.5)/columns*region.width : viewport.left+x*4/width*viewport.width;
-      const vy = region ? region.top+(y+.5)/rows*region.height : viewport.top+y*4/height*viewport.height;
-      if (vx < 0 || vy < 0 || vx > innerWidth || vy > innerHeight) continue;
+      const zx=(x-4)*.75,zy=(y-4)*.75,weight=blurred?Math.exp(-.5*(zx*zx+zy*zy)):1;
+      let vx = blurred ? region.left+region.width/2+zx*sigmaX : region ? region.left+(x+.5)/columns*region.width : viewport.left+x*4/width*viewport.width;
+      let vy = blurred ? region.top+region.height/2+zy*sigmaY : region ? region.top+(y+.5)/rows*region.height : viewport.top+y*4/height*viewport.height;
+      if(blurred){vx=Math.max(viewport.left,Math.min(viewport.left+viewport.width,vx));vy=Math.max(viewport.top,Math.min(viewport.top+viewport.height,vy));}
+      else if (vx < 0 || vy < 0 || vx > innerWidth || vy > innerHeight) continue;
       // Reading text can occupy the original projection rectangle after the player floats.
       if (!region && vx > anchor.left && vx < anchor.left + anchor.width && vy > anchor.top && vy < anchor.top + anchor.height) continue;
       let u=(vx-left)/w,v=(vy-top)/h;
@@ -129,8 +135,8 @@
       const px=Math.max(0,Math.min(width-1,(crop.x+clamp(u)*crop.width)*width-.5));
       const py=Math.max(0,Math.min(height-1,(crop.y+clamp(v)*crop.height)*height-.5));
       const x0=Math.floor(px),y0=Math.floor(py),x1=Math.min(width-1,x0+1),y1=Math.min(height-1,y0+1),dx=px-x0,dy=py-y0;
-      luminance += (light(x0,y0)*(1-dx)+light(x1,y0)*dx)*(1-dy)+(light(x0,y1)*(1-dx)+light(x1,y1)*dx)*dy;
-      count++;
+      luminance += ((light(x0,y0)*(1-dx)+light(x1,y0)*dx)*(1-dy)+(light(x0,y1)*(1-dx)+light(x1,y1)*dx)*dy)*weight;
+      count+=weight;
     }
     return count ? luminance / count : 0;
   }

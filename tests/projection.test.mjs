@@ -27,3 +27,15 @@ test('manual clipping is available before the first asynchronous pixel result',(
   assert.equal(crop.x,.12);assert.equal(crop.width,.76);assert.equal(crop.readable,true);
   assert.equal(detector.detect(null,globalThis.BiliAmbientSettings.defaults).readable,false);
 });
+
+test('regional reading brightness includes Gaussian light from viewport overscan',()=>{
+  globalThis.innerWidth=200;globalThis.innerHeight=200;
+  const data=new Uint8ClampedArray(8*8*4);
+  for(let y=0;y<8;y++)for(let x=0;x<8;x++){const value=y<4?255:0;data.set([value,value,value,255],(y*8+x)*4);}
+  const image={width:8,height:8,data},anchor={left:0,top:0,width:200,height:200},viewport={left:-360,top:-360,width:920,height:920};
+  const {surroundingLuminance,fullFrame}=globalThis.BiliAmbientProjection,settings={...globalThis.BiliAmbientSettings.defaults,projectionStyle:0};
+  const region={left:90,top:185,width:20,height:10};
+  assert.ok(surroundingLuminance(image,anchor,viewport,fullFrame,settings,region)<.01);
+  const blurred=surroundingLuminance(image,anchor,viewport,fullFrame,settings,{...region,blur:120});
+  assert.ok(blurred>.15&&blurred<.30,String(blurred));
+});

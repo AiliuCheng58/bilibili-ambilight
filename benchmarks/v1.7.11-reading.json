@@ -1,0 +1,1252 @@
+{
+  "date": "2026-10-12",
+  "version": "1.7.11",
+  "code": {
+    "contentSHA256": "1ce6f5ed0260f9456fac20e9a554d36d7b92dde2f199976ce101c9e7d4533101",
+    "rendererSHA256": "10f546c2619a9c2a088002491a10761db40d786b45f4b4b011cb065b1a8cb2a6",
+    "projectionSHA256": "7ede7860eb42864d40fe745e153299ac3b50c8d5d8f1e8ee4dde7c0139283152",
+    "themeSHA256": "84809a1ecef3e3d4de964ab384b7d36df7d16cbb926c0eff637c566da882f278"
+  },
+  "method": "Installed MV3 extension in isolated Chromium. A paused 22-line nested comment moves above the viewport, leaving later lines visible on a bright projected region. Replies use their rendered rich-text node. Region brightness includes a bounded Gaussian footprint and projection overscan. The regression observes body ink, range positions, local contrast, forced themes and style restoration. Public-page contrast uses the existing same-paused-frame global-palette comparison and glyph-free PNG method.",
+  "baseline": {
+    "version": "1.7.10",
+    "themeSHA256": "67034b5fc9ade5fac254ca81c10a7cfb2b7e051f6dd1fadce1b2c11b7789ee44",
+    "observedInk": "rgb(255, 255, 255)"
+  },
+  "earlierRegionalProbe": {
+    "date": "2026-10-12T10:48:15.675Z",
+    "url": "https://www.bilibili.com/video/BV1Za4C6WEXv/",
+    "seekTargetTime": 65,
+    "scroll": 1600,
+    "samples": [
+      {
+        "host": "BILI-COMMENT-RENDERER",
+        "rect": {
+          "x": 212.5,
+          "y": 232,
+          "width": 255,
+          "height": 20
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "15px",
+        "lineHeight": "24px",
+        "filter": "none",
+        "background": [
+          235,
+          232.1075,
+          214.295
+        ],
+        "contrast": 17.06121233705464,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 12.744491064940352
+      },
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "rect": {
+          "x": 328.328125,
+          "y": 438.75,
+          "width": 810,
+          "height": 20
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "15px",
+        "lineHeight": "24px",
+        "filter": "none",
+        "background": [
+          193.11666666666667,
+          176.78333333333333,
+          150.47833333333332
+        ],
+        "contrast": 9.985800117288337,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 7.459255406760368
+      },
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "rect": {
+          "x": 330.796875,
+          "y": 536.25,
+          "width": 120,
+          "height": 20
+        },
+        "color": "rgb(255, 255, 255)",
+        "fontSize": "15px",
+        "lineHeight": "24px",
+        "filter": "none",
+        "background": [
+          153.984496124031,
+          134.96124031007753,
+          103.71220930232558
+        ],
+        "contrast": 3.4792091674531127,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 4.5087002664284945
+      },
+      {
+        "host": "BILI-COMMENT-RENDERER",
+        "rect": {
+          "x": 212.5,
+          "y": 692,
+          "width": 570,
+          "height": 20
+        },
+        "color": "rgb(255, 255, 255)",
+        "fontSize": "15px",
+        "lineHeight": "24px",
+        "filter": "none",
+        "background": [
+          98.23083333333334,
+          79.12166666666667,
+          46.895833333333336
+        ],
+        "contrast": 7.822126480808843,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 2.0054279790467198
+      },
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "rect": {
+          "x": 337.0625,
+          "y": 755.75,
+          "width": 330,
+          "height": 20
+        },
+        "color": "rgb(255, 255, 255)",
+        "fontSize": "15px",
+        "lineHeight": "24px",
+        "filter": "none",
+        "background": [
+          102.78916666666667,
+          82.27166666666666,
+          44.86833333333333
+        ],
+        "contrast": 7.428262552255289,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 2.111760480988072
+      },
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "rect": {
+          "x": 310.65625,
+          "y": 829.25,
+          "width": 204.765625,
+          "height": 20
+        },
+        "color": "rgb(255, 255, 255)",
+        "fontSize": "15px",
+        "lineHeight": "24px",
+        "filter": "none",
+        "background": [
+          94.42,
+          74.90833333333333,
+          37.63916666666667
+        ],
+        "contrast": 8.360339152309592,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 1.8763247536342789
+      }
+    ],
+    "version": "1.7.11",
+    "code": {
+      "contentSHA256": "98c72d8af45ad901af0d9ec7a234a547193884c3f708c75249a4d7c008f557fa",
+      "themeSHA256": "84809a1ecef3e3d4de964ab384b7d36df7d16cbb926c0eff637c566da882f278",
+      "projectionSHA256": "0d3079e41b4226249b9c080a66262686bc5f66ffbd97b71afca677a0e58b23b2"
+    },
+    "pausedTime": 70.935496,
+    "tone": "light",
+    "commentStructure": [
+      {
+        "host": "BILI-COMMENT-THREAD-RENDERER",
+        "ids": [
+          "comment",
+          "replies",
+          "reply-container",
+          "div"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-RENDERER",
+        "ids": [
+          "body",
+          "user-avatar",
+          "main",
+          "header",
+          "ornament",
+          "content",
+          "pictures",
+          "footer"
+        ],
+        "rich": [
+          {
+            "id": "",
+            "parent": "content",
+            "color": "rgb(0, 0, 0)",
+            "rect": {
+              "top": 232,
+              "height": 20
+            }
+          }
+        ]
+      },
+      {
+        "host": "BILI-COMMENT-USER-INFO",
+        "ids": [
+          "info",
+          "user-name",
+          "user-level"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-USER-SAILING-CARD",
+        "ids": [
+          "card"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-PICTURES-RENDERER",
+        "ids": [
+          "content"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-ACTION-BUTTONS-RENDERER",
+        "ids": [
+          "pubdate",
+          "like",
+          "count",
+          "dislike",
+          "reply",
+          "more"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-MENU",
+        "ids": [
+          "options"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-REPLIES-RENDERER",
+        "ids": [
+          "expander",
+          "expander-contents",
+          "expander-footer",
+          "view-more"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "ids": [
+          "body",
+          "main",
+          "user-avatar",
+          "footer"
+        ],
+        "rich": [
+          {
+            "id": "",
+            "parent": "main",
+            "color": "rgb(0, 0, 0)",
+            "rect": {
+              "top": 438.75,
+              "height": 47.75
+            }
+          }
+        ]
+      },
+      {
+        "host": "BILI-COMMENT-USER-INFO",
+        "ids": [
+          "info",
+          "user-name",
+          "user-level"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-ACTION-BUTTONS-RENDERER",
+        "ids": [
+          "pubdate",
+          "like",
+          "count",
+          "dislike",
+          "reply",
+          "more"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-MENU",
+        "ids": [
+          "options"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "ids": [
+          "body",
+          "main",
+          "user-avatar",
+          "footer"
+        ],
+        "rich": [
+          {
+            "id": "",
+            "parent": "main",
+            "color": "rgb(255, 255, 255)",
+            "rect": {
+              "top": 536.25,
+              "height": 20
+            }
+          }
+        ]
+      },
+      {
+        "host": "BILI-COMMENT-USER-INFO",
+        "ids": [
+          "info",
+          "user-name",
+          "user-level"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-ACTION-BUTTONS-RENDERER",
+        "ids": [
+          "pubdate",
+          "like",
+          "count",
+          "dislike",
+          "reply",
+          "more"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-MENU",
+        "ids": [
+          "options"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-THREAD-RENDERER",
+        "ids": [
+          "comment",
+          "replies",
+          "reply-container",
+          "div"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-RENDERER",
+        "ids": [
+          "body",
+          "user-avatar",
+          "main",
+          "header",
+          "ornament",
+          "content",
+          "footer"
+        ],
+        "rich": [
+          {
+            "id": "",
+            "parent": "content",
+            "color": "rgb(255, 255, 255)",
+            "rect": {
+              "top": 692,
+              "height": 20
+            }
+          }
+        ]
+      },
+      {
+        "host": "BILI-COMMENT-USER-INFO",
+        "ids": [
+          "info",
+          "user-name",
+          "user-level"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-USER-SAILING-CARD",
+        "ids": [
+          "card"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-ACTION-BUTTONS-RENDERER",
+        "ids": [
+          "pubdate",
+          "like",
+          "count",
+          "dislike",
+          "reply",
+          "more"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-MENU",
+        "ids": [
+          "options"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-REPLIES-RENDERER",
+        "ids": [
+          "expander",
+          "expander-contents",
+          "expander-footer",
+          "view-more"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "ids": [
+          "body",
+          "main",
+          "user-avatar",
+          "footer"
+        ],
+        "rich": [
+          {
+            "id": "",
+            "parent": "main",
+            "color": "rgb(255, 255, 255)",
+            "rect": {
+              "top": 755.75,
+              "height": 20
+            }
+          }
+        ]
+      },
+      {
+        "host": "BILI-COMMENT-USER-INFO",
+        "ids": [
+          "info",
+          "user-name",
+          "user-level"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-ACTION-BUTTONS-RENDERER",
+        "ids": [
+          "pubdate",
+          "like",
+          "count",
+          "dislike",
+          "reply",
+          "more"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-MENU",
+        "ids": [
+          "options"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "ids": [
+          "body",
+          "main",
+          "user-avatar",
+          "footer"
+        ],
+        "rich": [
+          {
+            "id": "",
+            "parent": "main",
+            "color": "rgb(255, 255, 255)",
+            "rect": {
+              "top": 829.25,
+              "height": 20
+            }
+          }
+        ]
+      },
+      {
+        "host": "BILI-COMMENT-USER-INFO",
+        "ids": [
+          "info",
+          "user-name",
+          "user-level"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-ACTION-BUTTONS-RENDERER",
+        "ids": [
+          "pubdate",
+          "like",
+          "count",
+          "dislike",
+          "reply",
+          "more"
+        ],
+        "rich": []
+      }
+    ],
+    "regions": [
+      {
+        "index": "0",
+        "ink": "light"
+      },
+      {
+        "index": "3",
+        "ink": "dark"
+      },
+      {
+        "index": "1",
+        "ink": "light"
+      },
+      {
+        "index": "2",
+        "ink": "dark"
+      },
+      {
+        "index": "4",
+        "ink": "dark"
+      },
+      {
+        "index": "5",
+        "ink": "dark"
+      }
+    ],
+    "before": [
+      "rgb(29, 35, 50)",
+      "rgb(29, 35, 50)",
+      "rgb(29, 35, 50)",
+      "rgb(29, 35, 50)",
+      "rgb(29, 35, 50)",
+      "rgb(29, 35, 50)"
+    ]
+  },
+  "advanced": {
+    "checks": [
+      "WebGL compositing preserves the left and right edge orientation",
+      "Canvas 2D fallback produces the same directional scene without WebGL",
+      "GPU context loss falls back and restoration resumes WebGL",
+      "player halo keeps its soft edge while GPU blur falls back and recovers",
+      "comment text follows its local background across bright and dark regions",
+      "reply rich text follows local reading brightness",
+      "vibrance changes projected colors while decoded video colors stay intact",
+      "OLED debanding preserves pure black",
+      "fade duration blends a color step over time",
+      "flicker reduction slows sudden brightness changes",
+      "colored bar detection responds to its switch and manual clipping",
+      "view selection follows Bilibili wide-screen state",
+      "forced theme, header fill and independent recommendation scroll apply immediately",
+      "statistics expose real render resolution and bar readings",
+      "navigation popovers blur page pixels beyond the navigation bar bounds",
+      "message text retains reading contrast across bright and dark site palettes",
+      "static-scene energy saving reduces actual draw calls",
+      "embed preference controls an embedded playback page",
+      "paused playback stops drawing after layout settles",
+      "resolution scaling changes the real render buffers",
+      "video synchronization, noise and graphics workarounds restore the native player",
+      "video overlay drop protection returns to native video",
+      "HDR filters apply by selection and player metadata",
+      "VR surface follows camera changes while the media is paused",
+      "shortcuts toggle their option and ignore editable fields",
+      "a replacement media source resets manual clipping",
+      "JSON backup restores settings and opt-in browser synchronization propagates",
+      "advanced settings search edits and persists the selected control",
+      "the player menu edits real settings and remains usable when the effect is disabled",
+      "the fullscreen player menu closes with Escape while fullscreen stays active",
+      "leaving playback moves settings to the site launcher and returning restores it",
+      "live rooms receive projection and translucent chat without changing video pixels",
+      "frame blending interpolates low-frame-rate media and settles without accumulated trails"
+    ],
+    "errors": [],
+    "measurements": {
+      "halo": {
+        "before": [
+          [
+            48.62890625,
+            197.3125,
+            234.671875
+          ],
+          [
+            231.125,
+            50.5,
+            96.6875
+          ]
+        ],
+        "fallback": [
+          [
+            48.44140625,
+            197.375,
+            234.671875
+          ],
+          [
+            231.125,
+            50.5,
+            96.5625
+          ]
+        ],
+        "restored": [
+          [
+            48.62890625,
+            197.3125,
+            234.671875
+          ],
+          [
+            231.125,
+            50.5,
+            96.6875
+          ]
+        ]
+      },
+      "readingContrast": [
+        {
+          "color": "rgb(0, 0, 0)",
+          "filter": "none",
+          "rect": {
+            "x": 1050,
+            "y": 120,
+            "width": 210,
+            "height": 81
+          },
+          "background": [
+            219,
+            219,
+            219
+          ],
+          "contrast": 15.167515597833736
+        },
+        {
+          "color": "rgb(255, 255, 255)",
+          "filter": "none",
+          "rect": {
+            "x": 1050,
+            "y": 720,
+            "width": 210,
+            "height": 81
+          },
+          "background": [
+            29,
+            29,
+            29
+          ],
+          "contrast": 16.857588663262874
+        }
+      ],
+      "readingMoved": [
+        {
+          "color": "rgb(255, 255, 255)",
+          "filter": "none",
+          "rect": {
+            "x": 1050,
+            "y": 720,
+            "width": 210,
+            "height": 81
+          }
+        },
+        {
+          "color": "rgb(0, 0, 0)",
+          "filter": "none",
+          "rect": {
+            "x": 1050,
+            "y": 120,
+            "width": 210,
+            "height": 81
+          }
+        }
+      ],
+      "readingClipped": {
+        "color": "rgb(0, 0, 0)",
+        "firstLineY": -200,
+        "visibleLineY": 0
+      },
+      "replyReading": [
+        {
+          "top": 720,
+          "color": "rgb(255, 255, 255)",
+          "filter": "none"
+        },
+        {
+          "top": 120,
+          "color": "rgb(0, 0, 0)",
+          "filter": "none"
+        }
+      ],
+      "dropProtection": {
+        "observedFrames": 70,
+        "threshold": 5
+      }
+    }
+  },
+  "publicPage": {
+    "date": "2026-10-12T10:51:15.380Z",
+    "url": "https://www.bilibili.com/video/BV1Za4C6WEXv/",
+    "seekTargetTime": 65,
+    "scroll": 1600,
+    "samples": [
+      {
+        "host": "BILI-COMMENT-RENDERER",
+        "rect": {
+          "x": 212.5,
+          "y": 232,
+          "width": 255,
+          "height": 20
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "15px",
+        "lineHeight": "24px",
+        "filter": "none",
+        "background": [
+          235,
+          232.13666666666666,
+          214.31083333333333
+        ],
+        "contrast": 17.064660895517747,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 12.747067090702867
+      },
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "rect": {
+          "x": 328.328125,
+          "y": 438.75,
+          "width": 810,
+          "height": 20
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "15px",
+        "lineHeight": "24px",
+        "filter": "none",
+        "background": [
+          192.78833333333333,
+          176.78333333333333,
+          150.41083333333333
+        ],
+        "contrast": 9.976735512794566,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 7.45248427182014
+      },
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "rect": {
+          "x": 330.796875,
+          "y": 536.25,
+          "width": 120,
+          "height": 20
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "15px",
+        "lineHeight": "24px",
+        "filter": "none",
+        "background": [
+          153.765503875969,
+          135.13856589147287,
+          103.66666666666667
+        ],
+        "contrast": 6.041278137573324,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 4.512751715650612
+      },
+      {
+        "host": "BILI-COMMENT-RENDERER",
+        "rect": {
+          "x": 212.5,
+          "y": 692,
+          "width": 570,
+          "height": 20
+        },
+        "color": "rgb(255, 255, 255)",
+        "fontSize": "15px",
+        "lineHeight": "24px",
+        "filter": "none",
+        "background": [
+          97.49083333333333,
+          79.20083333333334,
+          46.641666666666666
+        ],
+        "contrast": 7.840634598906492,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 2.00069408953761
+      },
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "rect": {
+          "x": 337.0625,
+          "y": 755.75,
+          "width": 330,
+          "height": 20
+        },
+        "color": "rgb(255, 255, 255)",
+        "fontSize": "15px",
+        "lineHeight": "24px",
+        "filter": "none",
+        "background": [
+          102.32916666666667,
+          82.1975,
+          44.37916666666667
+        ],
+        "contrast": 7.4504100824538995,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 2.1054829367311374
+      },
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "rect": {
+          "x": 310.65625,
+          "y": 829.25,
+          "width": 204.765625,
+          "height": 20
+        },
+        "color": "rgb(255, 255, 255)",
+        "fontSize": "15px",
+        "lineHeight": "24px",
+        "filter": "none",
+        "background": [
+          94.01416666666667,
+          74.89166666666667,
+          37.1675
+        ],
+        "contrast": 8.378197359090551,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 1.8723253497049506
+      }
+    ],
+    "version": "1.7.11",
+    "code": {
+      "contentSHA256": "1ce6f5ed0260f9456fac20e9a554d36d7b92dde2f199976ce101c9e7d4533101",
+      "themeSHA256": "84809a1ecef3e3d4de964ab384b7d36df7d16cbb926c0eff637c566da882f278",
+      "projectionSHA256": "7ede7860eb42864d40fe745e153299ac3b50c8d5d8f1e8ee4dde7c0139283152"
+    },
+    "pausedTime": 71.384597,
+    "tone": "light",
+    "commentStructure": [
+      {
+        "host": "BILI-COMMENT-THREAD-RENDERER",
+        "ids": [
+          "comment",
+          "replies",
+          "reply-container",
+          "div"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-RENDERER",
+        "ids": [
+          "body",
+          "user-avatar",
+          "main",
+          "header",
+          "ornament",
+          "content",
+          "pictures",
+          "footer"
+        ],
+        "rich": [
+          {
+            "id": "",
+            "parent": "content",
+            "color": "rgb(0, 0, 0)",
+            "rect": {
+              "top": 232,
+              "height": 20
+            }
+          }
+        ]
+      },
+      {
+        "host": "BILI-COMMENT-USER-INFO",
+        "ids": [
+          "info",
+          "user-name",
+          "user-level"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-USER-SAILING-CARD",
+        "ids": [
+          "card"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-PICTURES-RENDERER",
+        "ids": [
+          "content"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-ACTION-BUTTONS-RENDERER",
+        "ids": [
+          "pubdate",
+          "like",
+          "count",
+          "dislike",
+          "reply",
+          "more"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-MENU",
+        "ids": [
+          "options"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-REPLIES-RENDERER",
+        "ids": [
+          "expander",
+          "expander-contents",
+          "expander-footer",
+          "view-more"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "ids": [
+          "body",
+          "main",
+          "user-avatar",
+          "footer"
+        ],
+        "rich": [
+          {
+            "id": "",
+            "parent": "main",
+            "color": "rgb(0, 0, 0)",
+            "rect": {
+              "top": 438.75,
+              "height": 47.75
+            }
+          }
+        ]
+      },
+      {
+        "host": "BILI-COMMENT-USER-INFO",
+        "ids": [
+          "info",
+          "user-name",
+          "user-level"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-ACTION-BUTTONS-RENDERER",
+        "ids": [
+          "pubdate",
+          "like",
+          "count",
+          "dislike",
+          "reply",
+          "more"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-MENU",
+        "ids": [
+          "options"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "ids": [
+          "body",
+          "main",
+          "user-avatar",
+          "footer"
+        ],
+        "rich": [
+          {
+            "id": "",
+            "parent": "main",
+            "color": "rgb(0, 0, 0)",
+            "rect": {
+              "top": 536.25,
+              "height": 20
+            }
+          }
+        ]
+      },
+      {
+        "host": "BILI-COMMENT-USER-INFO",
+        "ids": [
+          "info",
+          "user-name",
+          "user-level"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-ACTION-BUTTONS-RENDERER",
+        "ids": [
+          "pubdate",
+          "like",
+          "count",
+          "dislike",
+          "reply",
+          "more"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-MENU",
+        "ids": [
+          "options"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-THREAD-RENDERER",
+        "ids": [
+          "comment",
+          "replies",
+          "reply-container",
+          "div"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-RENDERER",
+        "ids": [
+          "body",
+          "user-avatar",
+          "main",
+          "header",
+          "ornament",
+          "content",
+          "footer"
+        ],
+        "rich": [
+          {
+            "id": "",
+            "parent": "content",
+            "color": "rgb(255, 255, 255)",
+            "rect": {
+              "top": 692,
+              "height": 20
+            }
+          }
+        ]
+      },
+      {
+        "host": "BILI-COMMENT-USER-INFO",
+        "ids": [
+          "info",
+          "user-name",
+          "user-level"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-USER-SAILING-CARD",
+        "ids": [
+          "card"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-ACTION-BUTTONS-RENDERER",
+        "ids": [
+          "pubdate",
+          "like",
+          "count",
+          "dislike",
+          "reply",
+          "more"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-MENU",
+        "ids": [
+          "options"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-REPLIES-RENDERER",
+        "ids": [
+          "expander",
+          "expander-contents",
+          "expander-footer",
+          "view-more"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "ids": [
+          "body",
+          "main",
+          "user-avatar",
+          "footer"
+        ],
+        "rich": [
+          {
+            "id": "",
+            "parent": "main",
+            "color": "rgb(255, 255, 255)",
+            "rect": {
+              "top": 755.75,
+              "height": 20
+            }
+          }
+        ]
+      },
+      {
+        "host": "BILI-COMMENT-USER-INFO",
+        "ids": [
+          "info",
+          "user-name",
+          "user-level"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-ACTION-BUTTONS-RENDERER",
+        "ids": [
+          "pubdate",
+          "like",
+          "count",
+          "dislike",
+          "reply",
+          "more"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-MENU",
+        "ids": [
+          "options"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "ids": [
+          "body",
+          "main",
+          "user-avatar",
+          "footer"
+        ],
+        "rich": [
+          {
+            "id": "",
+            "parent": "main",
+            "color": "rgb(255, 255, 255)",
+            "rect": {
+              "top": 829.25,
+              "height": 20
+            }
+          }
+        ]
+      },
+      {
+        "host": "BILI-COMMENT-USER-INFO",
+        "ids": [
+          "info",
+          "user-name",
+          "user-level"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-ACTION-BUTTONS-RENDERER",
+        "ids": [
+          "pubdate",
+          "like",
+          "count",
+          "dislike",
+          "reply",
+          "more"
+        ],
+        "rich": []
+      }
+    ],
+    "regions": [
+      {
+        "index": "0",
+        "ink": "light"
+      },
+      {
+        "index": "3",
+        "ink": "dark"
+      },
+      {
+        "index": "1",
+        "ink": "light"
+      },
+      {
+        "index": "2",
+        "ink": "light"
+      },
+      {
+        "index": "4",
+        "ink": "dark"
+      },
+      {
+        "index": "5",
+        "ink": "dark"
+      }
+    ],
+    "before": [
+      "rgb(29, 35, 50)",
+      "rgb(29, 35, 50)",
+      "rgb(29, 35, 50)",
+      "rgb(29, 35, 50)",
+      "rgb(29, 35, 50)",
+      "rgb(29, 35, 50)"
+    ]
+  },
+  "browserChecks": [
+    "MV3 extension loads and attaches in its isolated content world",
+    "video projection changes color with decoded frames",
+    "light layer does not intercept player interactions",
+    "paused video retains a still projection",
+    "rendering behind the page keeps decoded video pixels unchanged",
+    "enable toggle hides and restores the light layer",
+    "popup preset applies settings through real extension storage",
+    "settings survive popup reopening and can be reset",
+    "resize observer updates the projection geometry",
+    "source replacement automatically binds the new player video",
+    "glass styling keeps UI foreground clear and removes opaque page backgrounds",
+    "background remains fixed and updates when scrolling below the player",
+    "comment shadow DOM receives and restores the page theme",
+    "SPA navigation keeps the site theme and reactivates playback",
+    "native container fullscreen keeps the glow inside the fullscreen tree",
+    "portrait media keeps the sampling resolution bounded",
+    "embed player route receives the content script",
+    "cross-origin video projects light even when pixel reads are forbidden"
+  ],
+  "appearanceChecks": [
+    "all four page margins follow their corresponding video edge",
+    "automatic scroll mini-player preserves the full-size background projection",
+    "symmetric encoded black bars are excluded from the background while video pixels remain intact",
+    "title, toolbar and nested collection surfaces remain transparent",
+    "foreground contrast adapts to bright and dark video backgrounds"
+  ]
+}

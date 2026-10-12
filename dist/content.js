@@ -470,8 +470,7 @@
           return adjusted*(1-settings.dim/100)+settings.pageBackgroundGreyness/100*settings.dim/100;
         };
         theme.setLuminance(light(),rect=>{
-          const margin=backgroundBlur()*.6;
-          return light({left:rect.left-margin,top:rect.top-margin,width:rect.width+margin*2,height:rect.height+margin*2});
+          return light({left:rect.left,top:rect.top,width:rect.width,height:rect.height,blur:backgroundBlur()});
         });
       }
       rendererName = renderer.draw(frame,canvas,crop,anchor,viewport,settings,now,backgroundBlur(),frameAlpha===1 && !settings.frameBlending?mediaSource:null,sampleRevision) ? "WebGL" : "Canvas 2D";
