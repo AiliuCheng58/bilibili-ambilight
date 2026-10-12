@@ -367,7 +367,7 @@ try {
       const content=el.shadowRoot.querySelector('bili-comment-renderer').shadowRoot.querySelector('#content');
       return { color:getComputedStyle(content).color, filter:getComputedStyle(content).filter, opacity:getComputedStyle(content).opacity, video:getComputedStyle(document.querySelector('video')).filter };
     });
-    assert.deepEqual(foreground, { color:'rgb(29, 35, 50)', filter:'none', opacity:'1', video:'none' });
+    assert.deepEqual(foreground, { color:'rgb(0, 0, 0)', filter:'none', opacity:'1', video:'none' });
     await page.screenshot({path:resolve(results,'reading.png')});
     await page.evaluate(() => scrollTo(0,0));
     await page.waitForTimeout(240);
@@ -454,11 +454,11 @@ try {
     await set({webGL:false});
     await page.waitForFunction(() => document.querySelector('#bili-ambient-layer').dataset.renderer==='Canvas 2D');
     await page.evaluate(() => scrollTo(0,1000));
-    await page.waitForTimeout(240);
+    await page.waitForFunction(()=>document.querySelector('.bili-ambient-background').style.filter.startsWith('blur(162px)'),null,{timeout:1200});
     assert.equal(await blur(),162);
     assert.equal(await page.locator('.bili-ambient-background').evaluate(c => getComputedStyle(c).visibility),'visible');
     await set({readingBlur:0});
-    await page.waitForTimeout(240);
+    await page.waitForFunction(()=>document.querySelector('.bili-ambient-background').style.filter.startsWith('blur(42px)'),null,{timeout:1200});
     assert.equal(await blur(),42);
   });
   assert.deepEqual(errors,[]);

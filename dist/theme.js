@@ -31,6 +31,21 @@
     :host-context(html[${attribute}]) img { opacity: var(--bili-ambient-content-images,1) !important; }
     :host-context(html[data-bili-ambient-tone="light"]) { color-scheme: light; }
   `;
+  function textRect(target) {
+    const nodes=[target];
+    while (nodes.length) {
+      const node=nodes.pop();
+      if (node.nodeType===Node.TEXT_NODE && node.textContent.trim()) {
+        const range=document.createRange();range.selectNodeContents(node);
+        const rect=Array.from(range.getClientRects()).find(r=>r.width>0 && r.height>0);
+        if (rect) return rect;
+      } else {
+        // Comment rich text is rendered inside its own open shadow tree.
+        nodes.push(...Array.from((node.shadowRoot || node).childNodes || []).reverse());
+      }
+    }
+    return null;
+  }
   class PageTheme {
     constructor() {
       this.enabled = false;
@@ -40,6 +55,9 @@
       this.tone = "dark";
       this.luminance = 0;
       this.theme = 0;
+      this.sampler = null;
+      this.nextInkAt = 0;
+      this.inkTimer = null;
     }
     apply(settings) {
       if (this.enabled && this.settings === settings) return;
@@ -63,15 +81,50 @@
       root.toggleAttribute("data-bili-ambient-layout", settings.layoutPerformanceImprovements);
       root.toggleAttribute("data-bili-ambient-panel-shadow", !settings.surroundingContentTextAndBtnOnly);
       this.theme=settings.theme;
-      this.setLuminance(this.luminance);
+      this.setLuminance(this.luminance,this.sampler);
       if (!wasEnabled) this.refreshComments(true);
     }
-    setLuminance(value) {
+    setLuminance(value, sampler = null) {
       this.luminance=value;
+      this.sampler=sampler;
       const next = this.theme===-1 ? "light" : this.theme===1 ? "dark" : value > (this.tone === "light" ? .48 : .56) ? "light" : "dark";
-      if (next === this.tone) return;
-      this.tone = next;
-      if (this.enabled) document.documentElement.dataset.biliAmbientTone = next;
+      if (next !== this.tone) {
+        this.tone = next;
+        if (this.enabled) document.documentElement.dataset.biliAmbientTone = next;
+      }
+      this.refreshText(true);
+    }
+    refreshText(force = false) {
+      if (!this.enabled) return;
+      const now=performance.now();
+      if (!force && now<this.nextInkAt) {
+        if (this.inkTimer===null) this.inkTimer=setTimeout(()=>{this.inkTimer=null;this.refreshText(true);},this.nextInkAt-now);
+        return;
+      }
+      clearTimeout(this.inkTimer);this.inkTimer=null;
+      this.nextInkAt=now+150;
+      const changes=[];
+      for (const [root,record] of this.roots) {
+        let ink=null;
+        if (this.sampler && this.theme===0 && root.host.isConnected) {
+          const target=root.querySelector('#content,#title');
+          if (target) {
+            // Block boxes include empty space and comment pictures; sample the text's first rendered line.
+            const rect=textRect(target);
+            if (!rect) continue;
+            if (rect.width>0 && rect.height>0 && rect.bottom>0 && rect.top<innerHeight && rect.right>0 && rect.left<innerWidth) {
+              ink=this.sampler(rect)>(record.ink==='light'?.45:.47)?'light':'dark';
+            } else continue;
+          }
+        }
+        if ((record.ink || null)!==ink) changes.push({record,ink});
+      }
+      // Read every region before changing custom properties to avoid repeated style/layout work.
+      for (const {record,ink} of changes) {
+        record.ink=ink;
+        const colors=ink==='light'?['#000','#414c60','#58667d']:['#fff','#ced2dd','#aab2c3'];
+        record.style.textContent=shadowCss+(ink?`:host-context(html[${attribute}]) {${colors.map((c,i)=>`--bili-ambient-text${i+1}:${c} !important;`).join('')}}`:'');
+      }
     }
     setPlayer(video) {
       const next = video?.closest(".bpx-player-container, .bilibili-player, #bilibili-player, #bilibiliPlayer, #bofqi, .live-player-mounter") || video?.parentElement || null;
@@ -79,6 +132,7 @@
       this.player?.classList.remove("bili-ambient-player");
       this.player = next;
       this.player?.classList.add("bili-ambient-player");
+      if (!video) this.setLuminance(this.luminance);
     }
     refreshComments(rescan = false) {
       if (!this.enabled) return;
@@ -120,9 +174,11 @@
       observer.observe(root, { childList: true, subtree: true });
       this.roots.set(root, { style, observer });
       this.scan(root);
+      this.refreshText();
     }
     disable() {
       this.enabled = false;
+      clearTimeout(this.inkTimer);this.inkTimer=null;this.nextInkAt=0;
       document.documentElement.removeAttribute(attribute);
       document.documentElement.removeAttribute("data-bili-ambient-tone");
       for(const suffix of ["view","related-scroll","hide-scrollbar","immersive","layout","panel-shadow"])document.documentElement.removeAttribute(`data-bili-ambient-${suffix}`);

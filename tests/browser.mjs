@@ -136,7 +136,11 @@ try {
   });
   await check("comment shadow DOM receives and restores the page theme", async () => {
     const color=()=>page.evaluate(()=>getComputedStyle(document.querySelector("bili-comments").shadowRoot.querySelector("bili-comment-renderer").shadowRoot.querySelector("#content")).color);
-    assert.equal(await color(),await page.locator("body").evaluate(e=>getComputedStyle(e).color));
+    const themed=async()=>{
+      const ink=await color();assert.ok(['rgb(0, 0, 0)','rgb(255, 255, 255)','rgb(29, 35, 50)','rgb(244, 245, 248)'].includes(ink));
+      assert.equal(await page.evaluate(()=>getComputedStyle(document.querySelector('bili-comments').shadowRoot.querySelector('bili-comment-renderer').shadowRoot.querySelector('bili-rich-text').shadowRoot.querySelector('span')).color),ink);
+    };
+    await themed();
     await set({enabled:false});
     await layer.waitFor({state:"hidden"});
     assert.equal(await color(),"rgb(24, 25, 28)");
@@ -144,7 +148,7 @@ try {
     assert.equal(await page.locator("header").evaluate(el=>getComputedStyle(el).backgroundColor),"rgb(245, 246, 249)");
     await set({enabled:true});
     await layer.waitFor({state:"visible"});
-    assert.equal(await color(),await page.locator("body").evaluate(e=>getComputedStyle(e).color));
+    await themed();
   });
   await check("SPA navigation keeps the site theme and reactivates playback", async () => {
     await set({siteVideoPreviews:false});

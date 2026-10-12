@@ -98,7 +98,7 @@
       context.drawImage(source, sourceX[x], sourceY[y], sourceW[x], sourceH[y], targetX[x], targetY[y], targetW[x], targetH[y]);
     }
   }
-  function surroundingLuminance(image, anchor, viewport, crop, settings) {
+  function surroundingLuminance(image, anchor, viewport, crop, settings, region = null) {
     const {width,height,data}=image;
     const clamp=value=>Math.max(0,Math.min(1,value));
     const left=anchor.left+anchor.width*crop.x,top=anchor.top+anchor.height*crop.y;
@@ -108,11 +108,13 @@
     const bandX=Math.max(1/(width*crop.width),settings.edge/100),bandY=Math.max(1/(height*crop.height),settings.edge/100);
     const light=(x,y)=>{const index=(y*width+x)*4;return (data[index]*.2126+data[index+1]*.7152+data[index+2]*.0722)/255;};
     let luminance = 0, count = 0;
-    for (let y = 0; y < height; y += 4) for (let x = 0; x < width; x += 4) {
-      const vx = viewport.left + x / width * viewport.width;
-      const vy = viewport.top + y / height * viewport.height;
+    const columns=region?12:Math.ceil(width/4),rows=region?4:Math.ceil(height/4);
+    for (let y = 0; y < rows; y++) for (let x = 0; x < columns; x++) {
+      const vx = region ? region.left+(x+.5)/columns*region.width : viewport.left+x*4/width*viewport.width;
+      const vy = region ? region.top+(y+.5)/rows*region.height : viewport.top+y*4/height*viewport.height;
       if (vx < 0 || vy < 0 || vx > innerWidth || vy > innerHeight) continue;
-      if (vx > anchor.left && vx < anchor.left + anchor.width && vy > anchor.top && vy < anchor.top + anchor.height) continue;
+      // Reading text can occupy the original projection rectangle after the player floats.
+      if (!region && vx > anchor.left && vx < anchor.left + anchor.width && vy > anchor.top && vy < anchor.top + anchor.height) continue;
       let u=(vx-left)/w,v=(vy-top)/h;
       if(settings.projectionStyle===1){
         const radius=Math.ceil(Math.max(0,Math.abs(vx-left-w/2)-w/2,Math.abs(vy-top-h/2)-h/2)/Math.max(.01,outer/levels))*outer/levels;

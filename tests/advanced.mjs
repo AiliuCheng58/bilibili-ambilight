@@ -98,6 +98,23 @@ try {
     measurements.halo={before,fallback,restored};
     await set({blur:10});await page.locator('video').evaluate(v=>v.play());
   });
+  await check("comment text follows its local background across bright and dark regions",async()=>{
+    await set({theme:0,projectionStyle:0,blur:42,brightness:100,saturation:100,dim:8});await scene('readingContrast');
+    await page.evaluate(()=>{const hosts=document.querySelector('bili-comments').shadowRoot.querySelectorAll('bili-comment-renderer');hosts.forEach((host,i)=>{host.dataset.readingContrast='';host.style.cssText=i<2?`position:fixed;left:1050px;top:${i?720:120}px;width:210px;z-index:10`:'display:none';});});
+    await page.waitForTimeout(800);
+    const read=()=>page.evaluate(()=>Array.from(document.querySelector('bili-comments').shadowRoot.querySelectorAll('bili-comment-renderer')).slice(0,2).map(host=>{const target=host.shadowRoot.querySelector('#content'),r=target.getBoundingClientRect(),s=getComputedStyle(target);return {color:s.color,filter:s.filter,rect:{x:r.x,y:r.y,width:r.width,height:r.height}};}));
+    const samples=await read();
+    const linear=rgb=>rgb.map(v=>{const c=v/255;return c<=.04045?c/12.92:((c+.055)/1.055)**2.4;}).reduce((s,c,i)=>s+c*[.2126,.7152,.0722][i],0);
+    for(const sample of samples){const clip={x:Math.floor(sample.rect.x+4),y:Math.floor(sample.rect.y+4),width:12,height:12};sample.background=averagePNG(await page.screenshot({clip}));const a=linear(sample.background),b=linear(sample.color.match(/[\d.]+/g).slice(0,3).map(Number));sample.contrast=(Math.max(a,b)+.05)/(Math.min(a,b)+.05);assert.equal(sample.filter,'none');}
+    measurements.readingContrast=samples;assert.ok(samples.every(s=>s.contrast>=4.5),JSON.stringify(samples));assert.notEqual(samples[0].color,samples[1].color);
+    await page.locator('video').evaluate(v=>v.pause());
+    await page.evaluate(()=>{const hosts=document.querySelector('bili-comments').shadowRoot.querySelectorAll('bili-comment-renderer');hosts[0].style.top='720px';hosts[1].style.top='120px';window.dispatchEvent(new Event('scroll'));});
+    await page.waitForTimeout(300);const moved=await read();assert.equal(moved[0].color,samples[1].color);assert.equal(moved[1].color,samples[0].color);
+    measurements.readingMoved=moved;
+    await set({theme:1});await page.waitForTimeout(300);assert.ok((await read()).every(s=>s.color==='rgb(244, 245, 248)'));
+    await page.evaluate(()=>document.querySelector('bili-comments').shadowRoot.querySelectorAll('[data-reading-contrast]').forEach(e=>{e.removeAttribute('style');e.removeAttribute('data-reading-contrast');}));
+    await set({theme:0,projectionStyle:1,blur:10,brightness:100,saturation:100,dim:0});await scene('solid','#ff0000');
+  });
   await check("vibrance changes projected colors while decoded video colors stay intact",async()=>{
     await scene("solid","#b86b84");await set({vibrance:0});await page.waitForTimeout(150);
     const gray=await pixel();assert.ok(Math.max(...gray)-Math.min(...gray)<5,JSON.stringify(gray));

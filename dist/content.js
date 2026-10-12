@@ -372,6 +372,7 @@
     if (!wasVisible || fresh || projectionDirty) draw(performance.now(), true);
     if (visible) setLayerVisible(true);
     if ((video.paused || video.ended) && mediaSource===video) cancelFrame();
+    theme.refreshText();
     scheduleFrame();
   }
   function queueLayout() {
@@ -462,9 +463,16 @@
       if(projected)globalThis.BiliAmbientProjection.extendFrame(ctx, inspect?inspectionCtx.canvas:frame, anchor, viewport, crop, settings);
       if (inspect && crop.readable && inspectedPixels) {
         site.remember(inspectedPixels, now, crop);
-        const luminance=globalThis.BiliAmbientProjection.surroundingLuminance(inspectedPixels,anchor,viewport,crop,settings);
-        const adjusted=Math.max(0,Math.min(1,(luminance*effectBrightness/100-.5)*effectContrast/100+.5));
-        theme.setLuminance(adjusted*(1-settings.dim/100)+settings.pageBackgroundGreyness/100*settings.dim/100);
+        const image=inspectedPixels;
+        const light=region=>{
+          const luminance=globalThis.BiliAmbientProjection.surroundingLuminance(image,anchor,viewport,crop,settings,region);
+          const adjusted=Math.max(0,Math.min(1,(luminance*effectBrightness/100-.5)*effectContrast/100+.5));
+          return adjusted*(1-settings.dim/100)+settings.pageBackgroundGreyness/100*settings.dim/100;
+        };
+        theme.setLuminance(light(),rect=>{
+          const margin=backgroundBlur()*.6;
+          return light({left:rect.left-margin,top:rect.top-margin,width:rect.width+margin*2,height:rect.height+margin*2});
+        });
       }
       rendererName = renderer.draw(frame,canvas,crop,anchor,viewport,settings,now,backgroundBlur(),frameAlpha===1 && !settings.frameBlending?mediaSource:null,sampleRevision) ? "WebGL" : "Canvas 2D";
       canvas.style.visibility = rendererName === "WebGL" ? "hidden" : "visible";

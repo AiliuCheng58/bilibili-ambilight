@@ -1,0 +1,199 @@
+{
+  "report": {
+    "counterFPS": 29,
+    "playing": {
+      "elapsed": 3016.0971,
+      "projection": {
+        "count": 1438,
+        "ms": 83.90000000782311,
+        "max": 1.1000000005587935
+      },
+      "metrics": {
+        "TaskDuration": 0.531781,
+        "ScriptDuration": 0.330156,
+        "LayoutDuration": 0,
+        "RecalcStyleDuration": 0,
+        "LayoutCount": 0,
+        "RecalcStyleCount": 0
+      }
+    },
+    "pausedScroll": {
+      "elapsed": 710.2006999999994,
+      "geometryRead": {
+        "count": 88,
+        "ms": 26.699999999254942,
+        "max": 0.599999999627471
+      },
+      "styleRead": {
+        "count": 88,
+        "ms": 0.4999999990686774,
+        "max": 0.10000000055879354
+      },
+      "themeApply": {
+        "count": 88,
+        "ms": 0.09999999962747097,
+        "max": 0.09999999962747097
+      },
+      "metrics": {
+        "TaskDuration": 0.20422400000000007,
+        "ScriptDuration": 0.08708800000000005,
+        "LayoutDuration": 0,
+        "RecalcStyleDuration": 0.044773,
+        "LayoutCount": 0,
+        "RecalcStyleCount": 167
+      }
+    },
+    "pausedIdle": {
+      "elapsed": 2111.3221999999996,
+      "metrics": {
+        "TaskDuration": 0.19629300000000005,
+        "ScriptDuration": 0.056107999999999936,
+        "LayoutDuration": 0,
+        "RecalcStyleDuration": 0.010490000000000006,
+        "LayoutCount": 0,
+        "RecalcStyleCount": 29
+      }
+    },
+    "pausedResize": {
+      "elapsed": 188.00710000000072,
+      "geometryRead": {
+        "count": 3,
+        "ms": 0.900000000372529,
+        "max": 0.5
+      },
+      "styleRead": {
+        "count": 3,
+        "ms": 0,
+        "max": 0
+      },
+      "themeApply": {
+        "count": 3,
+        "ms": 0,
+        "max": 0
+      },
+      "projection": {
+        "count": 6,
+        "ms": 71.3999999994412,
+        "max": 39.90000000037253
+      },
+      "metrics": {
+        "TaskDuration": 0.10733700000000002,
+        "ScriptDuration": 0.08427300000000004,
+        "LayoutDuration": 0.0012209999999999999,
+        "RecalcStyleDuration": 0.0065679999999999905,
+        "LayoutCount": 8,
+        "RecalcStyleCount": 14
+      }
+    },
+    "lateComment": true,
+    "staticScroll": {
+      "elapsed": 380.1832999999988,
+      "metrics": {
+        "TaskDuration": 0.03600299999999999,
+        "ScriptDuration": 0.007550999999999999,
+        "LayoutDuration": 0,
+        "RecalcStyleDuration": 0,
+        "LayoutCount": 0,
+        "RecalcStyleCount": 0
+      }
+    },
+    "feedInsertion": {
+      "elapsed": 191.06830000000082,
+      "styleRead": {
+        "count": 1801,
+        "ms": 1.6999999983236194,
+        "max": 0.2999999998137355
+      },
+      "surfaceRead": {
+        "count": 1801,
+        "ms": 37.29999999888241,
+        "max": 8.699999999254942
+      },
+      "surfaceBatch": {
+        "count": 21,
+        "ms": 45.49999999906868,
+        "max": 9
+      },
+      "surfaceMarks": 1359,
+      "surfacePending": 0,
+      "geometryRead": {
+        "count": 450,
+        "ms": 1.5999999977648258,
+        "max": 0.10000000055879354
+      },
+      "metrics": {
+        "TaskDuration": 0.163495,
+        "ScriptDuration": 0.040760000000000005,
+        "LayoutDuration": 0.036621999999999995,
+        "RecalcStyleDuration": 0.025564,
+        "LayoutCount": 21,
+        "RecalcStyleCount": 23
+      }
+    },
+    "unthemedCards": 0,
+    "feedRestyle": {
+      "elapsed": 322.8240999999998,
+      "styleRead": {
+        "count": 1801,
+        "ms": 2.3000000016763806,
+        "max": 0.20000000018626451
+      },
+      "surfaceRead": {
+        "count": 1801,
+        "ms": 79.49999999906868,
+        "max": 13.399999999441206
+      },
+      "surfaceBatch": {
+        "count": 22,
+        "ms": 89.19999999925494,
+        "max": 14
+      },
+      "surfaceMarks": 1359,
+      "surfacePending": 0,
+      "geometryRead": {
+        "count": 450,
+        "ms": 21.999999999068677,
+        "max": 1.7000000001862645
+      },
+      "metrics": {
+        "TaskDuration": 0.189959,
+        "ScriptDuration": 0.05363199999999999,
+        "LayoutDuration": 0.040713000000000006,
+        "RecalcStyleDuration": 0.037299,
+        "LayoutCount": 43,
+        "RecalcStyleCount": 44
+      }
+    },
+    "feedRemoval": {
+      "elapsed": 127.14490000000114,
+      "surfaceBatch": {
+        "count": 1,
+        "ms": 0.5,
+        "max": 0.5
+      },
+      "surfaceMarks": 9,
+      "surfacePending": 0,
+      "metrics": {
+        "TaskDuration": 0.007495999999999947,
+        "ScriptDuration": 0.0006350000000000106,
+        "LayoutDuration": 0.00007100000000000162,
+        "RecalcStyleDuration": 0,
+        "LayoutCount": 1,
+        "RecalcStyleCount": 0
+      }
+    },
+    "environment": {
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/148.0.0.0 Safari/537.36",
+      "renderer": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A788) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+    }
+  },
+  "errors": [],
+  "date": "2026-10-11",
+  "version": "1.7.10",
+  "code": {
+    "contentSHA256": "98c72d8af45ad901af0d9ec7a234a547193884c3f708c75249a4d7c008f557fa",
+    "themeSHA256": "67034b5fc9ade5fac254ca81c10a7cfb2b7e051f6dd1fadce1b2c11b7789ee44",
+    "projectionSHA256": "0d3079e41b4226249b9c080a66262686bc5f66ffbd97b71afca677a0e58b23b2",
+    "rendererSHA256": "10f546c2619a9c2a088002491a10761db40d786b45f4b4b011cb065b1a8cb2a6"
+  }
+}
