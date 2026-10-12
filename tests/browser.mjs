@@ -113,7 +113,7 @@ try {
     const style=await page.evaluate(()=>({header:getComputedStyle(document.querySelector("header"),"::before").backdropFilter,headerColor:getComputedStyle(document.querySelector("header")).color,body:getComputedStyle(document.body).backgroundColor,app:getComputedStyle(document.querySelector("#app")).backgroundColor,opacity:document.documentElement.style.getPropertyValue("--bili-ambient-glass")}));
     assert.match(style.header,/blur\(24px\)/);
     const tone=await page.locator("html").getAttribute("data-bili-ambient-tone");
-    assert.equal(style.headerColor,tone === "light" ? "rgb(29, 35, 50)" : "rgb(244, 245, 248)");
+    assert.ok(['rgb(0, 0, 0)','rgb(255, 255, 255)',tone === 'light' ? 'rgb(29, 35, 50)' : 'rgb(244, 245, 248)'].includes(style.headerColor));
     assert.equal(style.body,"rgba(0, 0, 0, 0)");
     assert.equal(style.app,"rgba(0, 0, 0, 0)");
     assert.equal(style.opacity,"0.08");

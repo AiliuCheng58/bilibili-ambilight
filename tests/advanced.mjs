@@ -152,6 +152,44 @@ try {
     const decoded=await page.locator("video").evaluate(v=>{const c=document.createElement("canvas");c.width=c.height=1;const ctx=c.getContext("2d");ctx.drawImage(v,0,0,1,1);return Array.from(ctx.getImageData(0,0,1,1).data);});
     assert.ok(decoded[0]-decoded[1]>50);await set({vibrance:100});
   });
+  await check("recommendation titles and metadata follow local reading brightness and restore",async()=>{
+    await set({theme:0,projectionStyle:0,blur:42,brightness:100,saturation:100,dim:8});await scene('readingContrast');
+    await page.evaluate(()=>{
+      const card=document.createElement('section');card.className='video-page-card-small';card.dataset.readingCard='';
+      card.style.cssText='position:fixed;left:1050px;top:720px;width:210px;z-index:10;background:transparent';
+      card.innerHTML='<h3 class="title" data-bili-ambient-reading-tone="keep">推荐内容</h3><p class="upname">视频作者</p><a class="reading-brand" style="color:#00aeec">品牌入口</a>';document.querySelector('aside').append(card);
+    });
+    await page.waitForFunction(()=>document.querySelector('[data-reading-card] .title').hasAttribute('data-bili-ambient-ink'));
+    const read=()=>page.evaluate(()=>{
+      const card=document.querySelector('[data-reading-card]');return {title:getComputedStyle(card.querySelector('.title')).color,metadata:getComputedStyle(card.querySelector('.upname')).color,brand:getComputedStyle(card.querySelector('.reading-brand')).color,filter:getComputedStyle(card).filter};
+    });
+    const contrast=async sample=>{
+      const rects=await page.evaluate(()=>['.title','.upname'].map(selector=>{const r=document.querySelector('[data-reading-card] '+selector).getBoundingClientRect();return {x:Math.floor(r.x+4),y:Math.floor(r.y+4),width:12,height:12};}));
+      await page.evaluate(()=>{const style=document.createElement('style');style.dataset.readingGlyphMask='';style.textContent='[data-reading-card] :is(h3,p,a){visibility:hidden !important}';document.head.append(style);});
+      const luminance=rgb=>rgb.map(v=>{const c=v/255;return c<=.04045?c/12.92:((c+.055)/1.055)**2.4;}).reduce((sum,c,i)=>sum+c*[.2126,.7152,.0722][i],0);
+      try{sample.contrast=[];for(const [i,rect] of rects.entries()){const background=averagePNG(await page.screenshot({clip:rect})),a=luminance(background),b=luminance(sample[i?'metadata':'title'].match(/[\d.]+/g).slice(0,3).map(Number)),ratio=(Math.max(a,b)+.05)/(Math.min(a,b)+.05);sample.contrast.push({background,ratio});assert.ok(ratio>=4.5,JSON.stringify(sample));}}
+      finally{await page.evaluate(()=>document.querySelector('style[data-reading-glyph-mask]').remove());}
+    };
+    await page.waitForTimeout(350);const dark=await read();
+    assert.equal(dark.title,'rgb(255, 255, 255)');assert.equal(dark.metadata,dark.title);assert.equal(dark.brand,'rgb(0, 174, 236)');assert.equal(dark.filter,'none');
+    await contrast(dark);
+    await page.locator('video').evaluate(v=>v.pause());
+    await page.evaluate(()=>{document.querySelector('[data-reading-card]').style.top='120px';window.dispatchEvent(new Event('scroll'));});
+    await page.waitForTimeout(350);const light=await read();assert.equal(light.title,'rgb(0, 0, 0)');assert.equal(light.metadata,light.title);
+    await contrast(light);
+    measurements.plainReading={dark,light};
+    await set({directionRightEnabled:false,blur:10});await scene('solid','#eeeeee');
+    await page.evaluate(()=>{document.querySelector('[data-reading-card]').style.top='350px';window.dispatchEvent(new Event('scroll'));});
+    await page.waitForTimeout(350);const disabledDirection=await read();assert.equal(disabledDirection.title,'rgb(255, 255, 255)');
+    await contrast(disabledDirection);measurements.plainReading.disabledDirection=disabledDirection;
+    await set({directionRightEnabled:true});
+    await set({theme:1});await page.waitForTimeout(200);assert.equal(await page.locator('[data-reading-card] .title').getAttribute('data-bili-ambient-reading-tone'),'keep');
+    await set({theme:0,enabled:false});await page.waitForTimeout(250);
+    assert.equal(await page.locator('[data-reading-card] .title').getAttribute('data-bili-ambient-reading-tone'),'keep');
+    assert.equal(await page.locator('[data-reading-card] .upname').getAttribute('data-bili-ambient-reading-tone'),null);
+    await page.locator('[data-reading-card]').evaluate(e=>e.remove());
+    await set({enabled:true,theme:0,projectionStyle:1,blur:10,brightness:100,saturation:100,dim:0});await scene('solid','#ff0000');
+  });
   await check("OLED debanding preserves pure black",async()=>{
     await scene("solid","#000000");await set({debandingStrength:100,debandingBlendMode:1});await page.waitForTimeout(150);
     assert.ok((await pixel()).every(v=>v<.1));await set({debandingStrength:0,debandingBlendMode:0});
@@ -260,6 +298,20 @@ try {
   await check("paused playback stops drawing after layout settles",async()=>{
     await page.locator("video").evaluate(v=>v.pause());await page.waitForTimeout(150);const before=await status();await page.waitForTimeout(500);
     assert.equal((await status()).framesRendered,before.framesRendered);await page.locator("video").evaluate(v=>v.play());
+  });
+  await check("pausing captures fresh reading pixels before returning to idle",async()=>{
+    await scene('solid','#dddddd');
+    const session=await context.newCDPSession(page),worlds=[];
+    session.on('Runtime.executionContextCreated',({context})=>worlds.push(context.id));await session.send('Runtime.enable');
+    let world;const run=async expression=>{const r=await session.send('Runtime.evaluate',{contextId:world,expression,returnByValue:true});if(r.exceptionDetails)throw new Error(r.exceptionDetails.exception?.description||r.exceptionDetails.text);return r.result.value;};
+    for(const id of worlds){world=id;if(await run("typeof BiliAmbientInspection==='function'"))break;}
+    await run("globalThis.pauseInspection=0;globalThis.pauseRequest=BiliAmbientInspection.prototype.request;BiliAmbientInspection.prototype.request=function(...args){if(document.querySelector('video').paused)pauseInspection++;return pauseRequest.apply(this,args);}");
+    try{
+      await page.locator('video').evaluate(v=>v.pause());await page.waitForTimeout(350);
+      const requests=await run('pauseInspection');assert.ok(requests>0,String(requests));
+      const before=(await status()).framesRendered;await page.waitForTimeout(350);assert.equal((await status()).framesRendered,before);
+      measurements.pauseInspection={requests,frames:before};
+    }finally{await run('BiliAmbientInspection.prototype.request=pauseRequest');await page.locator('video').evaluate(v=>v.play());await session.detach();}
   });
   await check("resolution scaling changes the real render buffers",async()=>{
     const original=(await status()).settings;

@@ -1,0 +1,221 @@
+{
+  "date": "2026-10-12",
+  "version": "1.7.12",
+  "code": {
+    "contentSHA256": "ccd3e9a3dba824cdb8ed9405679749e289deec3c2e2f10a90fd71fd786f8c544",
+    "rendererSHA256": "10f546c2619a9c2a088002491a10761db40d786b45f4b4b011cb065b1a8cb2a6",
+    "projectionSHA256": "c2c242739f01f92c84e10fa268d6ff198540465d033f51de5cb76d77b8bb1fb2",
+    "themeSHA256": "d5e01d598b0f8ba3bf83b340f0e3ca0d447230c2e5b365d6c1fd1ee909b27f11",
+    "siteSHA256": "e248c643b251b300e2e73dd3a81e2a9d28541fd0fc02964eaa47456968312f71",
+    "contentCssSHA256": "b8d02362047dcad1d188630e722d668798ce778ceb195cde22cd73cfe55ccc95"
+  },
+  "report": {
+    "counterFPS": 29,
+    "playing": {
+      "elapsed": 3013.3039,
+      "projection": {
+        "count": 1434,
+        "ms": 75.90000001061708,
+        "max": 0.8000000007450581
+      },
+      "geometryRead": {
+        "count": 312,
+        "ms": 0.8999999985098839,
+        "max": 0.10000000055879354
+      },
+      "metrics": {
+        "TaskDuration": 0.45952400000000004,
+        "ScriptDuration": 0.290316,
+        "LayoutDuration": 0,
+        "RecalcStyleDuration": 0,
+        "LayoutCount": 0,
+        "RecalcStyleCount": 0
+      }
+    },
+    "pausedScroll": {
+      "elapsed": 563.4069,
+      "geometryRead": {
+        "count": 192,
+        "ms": 24.500000000931323,
+        "max": 0.599999999627471
+      },
+      "styleRead": {
+        "count": 88,
+        "ms": 0.39999999944120646,
+        "max": 0.10000000055879354
+      },
+      "themeApply": {
+        "count": 88,
+        "ms": 0.599999999627471,
+        "max": 0.10000000055879354
+      },
+      "metrics": {
+        "TaskDuration": 0.19164400000000004,
+        "ScriptDuration": 0.07673600000000003,
+        "LayoutDuration": 0,
+        "RecalcStyleDuration": 0.041303000000000006,
+        "LayoutCount": 0,
+        "RecalcStyleCount": 165
+      }
+    },
+    "pausedIdle": {
+      "elapsed": 2108.2227000000003,
+      "geometryRead": {
+        "count": 27,
+        "ms": 0.19999999925494194,
+        "max": 0.19999999925494194
+      },
+      "styleRead": {
+        "count": 1,
+        "ms": 0.10000000055879354,
+        "max": 0.10000000055879354
+      },
+      "themeApply": {
+        "count": 1,
+        "ms": 0,
+        "max": 0
+      },
+      "metrics": {
+        "TaskDuration": 0.1820989999999998,
+        "ScriptDuration": 0.04891699999999999,
+        "LayoutDuration": 0,
+        "RecalcStyleDuration": 0.013248000000000003,
+        "LayoutCount": 0,
+        "RecalcStyleCount": 42
+      }
+    },
+    "pausedResize": {
+      "elapsed": 150.77610000000004,
+      "geometryRead": {
+        "count": 54,
+        "ms": 1.200000001117587,
+        "max": 0.7000000001862645
+      },
+      "styleRead": {
+        "count": 2,
+        "ms": 0,
+        "max": 0
+      },
+      "themeApply": {
+        "count": 2,
+        "ms": 0,
+        "max": 0
+      },
+      "projection": {
+        "count": 4,
+        "ms": 21.500000000931323,
+        "max": 21
+      },
+      "metrics": {
+        "TaskDuration": 0.0548789999999999,
+        "ScriptDuration": 0.031748,
+        "LayoutDuration": 0.000566000000000004,
+        "RecalcStyleDuration": 0.006018999999999997,
+        "LayoutCount": 6,
+        "RecalcStyleCount": 20
+      }
+    },
+    "lateComment": true,
+    "staticScroll": {
+      "elapsed": 427.7358999999997,
+      "metrics": {
+        "TaskDuration": 0.043569,
+        "ScriptDuration": 0.008688999999999999,
+        "LayoutDuration": 0,
+        "RecalcStyleDuration": 0,
+        "LayoutCount": 0,
+        "RecalcStyleCount": 0
+      }
+    },
+    "feedInsertion": {
+      "elapsed": 244.70030000000042,
+      "styleRead": {
+        "count": 1802,
+        "ms": 2.7000000001862645,
+        "max": 0.2999999998137355
+      },
+      "surfaceRead": {
+        "count": 1802,
+        "ms": 55.499999998137355,
+        "max": 15
+      },
+      "surfaceBatch": {
+        "count": 21,
+        "ms": 66.59999999776483,
+        "max": 15.600000000558794
+      },
+      "surfaceMarks": 1359,
+      "surfacePending": 0,
+      "geometryRead": {
+        "count": 450,
+        "ms": 2.6000000005587935,
+        "max": 0.20000000018626451
+      },
+      "metrics": {
+        "TaskDuration": 0.21819999999999998,
+        "ScriptDuration": 0.056098,
+        "LayoutDuration": 0.046024,
+        "RecalcStyleDuration": 0.037745,
+        "LayoutCount": 21,
+        "RecalcStyleCount": 25
+      }
+    },
+    "unthemedCards": 0,
+    "feedRestyle": {
+      "elapsed": 396.4367999999995,
+      "styleRead": {
+        "count": 1801,
+        "ms": 3.100000001490116,
+        "max": 0.40000000037252903
+      },
+      "surfaceRead": {
+        "count": 1801,
+        "ms": 126.60000000242144,
+        "max": 15.399999999441206
+      },
+      "surfaceBatch": {
+        "count": 32,
+        "ms": 140.40000000130385,
+        "max": 15.900000000372529
+      },
+      "surfaceMarks": 1359,
+      "surfacePending": 0,
+      "geometryRead": {
+        "count": 450,
+        "ms": 43.600000005215406,
+        "max": 2.7999999998137355
+      },
+      "metrics": {
+        "TaskDuration": 0.282847,
+        "ScriptDuration": 0.074503,
+        "LayoutDuration": 0.076759,
+        "RecalcStyleDuration": 0.06251400000000001,
+        "LayoutCount": 63,
+        "RecalcStyleCount": 64
+      }
+    },
+    "feedRemoval": {
+      "elapsed": 133.73909999999887,
+      "surfaceBatch": {
+        "count": 1,
+        "ms": 0.599999999627471,
+        "max": 0.599999999627471
+      },
+      "surfaceMarks": 9,
+      "surfacePending": 0,
+      "metrics": {
+        "TaskDuration": 0.010288999999999993,
+        "ScriptDuration": 0.0008350000000000024,
+        "LayoutDuration": 0.00007999999999999674,
+        "RecalcStyleDuration": 0,
+        "LayoutCount": 1,
+        "RecalcStyleCount": 0
+      }
+    },
+    "environment": {
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/148.0.0.0 Safari/537.36",
+      "renderer": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A788) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+    }
+  },
+  "errors": []
+}

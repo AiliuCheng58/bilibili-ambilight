@@ -3,8 +3,8 @@
   const config = globalThis.BiliAmbientSettings;
   const api = globalThis.chrome;
   if (!config || !globalThis.BiliAmbientSite || !globalThis.BiliAmbientTheme || !globalThis.BiliAmbientProjection || !globalThis.BiliAmbientRenderer || !globalThis.BiliAmbientInspection || !globalThis.BiliAmbientStats || !globalThis.BiliAmbientVideoEffects || !api?.storage?.local || globalThis.__biliAmbientController) return;
-  const theme = new globalThis.BiliAmbientTheme();
-  const site = new globalThis.BiliAmbientSite(api);
+  const site = new globalThis.BiliAmbientSite(api, () => theme.refreshText());
+  const theme = new globalThis.BiliAmbientTheme(() => site.marked);
   const menu = new globalThis.BiliAmbientMenu(api);
 
   const videoSelector = ".bpx-player-video-wrap video, .bilibili-player-video-wrap video, #bilibili-player video, #bilibiliPlayer video, #bofqi video, .live-player-mounter video";
@@ -591,7 +591,7 @@
     for (const event of ["play", "playing", "pause", "ended", "seeked", "loadeddata", "resize", "enterpictureinpicture", "leavepictureinpicture"]) {
       video.addEventListener(event, queueLayout, options);
     }
-    for (const event of ["pause", "ended"]) video.addEventListener(event, () => { projectionDirty = true; }, options);
+    for (const event of ["pause", "ended"]) video.addEventListener(event, () => { projectionDirty = true; lastInspection = -Infinity; }, options);
     for (const event of ["emptied", "loadstart"]) video.addEventListener(event, () => { resetClips(); recover(); }, options);
     for(const event of ["seeking","seeked"])video.addEventListener(event,recover,options);
     video.addEventListener("loadeddata",()=>{renderer?.retry();edgeRenderer?.retry();},options);

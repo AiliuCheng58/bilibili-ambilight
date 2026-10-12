@@ -1,12 +1,12 @@
-# Bili Ambient 1.7.11 · B站氛围光（预发布）
+# Bili Ambient 1.7.12 · B站氛围光（预发布）
 
 适用于 Chrome / Edge 的 Manifest V3 扩展。Bilibili 主站及所有子域名共享全页氛围背景和玻璃主题，覆盖首页、搜索、分区、动态、个人空间、专栏、直播与播放页。视频播放时通过 WebGL 多层投影铺满视口，滚动时保留原播放器的投影位置；静态页面沿用最近视频的色彩。
 
-[公开源码](https://github.com/AiliuCheng58/bilibili-ambilight) · [下载 1.7.11 预发布版](https://github.com/AiliuCheng58/bilibili-ambilight/releases/tag/v1.7.11) · [反馈问题](https://github.com/AiliuCheng58/bilibili-ambilight/issues) · [MIT 许可](LICENSE)
+[公开源码](https://github.com/AiliuCheng58/bilibili-ambilight) · [下载 1.7.12 预发布版](https://github.com/AiliuCheng58/bilibili-ambilight/releases/tag/v1.7.12) · [反馈问题](https://github.com/AiliuCheng58/bilibili-ambilight/issues) · [MIT 许可](LICENSE)
 
 ## 安装和更新
 
-1. 下载并解压 [bilibili-ambilight-v1.7.11.zip](https://github.com/AiliuCheng58/bilibili-ambilight/releases/download/v1.7.11/bilibili-ambilight-v1.7.11.zip)。
+1. 下载并解压 [bilibili-ambilight-v1.7.12.zip](https://github.com/AiliuCheng58/bilibili-ambilight/releases/download/v1.7.12/bilibili-ambilight-v1.7.12.zip)。
 2. Chrome 打开 `chrome://extensions/`；Edge 打开 `edge://extensions/`。
 3. 开启“开发者模式”，点击“加载已解压的扩展程序”。
 4. 选择直接包含 `manifest.json` 的 `bilibili-ambilight` 文件夹。
@@ -45,7 +45,7 @@
 
 消息中心采用独立阅读配色，通知、会话气泡和输入区域的底色与文字明暗保持一致。玻璃柔化位于外层面板，正文和时间信息显示清晰；自动配色与强制深浅主题均适用。
 
-视频页自动配色根据评论及楼中楼当前可见文字所在区域的背景亮度选择黑字或白字，兼容嵌套评论组件。暂停后滚动也会更新局部配色；强制深浅主题使用选定主题的文字颜色。
+视频页自动配色根据评论、楼中楼及页面中性文字所在区域的背景亮度选择黑字或白字。推荐标题、作者和播放信息随所在区域更新，品牌链接保持原色；兼容嵌套评论组件。暂停后滚动也会更新局部配色；强制深浅主题使用选定主题的文字颜色。
 
 播放器逐渐滚出视口时，背景在 180 ms 内平滑增加柔化，默认额外增加 120 px；回到播放器时恢复。选择视频帧同步后，离屏期间自动切换为显示回调持续取帧，返回播放器时恢复视频帧回调。滚动小窗继续播放时，背景保留原播放器的投影位置并进入阅读柔化状态。评论文字、头像和视频前景保持清晰。“页面与玻璃”中的“评论区额外柔化”可调节强度，设为 0 可关闭。普通全屏和网页全屏随播放器尺寸调整，背景与设置菜单挂载到全屏容器。关闭效果后恢复页面配色和视频显示。
 

@@ -50,7 +50,7 @@
     return null;
   }
   class PageTheme {
-    constructor() {
+    constructor(textTargets = () => []) {
       this.enabled = false;
       this.player = null;
       this.roots = new Map();
@@ -61,6 +61,8 @@
       this.sampler = null;
       this.nextInkAt = 0;
       this.inkTimer = null;
+      this.textTargets = textTargets;
+      this.textRecords = new Map();
     }
     apply(settings) {
       if (this.enabled && this.settings === settings) return;
@@ -122,12 +124,35 @@
         }
         if ((record.ink || null)!==ink) changes.push({record,ink});
       }
+      const textChanges=[],retained=new Set();
+      if(this.sampler && this.theme===0)for(const element of this.textTargets()){
+        if(!element.isConnected || !element.hasAttribute('data-bili-ambient-ink'))continue;
+        retained.add(element);
+        const rect=textRect(element);if(!rect)continue;
+        const previous=this.textRecords.get(element),ink=this.sampler(rect)>(previous?.ink==='light'?.45:.47)?'light':'dark';
+        if(previous?.ink!==ink)textChanges.push({element,ink});
+      }
+      for(const element of this.textRecords.keys())if(!retained.has(element))textChanges.push({element,ink:null});
       // Read every region before changing custom properties to avoid repeated style/layout work.
       for (const {record,ink} of changes) {
         record.ink=ink;
         const colors=ink==='light'?['#000','#414c60','#58667d']:['#fff','#ced2dd','#aab2c3'];
         record.style.textContent=shadowCss+(ink?`:host-context(html[${attribute}]) {${colors.map((c,i)=>`--bili-ambient-text${i+1}:${c} !important;`).join('')}}`:'');
       }
+      for(const {element,ink} of textChanges){
+        if(!ink){this.restoreText(element);continue;}
+        let record=this.textRecords.get(element);
+        if(!record){record={before:element.getAttribute('data-bili-ambient-reading-tone')};this.textRecords.set(element,record);}
+        record.ink=ink;element.setAttribute('data-bili-ambient-reading-tone',ink);
+      }
+    }
+    restoreText(element) {
+      const record=this.textRecords.get(element);if(!record)return;
+      if(element.getAttribute('data-bili-ambient-reading-tone')===record.ink){
+        if(record.before===null)element.removeAttribute('data-bili-ambient-reading-tone');
+        else element.setAttribute('data-bili-ambient-reading-tone',record.before);
+      }
+      this.textRecords.delete(element);
     }
     setPlayer(video) {
       const next = video?.closest(".bpx-player-container, .bilibili-player, #bilibili-player, #bilibiliPlayer, #bofqi, .live-player-mounter") || video?.parentElement || null;
@@ -181,6 +206,7 @@
     }
     disable() {
       this.enabled = false;
+      for(const element of this.textRecords.keys())this.restoreText(element);
       clearTimeout(this.inkTimer);this.inkTimer=null;this.nextInkAt=0;
       document.documentElement.removeAttribute(attribute);
       document.documentElement.removeAttribute("data-bili-ambient-tone");

@@ -72,10 +72,10 @@ try {
     checks.push("title, toolbar and nested collection surfaces remain transparent");
     await scene("white");
     assert.equal(await page.locator("html").getAttribute("data-bili-ambient-tone"),"light");
-    assert.equal(await page.locator("h1.video-title").evaluate(e=>getComputedStyle(e).color),"rgb(29, 35, 50)");
+    assert.equal(await page.locator("h1.video-title").evaluate(e=>getComputedStyle(e).color),"rgb(0, 0, 0)");
     await scene("dark");
     assert.equal(await page.locator("html").getAttribute("data-bili-ambient-tone"),"dark");
-    assert.equal(await page.locator("h1.video-title").evaluate(e=>getComputedStyle(e).color),"rgb(244, 245, 248)");
+    assert.equal(await page.locator("h1.video-title").evaluate(e=>getComputedStyle(e).color),"rgb(255, 255, 255)");
     checks.push("foreground contrast adapts to bright and dark video backgrounds");
     await set({ smoothing:70 });
   }

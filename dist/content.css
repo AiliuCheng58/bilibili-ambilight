@@ -48,6 +48,14 @@ html[data-bili-ambient][data-bili-ambient-tone="light"] {
   --bili-ambient-text3: #58667d;
   --bili-ambient-text-shadow: 0 1px 2px rgba(255,255,255,.7), 0 0 6px rgba(255,255,255,.22);
 }
+html[data-bili-ambient] [data-bili-ambient-reading-tone="light"] {
+  --bili-ambient-text1:#000 !important; --bili-ambient-text2:#000 !important; --bili-ambient-text3:#000 !important;
+  --text1:#000 !important; --text2:#000 !important; --text3:#000 !important; --text4:#000 !important;
+}
+html[data-bili-ambient] [data-bili-ambient-reading-tone="dark"] {
+  --bili-ambient-text1:#fff !important; --bili-ambient-text2:#fff !important; --bili-ambient-text3:#fff !important;
+  --text1:#fff !important; --text2:#fff !important; --text3:#fff !important; --text4:#fff !important;
+}
 html[data-bili-ambient] body {
   position: relative;
   z-index: 1;

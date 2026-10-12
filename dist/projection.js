@@ -113,6 +113,7 @@
     // Combine the text area and Gaussian bloom footprint; overscan pixels contribute to visible blur.
     const sigmaX=blurred?Math.hypot(region.blur,region.width/Math.sqrt(12)):0;
     const sigmaY=blurred?Math.hypot(region.blur,region.height/Math.sqrt(12)):0;
+    const directions=[settings.directionTopEnabled,settings.directionRightEnabled,settings.directionBottomEnabled,settings.directionLeftEnabled],directional=!directions.every(Boolean);
     for (let y = 0; y < rows; y++) for (let x = 0; x < columns; x++) {
       const zx=(x-4)*.75,zy=(y-4)*.75,weight=blurred?Math.exp(-.5*(zx*zx+zy*zy)):1;
       let vx = blurred ? region.left+region.width/2+zx*sigmaX : region ? region.left+(x+.5)/columns*region.width : viewport.left+x*4/width*viewport.width;
@@ -135,7 +136,13 @@
       const px=Math.max(0,Math.min(width-1,(crop.x+clamp(u)*crop.width)*width-.5));
       const py=Math.max(0,Math.min(height-1,(crop.y+clamp(v)*crop.height)*height-.5));
       const x0=Math.floor(px),y0=Math.floor(py),x1=Math.min(width-1,x0+1),y1=Math.min(height-1,y0+1),dx=px-x0,dy=py-y0;
-      luminance += ((light(x0,y0)*(1-dx)+light(x1,y0)*dx)*(1-dy)+(light(x0,y1)*(1-dx)+light(x1,y1)*dx)*dy)*weight;
+      let gain=1;
+      if(directional){
+        const dt=anchor.top-vy,dr=vx-anchor.left-anchor.width,db=vy-anchor.top-anchor.height,dl=anchor.left-vx,distance=Math.max(dt,dr,db,dl);
+        const enabled=distance===dt?directions[0]:distance===dr?directions[1]:distance===db?directions[2]:directions[3];
+        if(!enabled && distance>0){const t=clamp(distance/20);gain=1-t*t*(3-2*t);}
+      }
+      luminance += ((light(x0,y0)*(1-dx)+light(x1,y0)*dx)*(1-dy)+(light(x0,y1)*(1-dx)+light(x1,y1)*dx)*dy)*weight*gain;
       count+=weight;
     }
     return count ? luminance / count : 0;

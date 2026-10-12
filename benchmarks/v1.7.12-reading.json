@@ -1,0 +1,4584 @@
+{
+  "date": "2026-10-12",
+  "version": "1.7.12",
+  "code": {
+    "contentSHA256": "ccd3e9a3dba824cdb8ed9405679749e289deec3c2e2f10a90fd71fd786f8c544",
+    "rendererSHA256": "10f546c2619a9c2a088002491a10761db40d786b45f4b4b011cb065b1a8cb2a6",
+    "projectionSHA256": "c2c242739f01f92c84e10fa268d6ff198540465d033f51de5cb76d77b8bb1fb2",
+    "themeSHA256": "d5e01d598b0f8ba3bf83b340f0e3ca0d447230c2e5b365d6c1fd1ee909b27f11",
+    "siteSHA256": "e248c643b251b300e2e73dd3a81e2a9d28541fd0fc02964eaa47456968312f71",
+    "contentCssSHA256": "b8d02362047dcad1d188630e722d668798ce778ceb195cde22cd73cfe55ccc95"
+  },
+  "method": "Installed MV3 extension in isolated Chromium. Neutral page text uses local projected brightness, including bloom and direction flags. Controlled title and metadata tests mask glyph visibility for blank PNG regions, check dark/light backgrounds, paused scroll, brand colors, forced themes and restoration. A separate regression counts paused inspection requests and verifies subsequent idle rendering. Public Bilibili comparison keeps the same paused media frame, clears regional ink, waits 400 ms for native title color transitions, restores regional records, and disables glyph transitions and animations before measuring a transparent-glyph PNG. Computed transparency is verified for every sample.",
+  "limits": "Contrast covers the recorded line regions and media frame, not every text position or frame. Callback cadence and software GPU probes do not measure physical screen latency. Earlier observations use other frames and browser loads.",
+  "advanced": {
+    "checks": [
+      "WebGL compositing preserves the left and right edge orientation",
+      "Canvas 2D fallback produces the same directional scene without WebGL",
+      "GPU context loss falls back and restoration resumes WebGL",
+      "player halo keeps its soft edge while GPU blur falls back and recovers",
+      "comment text follows its local background across bright and dark regions",
+      "reply rich text follows local reading brightness",
+      "vibrance changes projected colors while decoded video colors stay intact",
+      "recommendation titles and metadata follow local reading brightness and restore",
+      "OLED debanding preserves pure black",
+      "fade duration blends a color step over time",
+      "flicker reduction slows sudden brightness changes",
+      "colored bar detection responds to its switch and manual clipping",
+      "view selection follows Bilibili wide-screen state",
+      "forced theme, header fill and independent recommendation scroll apply immediately",
+      "statistics expose real render resolution and bar readings",
+      "navigation popovers blur page pixels beyond the navigation bar bounds",
+      "message text retains reading contrast across bright and dark site palettes",
+      "static-scene energy saving reduces actual draw calls",
+      "embed preference controls an embedded playback page",
+      "paused playback stops drawing after layout settles",
+      "pausing captures fresh reading pixels before returning to idle",
+      "resolution scaling changes the real render buffers",
+      "video synchronization, noise and graphics workarounds restore the native player",
+      "video overlay drop protection returns to native video",
+      "HDR filters apply by selection and player metadata",
+      "VR surface follows camera changes while the media is paused",
+      "shortcuts toggle their option and ignore editable fields",
+      "a replacement media source resets manual clipping",
+      "JSON backup restores settings and opt-in browser synchronization propagates",
+      "advanced settings search edits and persists the selected control",
+      "the player menu edits real settings and remains usable when the effect is disabled",
+      "the fullscreen player menu closes with Escape while fullscreen stays active",
+      "leaving playback moves settings to the site launcher and returning restores it",
+      "live rooms receive projection and translucent chat without changing video pixels",
+      "frame blending interpolates low-frame-rate media and settles without accumulated trails"
+    ],
+    "errors": [],
+    "measurements": {
+      "halo": {
+        "before": [
+          [
+            48.62890625,
+            197.3125,
+            234.671875
+          ],
+          [
+            231.125,
+            50.5,
+            96.6875
+          ]
+        ],
+        "fallback": [
+          [
+            48.44140625,
+            197.375,
+            234.671875
+          ],
+          [
+            231.125,
+            50.5,
+            96.5625
+          ]
+        ],
+        "restored": [
+          [
+            48.62890625,
+            197.3125,
+            234.671875
+          ],
+          [
+            231.125,
+            50.5,
+            96.6875
+          ]
+        ]
+      },
+      "readingContrast": [
+        {
+          "color": "rgb(0, 0, 0)",
+          "filter": "none",
+          "rect": {
+            "x": 1050,
+            "y": 120,
+            "width": 210,
+            "height": 81
+          },
+          "background": [
+            219,
+            219,
+            219
+          ],
+          "contrast": 15.167515597833736
+        },
+        {
+          "color": "rgb(255, 255, 255)",
+          "filter": "none",
+          "rect": {
+            "x": 1050,
+            "y": 720,
+            "width": 210,
+            "height": 81
+          },
+          "background": [
+            29,
+            29,
+            29
+          ],
+          "contrast": 16.857588663262874
+        }
+      ],
+      "readingMoved": [
+        {
+          "color": "rgb(255, 255, 255)",
+          "filter": "none",
+          "rect": {
+            "x": 1050,
+            "y": 720,
+            "width": 210,
+            "height": 81
+          }
+        },
+        {
+          "color": "rgb(0, 0, 0)",
+          "filter": "none",
+          "rect": {
+            "x": 1050,
+            "y": 120,
+            "width": 210,
+            "height": 81
+          }
+        }
+      ],
+      "readingClipped": {
+        "color": "rgb(0, 0, 0)",
+        "firstLineY": -200,
+        "visibleLineY": 0
+      },
+      "replyReading": [
+        {
+          "top": 720,
+          "color": "rgb(255, 255, 255)",
+          "filter": "none"
+        },
+        {
+          "top": 120,
+          "color": "rgb(0, 0, 0)",
+          "filter": "none"
+        }
+      ],
+      "plainReading": {
+        "dark": {
+          "title": "rgb(255, 255, 255)",
+          "metadata": "rgb(255, 255, 255)",
+          "brand": "rgb(0, 174, 236)",
+          "filter": "none",
+          "contrast": [
+            {
+              "background": [
+                29,
+                29,
+                29
+              ],
+              "ratio": 16.857588663262874
+            },
+            {
+              "background": [
+                29,
+                29,
+                29
+              ],
+              "ratio": 16.857588663262874
+            }
+          ]
+        },
+        "light": {
+          "title": "rgb(0, 0, 0)",
+          "metadata": "rgb(0, 0, 0)",
+          "brand": "rgb(0, 174, 236)",
+          "filter": "none",
+          "contrast": [
+            {
+              "background": [
+                219,
+                219,
+                219
+              ],
+              "ratio": 15.167515597833736
+            },
+            {
+              "background": [
+                219,
+                219,
+                219
+              ],
+              "ratio": 15.167515597833736
+            }
+          ]
+        },
+        "disabledDirection": {
+          "title": "rgb(255, 255, 255)",
+          "metadata": "rgb(255, 255, 255)",
+          "brand": "rgb(0, 174, 236)",
+          "filter": "none",
+          "contrast": [
+            {
+              "background": [
+                20,
+                20,
+                20
+              ],
+              "ratio": 18.422536070011546
+            },
+            {
+              "background": [
+                20,
+                20,
+                20
+              ],
+              "ratio": 18.422536070011546
+            }
+          ]
+        }
+      },
+      "pauseInspection": {
+        "requests": 1,
+        "frames": 4122
+      },
+      "dropProtection": {
+        "observedFrames": 70,
+        "threshold": 5
+      }
+    }
+  },
+  "publicPage": {
+    "date": "2026-10-12T12:16:07.316Z",
+    "url": "https://www.bilibili.com/video/BV1Za4C6WEXv/",
+    "seekTargetTime": 65,
+    "scroll": 1600,
+    "samples": [
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "rect": {
+          "x": 347.828125,
+          "y": 271.75,
+          "width": 795,
+          "height": 20
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "15px",
+        "lineHeight": "24px",
+        "filter": "none",
+        "transition": "0s",
+        "transitionProperty": "all",
+        "background": [
+          235,
+          234.06,
+          218.1275
+        ],
+        "contrast": 17.32212191282397,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 12.939386931157772
+      },
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "rect": {
+          "x": 350.0625,
+          "y": 369.25,
+          "width": 735,
+          "height": 20
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "15px",
+        "lineHeight": "24px",
+        "filter": "none",
+        "transition": "0s",
+        "transitionProperty": "all",
+        "background": [
+          221.17416666666668,
+          207.25583333333333,
+          184.66666666666666
+        ],
+        "contrast": 13.727588328016314,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 10.254319759540959
+      },
+      {
+        "host": "BILI-COMMENT-RENDERER",
+        "rect": {
+          "x": 212.5,
+          "y": 525,
+          "width": 255,
+          "height": 20
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "15px",
+        "lineHeight": "24px",
+        "filter": "none",
+        "transition": "0s",
+        "transitionProperty": "all",
+        "background": [
+          143.54583333333332,
+          125.65916666666666,
+          95.97333333333333
+        ],
+        "contrast": 5.313440157512394,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 3.9690667505754926
+      },
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "rect": {
+          "x": 328.328125,
+          "y": 731.75,
+          "width": 810,
+          "height": 20
+        },
+        "color": "rgb(255, 255, 255)",
+        "fontSize": "15px",
+        "lineHeight": "24px",
+        "filter": "none",
+        "transition": "0s",
+        "transitionProperty": "all",
+        "background": [
+          104.39416666666666,
+          83.79166666666667,
+          46.9
+        ],
+        "contrast": 7.251639601470263,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 2.163195106535058
+      },
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "rect": {
+          "x": 330.796875,
+          "y": 829.25,
+          "width": 120,
+          "height": 20
+        },
+        "color": "rgb(255, 255, 255)",
+        "fontSize": "15px",
+        "lineHeight": "24px",
+        "filter": "none",
+        "transition": "0s",
+        "transitionProperty": "all",
+        "background": [
+          95.42248062015504,
+          75.62984496124031,
+          37.57751937984496
+        ],
+        "contrast": 8.26066880212935,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 1.8989638340436492
+      },
+      {
+        "host": "LIGHT-DOM",
+        "role": "title",
+        "readingTone": "light",
+        "rect": {
+          "x": 1329.5,
+          "y": 110.5,
+          "width": 195,
+          "height": 20
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "15px",
+        "lineHeight": "19px",
+        "filter": "none",
+        "transition": "0.3s",
+        "transitionProperty": "color",
+        "background": [
+          235,
+          235,
+          224.79666666666665
+        ],
+        "contrast": 17.50079595961244,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 13.07285398776821
+      },
+      {
+        "host": "LIGHT-DOM",
+        "role": "upname",
+        "readingTone": "light",
+        "rect": {
+          "x": 1351.5,
+          "y": 153,
+          "width": 62.28125,
+          "height": 17
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "13px",
+        "lineHeight": "15px",
+        "filter": "none",
+        "transition": "0s",
+        "transitionProperty": "all",
+        "background": [
+          235,
+          235,
+          221
+        ],
+        "contrast": 17.459857439593815,
+        "beforeColor": "rgb(65, 76, 96)",
+        "beforeContrast": 7.192687223869639
+      },
+      {
+        "host": "LIGHT-DOM",
+        "role": "playinfo",
+        "readingTone": "light",
+        "rect": {
+          "x": 1351.5,
+          "y": 174,
+          "width": 38.234375,
+          "height": 17
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "13px",
+        "lineHeight": "15px",
+        "filter": "none",
+        "transition": "0s",
+        "transitionProperty": "all",
+        "background": [
+          235,
+          232,
+          218.77551020408163
+        ],
+        "contrast": 17.095609802911216,
+        "beforeColor": "rgb(65, 76, 96)",
+        "beforeContrast": 7.042633345608845
+      },
+      {
+        "host": "LIGHT-DOM",
+        "role": "title",
+        "readingTone": "light",
+        "rect": {
+          "x": 1320.5,
+          "y": 204.5,
+          "width": 195,
+          "height": 20
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "15px",
+        "lineHeight": "19px",
+        "filter": "none",
+        "transition": "0.3s",
+        "transitionProperty": "color",
+        "background": [
+          235,
+          228.7175,
+          214.90666666666667
+        ],
+        "contrast": 16.6892156765688,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 12.466614673621265
+      },
+      {
+        "host": "LIGHT-DOM",
+        "role": "upname",
+        "readingTone": "light",
+        "rect": {
+          "x": 1351.5,
+          "y": 247,
+          "width": 98.984375,
+          "height": 17
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "13px",
+        "lineHeight": "15px",
+        "filter": "none",
+        "transition": "0s",
+        "transitionProperty": "all",
+        "background": [
+          230.275,
+          220.82380952380953,
+          205.84404761904761
+        ],
+        "contrast": 15.58741892817212,
+        "beforeColor": "rgb(65, 76, 96)",
+        "beforeContrast": 6.421325567270819
+      },
+      {
+        "host": "LIGHT-DOM",
+        "role": "playinfo",
+        "readingTone": "light",
+        "rect": {
+          "x": 1351.5,
+          "y": 268,
+          "width": 38.234375,
+          "height": 17
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "13px",
+        "lineHeight": "15px",
+        "filter": "none",
+        "transition": "0s",
+        "transitionProperty": "all",
+        "background": [
+          226,
+          216.0748299319728,
+          200.07142857142858
+        ],
+        "contrast": 14.898461784526903,
+        "beforeColor": "rgb(65, 76, 96)",
+        "beforeContrast": 6.137505767364941
+      },
+      {
+        "host": "LIGHT-DOM",
+        "role": "title",
+        "readingTone": "light",
+        "rect": {
+          "x": 1329.5,
+          "y": 298.5,
+          "width": 195,
+          "height": 20
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "15px",
+        "lineHeight": "19px",
+        "filter": "none",
+        "transition": "0.3s",
+        "transitionProperty": "color",
+        "background": [
+          217.29083333333332,
+          206.68833333333333,
+          190.5875
+        ],
+        "contrast": 13.602909068510526,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 10.161186066731576
+      },
+      {
+        "host": "LIGHT-DOM",
+        "role": "upname",
+        "readingTone": "light",
+        "rect": {
+          "x": 1351.5,
+          "y": 341,
+          "width": 74.234375,
+          "height": 17
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "13px",
+        "lineHeight": "15px",
+        "filter": "none",
+        "transition": "0s",
+        "transitionProperty": "all",
+        "background": [
+          203.83333333333334,
+          192.49514563106797,
+          173.5
+        ],
+        "contrast": 11.753488699330836,
+        "beforeColor": "rgb(65, 76, 96)",
+        "beforeContrast": 4.84191628116408
+      },
+      {
+        "host": "LIGHT-DOM",
+        "role": "playinfo",
+        "readingTone": "light",
+        "rect": {
+          "x": 1351.5,
+          "y": 362,
+          "width": 38.234375,
+          "height": 17
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "13px",
+        "lineHeight": "15px",
+        "filter": "none",
+        "transition": "0s",
+        "transitionProperty": "all",
+        "background": [
+          196.2108843537415,
+          183.7891156462585,
+          165.05102040816325
+        ],
+        "contrast": 10.735192413292168,
+        "beforeColor": "rgb(65, 76, 96)",
+        "beforeContrast": 4.422423355059489
+      },
+      {
+        "host": "LIGHT-DOM",
+        "role": "title",
+        "readingTone": "light",
+        "rect": {
+          "x": 1329.5,
+          "y": 392.5,
+          "width": 195,
+          "height": 20
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "15px",
+        "lineHeight": "19px",
+        "filter": "none",
+        "transition": "0.3s",
+        "transitionProperty": "color",
+        "background": [
+          183.67083333333332,
+          170.635,
+          150.715
+        ],
+        "contrast": 9.272594217399268,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 6.926500404417543
+      },
+      {
+        "host": "LIGHT-DOM",
+        "role": "upname",
+        "readingTone": "light",
+        "rect": {
+          "x": 1351.5,
+          "y": 435,
+          "width": 74.234375,
+          "height": 17
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "13px",
+        "lineHeight": "15px",
+        "filter": "none",
+        "transition": "0s",
+        "transitionProperty": "all",
+        "background": [
+          166.33333333333334,
+          152.16666666666666,
+          129.47734627831716
+        ],
+        "contrast": 7.450276588598387,
+        "beforeColor": "rgb(65, 76, 96)",
+        "beforeContrast": 3.0691836642140045
+      },
+      {
+        "host": "LIGHT-DOM",
+        "role": "playinfo",
+        "readingTone": "light",
+        "rect": {
+          "x": 1351.5,
+          "y": 456,
+          "width": 38.234375,
+          "height": 17
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "13px",
+        "lineHeight": "15px",
+        "filter": "none",
+        "transition": "0s",
+        "transitionProperty": "all",
+        "background": [
+          157.66666666666666,
+          142.66666666666666,
+          119.5
+        ],
+        "contrast": 6.624856436508922,
+        "beforeColor": "rgb(65, 76, 96)",
+        "beforeContrast": 2.7291471545919337
+      },
+      {
+        "host": "LIGHT-DOM",
+        "role": "title",
+        "readingTone": "light",
+        "rect": {
+          "x": 1329.5,
+          "y": 486.5,
+          "width": 195,
+          "height": 20
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "15px",
+        "lineHeight": "19px",
+        "filter": "none",
+        "transition": "0.3s",
+        "transitionProperty": "color",
+        "background": [
+          145,
+          129.42666666666668,
+          105.11916666666667
+        ],
+        "contrast": 5.571054691913868,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 4.161501266190057
+      },
+      {
+        "host": "LIGHT-DOM",
+        "role": "upname",
+        "readingTone": "dark",
+        "rect": {
+          "x": 1351.5,
+          "y": 529,
+          "width": 74.234375,
+          "height": 17
+        },
+        "color": "rgb(255, 255, 255)",
+        "fontSize": "13px",
+        "lineHeight": "15px",
+        "filter": "none",
+        "transition": "0s",
+        "transitionProperty": "all",
+        "background": [
+          127.83333333333333,
+          111.83333333333333,
+          86.35436893203884
+        ],
+        "contrast": 4.815301880899786,
+        "beforeColor": "rgb(65, 76, 96)",
+        "beforeContrast": 1.7965787460332492
+      },
+      {
+        "host": "LIGHT-DOM",
+        "role": "playinfo",
+        "readingTone": "dark",
+        "rect": {
+          "x": 1351.5,
+          "y": 550,
+          "width": 27.828125,
+          "height": 17
+        },
+        "color": "rgb(255, 255, 255)",
+        "fontSize": "13px",
+        "lineHeight": "15px",
+        "filter": "none",
+        "transition": "0s",
+        "transitionProperty": "all",
+        "background": [
+          120.5,
+          104,
+          77
+        ],
+        "contrast": 5.394195956945585,
+        "beforeColor": "rgb(65, 76, 96)",
+        "beforeContrast": 1.6037735899859809
+      }
+    ],
+    "version": "1.7.12",
+    "code": {
+      "contentSHA256": "ccd3e9a3dba824cdb8ed9405679749e289deec3c2e2f10a90fd71fd786f8c544",
+      "themeSHA256": "d5e01d598b0f8ba3bf83b340f0e3ca0d447230c2e5b365d6c1fd1ee909b27f11",
+      "projectionSHA256": "c2c242739f01f92c84e10fa268d6ff198540465d033f51de5cb76d77b8bb1fb2",
+      "siteSHA256": "e248c643b251b300e2e73dd3a81e2a9d28541fd0fc02964eaa47456968312f71",
+      "contentCssSHA256": "b8d02362047dcad1d188630e722d668798ce778ceb195cde22cd73cfe55ccc95"
+    },
+    "pausedTime": 70.785063,
+    "tone": "light",
+    "commentStructure": [
+      {
+        "host": "BILI-COMMENT-THREAD-RENDERER",
+        "ids": [
+          "comment",
+          "replies",
+          "reply-container",
+          "div"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-RENDERER",
+        "ids": [
+          "body",
+          "user-avatar",
+          "main",
+          "header",
+          "ornament",
+          "content",
+          "footer"
+        ],
+        "rich": [
+          {
+            "id": "",
+            "parent": "content",
+            "color": "rgb(0, 0, 0)",
+            "rect": {
+              "top": -152,
+              "height": 380
+            }
+          }
+        ]
+      },
+      {
+        "host": "BILI-COMMENT-ACTION-BUTTONS-RENDERER",
+        "ids": [
+          "pubdate",
+          "like",
+          "count",
+          "dislike",
+          "reply",
+          "more"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-MENU",
+        "ids": [
+          "options"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-REPLIES-RENDERER",
+        "ids": [
+          "expander",
+          "expander-contents",
+          "expander-footer",
+          "view-more"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "ids": [
+          "body",
+          "main",
+          "user-avatar",
+          "footer"
+        ],
+        "rich": [
+          {
+            "id": "",
+            "parent": "main",
+            "color": "rgb(0, 0, 0)",
+            "rect": {
+              "top": 271.75,
+              "height": 47.75
+            }
+          }
+        ]
+      },
+      {
+        "host": "BILI-COMMENT-USER-INFO",
+        "ids": [
+          "info",
+          "user-name",
+          "user-level"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-ACTION-BUTTONS-RENDERER",
+        "ids": [
+          "pubdate",
+          "like",
+          "count",
+          "dislike",
+          "reply",
+          "more"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-MENU",
+        "ids": [
+          "options"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "ids": [
+          "body",
+          "main",
+          "user-avatar",
+          "footer"
+        ],
+        "rich": [
+          {
+            "id": "",
+            "parent": "main",
+            "color": "rgb(0, 0, 0)",
+            "rect": {
+              "top": 369.25,
+              "height": 20
+            }
+          }
+        ]
+      },
+      {
+        "host": "BILI-COMMENT-USER-INFO",
+        "ids": [
+          "info",
+          "user-name",
+          "user-level"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-ACTION-BUTTONS-RENDERER",
+        "ids": [
+          "pubdate",
+          "like",
+          "count",
+          "dislike",
+          "reply",
+          "more"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-MENU",
+        "ids": [
+          "options"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-THREAD-RENDERER",
+        "ids": [
+          "comment",
+          "replies",
+          "reply-container",
+          "div"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-RENDERER",
+        "ids": [
+          "body",
+          "user-avatar",
+          "main",
+          "header",
+          "ornament",
+          "content",
+          "pictures",
+          "footer"
+        ],
+        "rich": [
+          {
+            "id": "",
+            "parent": "content",
+            "color": "rgb(0, 0, 0)",
+            "rect": {
+              "top": 525,
+              "height": 20
+            }
+          }
+        ]
+      },
+      {
+        "host": "BILI-COMMENT-USER-INFO",
+        "ids": [
+          "info",
+          "user-name",
+          "user-level"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-USER-SAILING-CARD",
+        "ids": [
+          "card"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-PICTURES-RENDERER",
+        "ids": [
+          "content"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-ACTION-BUTTONS-RENDERER",
+        "ids": [
+          "pubdate",
+          "like",
+          "count",
+          "dislike",
+          "reply",
+          "more"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-MENU",
+        "ids": [
+          "options"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-REPLIES-RENDERER",
+        "ids": [
+          "expander",
+          "expander-contents",
+          "expander-footer",
+          "view-more"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "ids": [
+          "body",
+          "main",
+          "user-avatar",
+          "footer"
+        ],
+        "rich": [
+          {
+            "id": "",
+            "parent": "main",
+            "color": "rgb(255, 255, 255)",
+            "rect": {
+              "top": 731.75,
+              "height": 47.75
+            }
+          }
+        ]
+      },
+      {
+        "host": "BILI-COMMENT-USER-INFO",
+        "ids": [
+          "info",
+          "user-name",
+          "user-level"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-ACTION-BUTTONS-RENDERER",
+        "ids": [
+          "pubdate",
+          "like",
+          "count",
+          "dislike",
+          "reply",
+          "more"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-MENU",
+        "ids": [
+          "options"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "ids": [
+          "body",
+          "main",
+          "user-avatar",
+          "footer"
+        ],
+        "rich": [
+          {
+            "id": "",
+            "parent": "main",
+            "color": "rgb(255, 255, 255)",
+            "rect": {
+              "top": 829.25,
+              "height": 20
+            }
+          }
+        ]
+      },
+      {
+        "host": "BILI-COMMENT-USER-INFO",
+        "ids": [
+          "info",
+          "user-name",
+          "user-level"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-ACTION-BUTTONS-RENDERER",
+        "ids": [
+          "pubdate",
+          "like",
+          "count",
+          "dislike",
+          "reply",
+          "more"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-MENU",
+        "ids": [
+          "options"
+        ],
+        "rich": []
+      }
+    ],
+    "regions": [
+      {
+        "index": "2",
+        "ink": "light"
+      },
+      {
+        "index": "0",
+        "ink": "light"
+      },
+      {
+        "index": "1",
+        "ink": "light"
+      },
+      {
+        "index": "3",
+        "ink": "dark"
+      },
+      {
+        "index": "4",
+        "ink": "dark"
+      }
+    ],
+    "before": [
+      "rgb(29, 35, 50)",
+      "rgb(29, 35, 50)",
+      "rgb(29, 35, 50)",
+      "rgb(29, 35, 50)",
+      "rgb(29, 35, 50)",
+      "rgb(29, 35, 50)",
+      "rgb(65, 76, 96)",
+      "rgb(65, 76, 96)",
+      "rgb(29, 35, 50)",
+      "rgb(65, 76, 96)",
+      "rgb(65, 76, 96)",
+      "rgb(29, 35, 50)",
+      "rgb(65, 76, 96)",
+      "rgb(65, 76, 96)",
+      "rgb(29, 35, 50)",
+      "rgb(65, 76, 96)",
+      "rgb(65, 76, 96)",
+      "rgb(29, 35, 50)",
+      "rgb(65, 76, 96)",
+      "rgb(65, 76, 96)"
+    ],
+    "maskedForeground": [
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)"
+    ]
+  },
+  "browserChecks": [
+    "MV3 extension loads and attaches in its isolated content world",
+    "video projection changes color with decoded frames",
+    "light layer does not intercept player interactions",
+    "paused video retains a still projection",
+    "rendering behind the page keeps decoded video pixels unchanged",
+    "enable toggle hides and restores the light layer",
+    "popup preset applies settings through real extension storage",
+    "settings survive popup reopening and can be reset",
+    "resize observer updates the projection geometry",
+    "source replacement automatically binds the new player video",
+    "glass styling keeps UI foreground clear and removes opaque page backgrounds",
+    "background remains fixed and updates when scrolling below the player",
+    "comment shadow DOM receives and restores the page theme",
+    "SPA navigation keeps the site theme and reactivates playback",
+    "native container fullscreen keeps the glow inside the fullscreen tree",
+    "portrait media keeps the sampling resolution bounded",
+    "embed player route receives the content script",
+    "cross-origin video projects light even when pixel reads are forbidden"
+  ],
+  "appearanceChecks": [
+    "all four page margins follow their corresponding video edge",
+    "automatic scroll mini-player preserves the full-size background projection",
+    "symmetric encoded black bars are excluded from the background while video pixels remain intact",
+    "title, toolbar and nested collection surfaces remain transparent",
+    "foreground contrast adapts to bright and dark video backgrounds"
+  ],
+  "siteChecks": [
+    "MV3 injects the site theme on the apex and every Bilibili subdomain",
+    "lookalike domains receive no script or page styling",
+    "static pages use a fixed background without allocating the video renderer",
+    "neutral surfaces become glass while media, QR codes and brand colors remain clear",
+    "forms and page controls stay interactive and newly inserted results receive glass",
+    "scrolling keeps the background anchor and long page surfaces themed",
+    "the global settings launcher works before any player exists and can toggle the effect",
+    "the site theme switch restores static pages and preserves playback support",
+    "valid stored colors propagate across site tabs and survive navigation",
+    "malformed stored palette is safely replaced with the default colors",
+    "visible playing previews switch to realtime projection and save only three colors",
+    "preview disabling, pausing and scrolling out of view return to the static site background",
+    "same-document playback and static routes keep the page theme through player replacement",
+    "Bilibili child frames receive the global theme without duplicate floating launchers"
+  ],
+  "earlierMasked": {
+    "date": "2026-10-12T11:33:05.703Z",
+    "url": "https://www.bilibili.com/video/BV1Za4C6WEXv/",
+    "seekTargetTime": 65,
+    "scroll": 1600,
+    "samples": [
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "rect": {
+          "x": 347.828125,
+          "y": 271.75,
+          "width": 795,
+          "height": 20
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "15px",
+        "lineHeight": "24px",
+        "filter": "none",
+        "transition": "0s",
+        "transitionProperty": "all",
+        "background": [
+          235,
+          234.06,
+          218.16
+        ],
+        "contrast": 17.322462544262287,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 12.93964137815933
+      },
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "rect": {
+          "x": 350.0625,
+          "y": 369.25,
+          "width": 735,
+          "height": 20
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "15px",
+        "lineHeight": "24px",
+        "filter": "none",
+        "transition": "0s",
+        "transitionProperty": "all",
+        "background": [
+          221.19916666666666,
+          207.25583333333333,
+          184.77583333333334
+        ],
+        "contrast": 13.729294495433487,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 10.255594243145868
+      },
+      {
+        "host": "BILI-COMMENT-RENDERER",
+        "rect": {
+          "x": 212.5,
+          "y": 525,
+          "width": 255,
+          "height": 20
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "15px",
+        "lineHeight": "24px",
+        "filter": "none",
+        "transition": "0s",
+        "transitionProperty": "all",
+        "background": [
+          143.7675,
+          125.77916666666667,
+          96.4
+        ],
+        "contrast": 5.325116908219837,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 3.977789122826574
+      },
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "rect": {
+          "x": 328.328125,
+          "y": 731.75,
+          "width": 810,
+          "height": 20
+        },
+        "color": "rgb(255, 255, 255)",
+        "fontSize": "15px",
+        "lineHeight": "24px",
+        "filter": "none",
+        "transition": "0s",
+        "transitionProperty": "all",
+        "background": [
+          104.74833333333333,
+          84.1475,
+          47.92
+        ],
+        "contrast": 7.209384540835104,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 2.1758738504520427
+      },
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "rect": {
+          "x": 330.796875,
+          "y": 829.25,
+          "width": 120,
+          "height": 20
+        },
+        "color": "rgb(255, 255, 255)",
+        "fontSize": "15px",
+        "lineHeight": "24px",
+        "filter": "none",
+        "transition": "0s",
+        "transitionProperty": "all",
+        "background": [
+          95.75096899224806,
+          75.94670542635659,
+          38.156007751937985
+        ],
+        "contrast": 8.21866284429729,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 1.9086695241599916
+      },
+      {
+        "host": "LIGHT-DOM",
+        "role": "title",
+        "readingTone": "light",
+        "rect": {
+          "x": 1329.5,
+          "y": 110.5,
+          "width": 195,
+          "height": 20
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "15px",
+        "lineHeight": "19px",
+        "filter": "none",
+        "transition": "0.3s",
+        "transitionProperty": "color",
+        "background": [
+          235,
+          235,
+          224.79666666666665
+        ],
+        "contrast": 17.50079595961244,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 13.07285398776821
+      },
+      {
+        "host": "LIGHT-DOM",
+        "role": "upname",
+        "readingTone": "light",
+        "rect": {
+          "x": 1351.5,
+          "y": 153,
+          "width": 48.609375,
+          "height": 17
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "13px",
+        "lineHeight": "15px",
+        "filter": "none",
+        "transition": "0s",
+        "transitionProperty": "all",
+        "background": [
+          235,
+          235,
+          221
+        ],
+        "contrast": 17.459857439593815,
+        "beforeColor": "rgb(65, 76, 96)",
+        "beforeContrast": 7.192687223869639
+      },
+      {
+        "host": "LIGHT-DOM",
+        "role": "playinfo",
+        "readingTone": "light",
+        "rect": {
+          "x": 1351.5,
+          "y": 174,
+          "width": 38.234375,
+          "height": 17
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "13px",
+        "lineHeight": "15px",
+        "filter": "none",
+        "transition": "0s",
+        "transitionProperty": "all",
+        "background": [
+          235,
+          232,
+          218.77551020408163
+        ],
+        "contrast": 17.095609802911216,
+        "beforeColor": "rgb(65, 76, 96)",
+        "beforeContrast": 7.042633345608845
+      },
+      {
+        "host": "LIGHT-DOM",
+        "role": "title",
+        "readingTone": "light",
+        "rect": {
+          "x": 1329.5,
+          "y": 204.5,
+          "width": 195,
+          "height": 20
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "15px",
+        "lineHeight": "19px",
+        "filter": "none",
+        "transition": "0.3s",
+        "transitionProperty": "color",
+        "background": [
+          235,
+          228.74083333333334,
+          215.04666666666665
+        ],
+        "contrast": 16.69323362173432,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 12.469616023422775
+      },
+      {
+        "host": "LIGHT-DOM",
+        "role": "upname",
+        "readingTone": "light",
+        "rect": {
+          "x": 1351.5,
+          "y": 247,
+          "width": 47.515625,
+          "height": 17
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "13px",
+        "lineHeight": "15px",
+        "filter": "none",
+        "transition": "0s",
+        "transitionProperty": "all",
+        "background": [
+          230,
+          220.60846560846562,
+          205.63227513227514
+        ],
+        "contrast": 15.553551256842528,
+        "beforeColor": "rgb(65, 76, 96)",
+        "beforeContrast": 6.407373588125665
+      },
+      {
+        "host": "LIGHT-DOM",
+        "role": "playinfo",
+        "readingTone": "light",
+        "rect": {
+          "x": 1351.5,
+          "y": 268,
+          "width": 45.65625,
+          "height": 17
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "13px",
+        "lineHeight": "15px",
+        "filter": "none",
+        "transition": "0s",
+        "transitionProperty": "all",
+        "background": [
+          226,
+          216.09166666666667,
+          200.0888888888889
+        ],
+        "contrast": 14.900351519220596,
+        "beforeColor": "rgb(65, 76, 96)",
+        "beforeContrast": 6.13828425428185
+      },
+      {
+        "host": "LIGHT-DOM",
+        "role": "title",
+        "readingTone": "light",
+        "rect": {
+          "x": 1329.5,
+          "y": 298.5,
+          "width": 184.453125,
+          "height": 20
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "15px",
+        "lineHeight": "19px",
+        "filter": "none",
+        "transition": "0.3s",
+        "transitionProperty": "color",
+        "background": [
+          217.29083333333332,
+          206.68833333333333,
+          190.60916666666665
+        ],
+        "contrast": 13.603099353888803,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 10.161328207293181
+      },
+      {
+        "host": "LIGHT-DOM",
+        "role": "upname",
+        "readingTone": "light",
+        "rect": {
+          "x": 1351.5,
+          "y": 341,
+          "width": 52,
+          "height": 17
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "13px",
+        "lineHeight": "15px",
+        "filter": "none",
+        "transition": "0s",
+        "transitionProperty": "all",
+        "background": [
+          203.83333333333334,
+          192.4142857142857,
+          173.5
+        ],
+        "contrast": 11.746364631440743,
+        "beforeColor": "rgb(65, 76, 96)",
+        "beforeContrast": 4.838981481021964
+      },
+      {
+        "host": "LIGHT-DOM",
+        "role": "playinfo",
+        "readingTone": "light",
+        "rect": {
+          "x": 1351.5,
+          "y": 362,
+          "width": 38.234375,
+          "height": 17
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "13px",
+        "lineHeight": "15px",
+        "filter": "none",
+        "transition": "0s",
+        "transitionProperty": "all",
+        "background": [
+          196.2108843537415,
+          183.7891156462585,
+          165.05102040816325
+        ],
+        "contrast": 10.735192413292168,
+        "beforeColor": "rgb(65, 76, 96)",
+        "beforeContrast": 4.422423355059489
+      },
+      {
+        "host": "LIGHT-DOM",
+        "role": "title",
+        "readingTone": "light",
+        "rect": {
+          "x": 1329.5,
+          "y": 392.5,
+          "width": 195,
+          "height": 20
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "15px",
+        "lineHeight": "19px",
+        "filter": "none",
+        "transition": "0.3s",
+        "transitionProperty": "color",
+        "background": [
+          183.67083333333332,
+          170.635,
+          150.715
+        ],
+        "contrast": 9.272594217399268,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 6.926500404417543
+      },
+      {
+        "host": "LIGHT-DOM",
+        "role": "upname",
+        "readingTone": "light",
+        "rect": {
+          "x": 1351.5,
+          "y": 435,
+          "width": 38.703125,
+          "height": 17
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "13px",
+        "lineHeight": "15px",
+        "filter": "none",
+        "transition": "0s",
+        "transitionProperty": "all",
+        "background": [
+          166.33333333333334,
+          152.16666666666666,
+          129.16666666666666
+        ],
+        "contrast": 7.4486187853771995,
+        "beforeColor": "rgb(65, 76, 96)",
+        "beforeContrast": 3.0685007227816374
+      },
+      {
+        "host": "LIGHT-DOM",
+        "role": "playinfo",
+        "readingTone": "light",
+        "rect": {
+          "x": 1351.5,
+          "y": 456,
+          "width": 38.234375,
+          "height": 17
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "13px",
+        "lineHeight": "15px",
+        "filter": "none",
+        "transition": "0s",
+        "transitionProperty": "all",
+        "background": [
+          157.66666666666666,
+          142.66666666666666,
+          119.5
+        ],
+        "contrast": 6.624856436508922,
+        "beforeColor": "rgb(65, 76, 96)",
+        "beforeContrast": 2.7291471545919337
+      },
+      {
+        "host": "LIGHT-DOM",
+        "role": "title",
+        "readingTone": "light",
+        "rect": {
+          "x": 1320.5,
+          "y": 486.5,
+          "width": 205.265625,
+          "height": 20
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "15px",
+        "lineHeight": "19px",
+        "filter": "none",
+        "transition": "0.3s",
+        "transitionProperty": "color",
+        "background": [
+          145,
+          129.49416666666667,
+          105.3425
+        ],
+        "contrast": 5.575548517027172,
+        "beforeColor": "rgb(29, 35, 50)",
+        "beforeContrast": 4.164858091770355
+      },
+      {
+        "host": "LIGHT-DOM",
+        "role": "upname",
+        "readingTone": "light",
+        "rect": {
+          "x": 1351.5,
+          "y": 529,
+          "width": 78,
+          "height": 17
+        },
+        "color": "rgb(0, 0, 0)",
+        "fontSize": "13px",
+        "lineHeight": "15px",
+        "filter": "none",
+        "transition": "0s",
+        "transitionProperty": "all",
+        "background": [
+          127.83333333333333,
+          111.83333333333333,
+          86.83333333333333
+        ],
+        "contrast": 4.362654444216828,
+        "beforeColor": "rgb(65, 76, 96)",
+        "beforeContrast": 1.7972202231111964
+      },
+      {
+        "host": "LIGHT-DOM",
+        "role": "playinfo",
+        "readingTone": "dark",
+        "rect": {
+          "x": 1351.5,
+          "y": 550,
+          "width": 45.65625,
+          "height": 17
+        },
+        "color": "rgb(255, 255, 255)",
+        "fontSize": "13px",
+        "lineHeight": "15px",
+        "filter": "none",
+        "transition": "0s",
+        "transitionProperty": "all",
+        "background": [
+          120.5,
+          104,
+          77
+        ],
+        "contrast": 5.394195956945585,
+        "beforeColor": "rgb(65, 76, 96)",
+        "beforeContrast": 1.6037735899859809
+      }
+    ],
+    "version": "1.7.12",
+    "code": {
+      "contentSHA256": "22705fb11e8edd60bde19f7abfec2b1b2ca81cff29d5e1e974155c294eacd90b",
+      "themeSHA256": "d5e01d598b0f8ba3bf83b340f0e3ca0d447230c2e5b365d6c1fd1ee909b27f11",
+      "projectionSHA256": "7ede7860eb42864d40fe745e153299ac3b50c8d5d8f1e8ee4dde7c0139283152",
+      "siteSHA256": "e248c643b251b300e2e73dd3a81e2a9d28541fd0fc02964eaa47456968312f71",
+      "contentCssSHA256": "b8d02362047dcad1d188630e722d668798ce778ceb195cde22cd73cfe55ccc95"
+    },
+    "pausedTime": 70.860545,
+    "tone": "light",
+    "commentStructure": [
+      {
+        "host": "BILI-COMMENT-THREAD-RENDERER",
+        "ids": [
+          "comment",
+          "replies",
+          "reply-container",
+          "div"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-RENDERER",
+        "ids": [
+          "body",
+          "user-avatar",
+          "main",
+          "header",
+          "ornament",
+          "content",
+          "footer"
+        ],
+        "rich": [
+          {
+            "id": "",
+            "parent": "content",
+            "color": "rgb(0, 0, 0)",
+            "rect": {
+              "top": -152,
+              "height": 380
+            }
+          }
+        ]
+      },
+      {
+        "host": "BILI-COMMENT-ACTION-BUTTONS-RENDERER",
+        "ids": [
+          "pubdate",
+          "like",
+          "count",
+          "dislike",
+          "reply",
+          "more"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-MENU",
+        "ids": [
+          "options"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-REPLIES-RENDERER",
+        "ids": [
+          "expander",
+          "expander-contents",
+          "expander-footer",
+          "view-more"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "ids": [
+          "body",
+          "main",
+          "user-avatar",
+          "footer"
+        ],
+        "rich": [
+          {
+            "id": "",
+            "parent": "main",
+            "color": "rgb(0, 0, 0)",
+            "rect": {
+              "top": 271.75,
+              "height": 47.75
+            }
+          }
+        ]
+      },
+      {
+        "host": "BILI-COMMENT-USER-INFO",
+        "ids": [
+          "info",
+          "user-name",
+          "user-level"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-ACTION-BUTTONS-RENDERER",
+        "ids": [
+          "pubdate",
+          "like",
+          "count",
+          "dislike",
+          "reply",
+          "more"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-MENU",
+        "ids": [
+          "options"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "ids": [
+          "body",
+          "main",
+          "user-avatar",
+          "footer"
+        ],
+        "rich": [
+          {
+            "id": "",
+            "parent": "main",
+            "color": "rgb(0, 0, 0)",
+            "rect": {
+              "top": 369.25,
+              "height": 20
+            }
+          }
+        ]
+      },
+      {
+        "host": "BILI-COMMENT-USER-INFO",
+        "ids": [
+          "info",
+          "user-name",
+          "user-level"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-ACTION-BUTTONS-RENDERER",
+        "ids": [
+          "pubdate",
+          "like",
+          "count",
+          "dislike",
+          "reply",
+          "more"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-MENU",
+        "ids": [
+          "options"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-THREAD-RENDERER",
+        "ids": [
+          "comment",
+          "replies",
+          "reply-container",
+          "div"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-RENDERER",
+        "ids": [
+          "body",
+          "user-avatar",
+          "main",
+          "header",
+          "ornament",
+          "content",
+          "pictures",
+          "footer"
+        ],
+        "rich": [
+          {
+            "id": "",
+            "parent": "content",
+            "color": "rgb(0, 0, 0)",
+            "rect": {
+              "top": 525,
+              "height": 20
+            }
+          }
+        ]
+      },
+      {
+        "host": "BILI-COMMENT-USER-INFO",
+        "ids": [
+          "info",
+          "user-name",
+          "user-level"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-USER-SAILING-CARD",
+        "ids": [
+          "card"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-PICTURES-RENDERER",
+        "ids": [
+          "content"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-ACTION-BUTTONS-RENDERER",
+        "ids": [
+          "pubdate",
+          "like",
+          "count",
+          "dislike",
+          "reply",
+          "more"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-MENU",
+        "ids": [
+          "options"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-REPLIES-RENDERER",
+        "ids": [
+          "expander",
+          "expander-contents",
+          "expander-footer",
+          "view-more"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "ids": [
+          "body",
+          "main",
+          "user-avatar",
+          "footer"
+        ],
+        "rich": [
+          {
+            "id": "",
+            "parent": "main",
+            "color": "rgb(255, 255, 255)",
+            "rect": {
+              "top": 731.75,
+              "height": 47.75
+            }
+          }
+        ]
+      },
+      {
+        "host": "BILI-COMMENT-USER-INFO",
+        "ids": [
+          "info",
+          "user-name",
+          "user-level"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-ACTION-BUTTONS-RENDERER",
+        "ids": [
+          "pubdate",
+          "like",
+          "count",
+          "dislike",
+          "reply",
+          "more"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-MENU",
+        "ids": [
+          "options"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-REPLY-RENDERER",
+        "ids": [
+          "body",
+          "main",
+          "user-avatar",
+          "footer"
+        ],
+        "rich": [
+          {
+            "id": "",
+            "parent": "main",
+            "color": "rgb(255, 255, 255)",
+            "rect": {
+              "top": 829.25,
+              "height": 20
+            }
+          }
+        ]
+      },
+      {
+        "host": "BILI-COMMENT-USER-INFO",
+        "ids": [
+          "info",
+          "user-name",
+          "user-level"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-ACTION-BUTTONS-RENDERER",
+        "ids": [
+          "pubdate",
+          "like",
+          "count",
+          "dislike",
+          "reply",
+          "more"
+        ],
+        "rich": []
+      },
+      {
+        "host": "BILI-COMMENT-MENU",
+        "ids": [
+          "options"
+        ],
+        "rich": []
+      }
+    ],
+    "regions": [
+      {
+        "index": "2",
+        "ink": "light"
+      },
+      {
+        "index": "0",
+        "ink": "light"
+      },
+      {
+        "index": "1",
+        "ink": "light"
+      },
+      {
+        "index": "3",
+        "ink": "dark"
+      },
+      {
+        "index": "4",
+        "ink": "dark"
+      }
+    ],
+    "before": [
+      "rgb(29, 35, 50)",
+      "rgb(29, 35, 50)",
+      "rgb(29, 35, 50)",
+      "rgb(29, 35, 50)",
+      "rgb(29, 35, 50)",
+      "rgb(29, 35, 50)",
+      "rgb(65, 76, 96)",
+      "rgb(65, 76, 96)",
+      "rgb(29, 35, 50)",
+      "rgb(65, 76, 96)",
+      "rgb(65, 76, 96)",
+      "rgb(29, 35, 50)",
+      "rgb(65, 76, 96)",
+      "rgb(65, 76, 96)",
+      "rgb(29, 35, 50)",
+      "rgb(65, 76, 96)",
+      "rgb(65, 76, 96)",
+      "rgb(29, 35, 50)",
+      "rgb(65, 76, 96)",
+      "rgb(65, 76, 96)"
+    ],
+    "maskedForeground": [
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)",
+      "rgba(0, 0, 0, 0)"
+    ]
+  },
+  "initialProbe": {
+    "validity": "Native title color transitions remained active while hiding glyphs and comparing colors. These samples are diagnostic observations, not validated background-only contrast measurements.",
+    "data": {
+      "date": "2026-10-12T11:19:02.652Z",
+      "url": "https://www.bilibili.com/video/BV1Za4C6WEXv/",
+      "seekTargetTime": 65,
+      "scroll": 1600,
+      "samples": [
+        {
+          "host": "BILI-COMMENT-REPLY-RENDERER",
+          "rect": {
+            "x": 328.328125,
+            "y": 251.75,
+            "width": 810,
+            "height": 20
+          },
+          "color": "rgb(0, 0, 0)",
+          "fontSize": "15px",
+          "lineHeight": "24px",
+          "filter": "none",
+          "background": [
+            155.70583333333335,
+            142.3375,
+            112.83833333333334
+          ],
+          "contrast": 6.53476224380702,
+          "beforeColor": "rgb(244, 245, 248)",
+          "beforeContrast": 2.9477804856501053
+        },
+        {
+          "host": "BILI-COMMENT-REPLY-RENDERER",
+          "rect": {
+            "x": 330.796875,
+            "y": 349.25,
+            "width": 120,
+            "height": 20
+          },
+          "color": "rgb(0, 0, 0)",
+          "fontSize": "15px",
+          "lineHeight": "24px",
+          "filter": "none",
+          "background": [
+            141.04941860465115,
+            119.40310077519379,
+            77.21220930232558
+          ],
+          "contrast": 4.899137233685284,
+          "beforeColor": "rgb(244, 245, 248)",
+          "beforeContrast": 3.931925908955843
+        },
+        {
+          "host": "BILI-COMMENT-RENDERER",
+          "rect": {
+            "x": 212.5,
+            "y": 505,
+            "width": 570,
+            "height": 20
+          },
+          "color": "rgb(0, 0, 0)",
+          "fontSize": "15px",
+          "lineHeight": "24px",
+          "filter": "none",
+          "background": [
+            118.43416666666667,
+            89.50166666666667,
+            37.34
+          ],
+          "contrast": 3.2492553159739033,
+          "beforeColor": "rgb(244, 245, 248)",
+          "beforeContrast": 5.9284490590680745
+        },
+        {
+          "host": "BILI-COMMENT-REPLY-RENDERER",
+          "rect": {
+            "x": 337.0625,
+            "y": 568.75,
+            "width": 330,
+            "height": 20
+          },
+          "color": "rgb(0, 0, 0)",
+          "fontSize": "15px",
+          "lineHeight": "24px",
+          "filter": "none",
+          "background": [
+            136.1525,
+            103.2225,
+            46.3325
+          ],
+          "contrast": 4.038345482265386,
+          "beforeColor": "rgb(244, 245, 248)",
+          "beforeContrast": 4.770033843130098
+        },
+        {
+          "host": "BILI-COMMENT-REPLY-RENDERER",
+          "rect": {
+            "x": 310.65625,
+            "y": 642.25,
+            "width": 204.765625,
+            "height": 20
+          },
+          "color": "rgb(255, 255, 255)",
+          "fontSize": "15px",
+          "lineHeight": "24px",
+          "filter": "none",
+          "background": [
+            130.14833333333334,
+            97.40333333333334,
+            41.159166666666664
+          ],
+          "contrast": 5.662546917909271,
+          "beforeColor": "rgb(244, 245, 248)",
+          "beforeContrast": 5.194185426012022
+        },
+        {
+          "host": "LIGHT-DOM",
+          "role": "title",
+          "readingTone": "light",
+          "rect": {
+            "x": 1320.5,
+            "y": 106.5,
+            "width": 195,
+            "height": 20
+          },
+          "color": "rgb(0, 0, 0)",
+          "fontSize": "15px",
+          "lineHeight": "19px",
+          "filter": "none",
+          "background": [
+            183.94916666666666,
+            182.85,
+            172.6025
+          ],
+          "contrast": 10.398191523222659,
+          "beforeColor": "rgb(0, 0, 0)",
+          "beforeContrast": 10.398191523222659
+        },
+        {
+          "host": "LIGHT-DOM",
+          "role": "upname",
+          "readingTone": "light",
+          "rect": {
+            "x": 1351.5,
+            "y": 149,
+            "width": 62.0625,
+            "height": 17
+          },
+          "color": "rgb(0, 0, 0)",
+          "fontSize": "13px",
+          "lineHeight": "15px",
+          "filter": "none",
+          "background": [
+            167.33529411764707,
+            162.94313725490196,
+            146.0686274509804
+          ],
+          "contrast": 8.300742675782258,
+          "beforeColor": "rgb(206, 210, 221)",
+          "beforeContrast": 1.6729938299370515
+        },
+        {
+          "host": "LIGHT-DOM",
+          "role": "playinfo",
+          "readingTone": "light",
+          "rect": {
+            "x": 1351.5,
+            "y": 170,
+            "width": 38.234375,
+            "height": 17
+          },
+          "color": "rgb(0, 0, 0)",
+          "fontSize": "13px",
+          "lineHeight": "15px",
+          "filter": "none",
+          "background": [
+            163.60544217687075,
+            158.56802721088437,
+            140.26190476190476
+          ],
+          "contrast": 7.879948356692512,
+          "beforeColor": "rgb(206, 210, 221)",
+          "beforeContrast": 1.7623327783213776
+        },
+        {
+          "host": "LIGHT-DOM",
+          "role": "title",
+          "readingTone": "light",
+          "rect": {
+            "x": 1329.5,
+            "y": 200.5,
+            "width": 198.625,
+            "height": 20
+          },
+          "color": "rgb(0, 0, 0)",
+          "fontSize": "15px",
+          "lineHeight": "19px",
+          "filter": "none",
+          "background": [
+            171.19166666666666,
+            164.71083333333334,
+            146.65416666666667
+          ],
+          "contrast": 8.51625507234798,
+          "beforeColor": "rgb(0, 0, 0)",
+          "beforeContrast": 8.51625507234798
+        },
+        {
+          "host": "LIGHT-DOM",
+          "role": "upname",
+          "readingTone": "light",
+          "rect": {
+            "x": 1351.5,
+            "y": 243,
+            "width": 65,
+            "height": 17
+          },
+          "color": "rgb(0, 0, 0)",
+          "fontSize": "13px",
+          "lineHeight": "15px",
+          "filter": "none",
+          "background": [
+            146.59925093632958,
+            135.51123595505618,
+            107.99625468164794
+          ],
+          "contrast": 5.943928505082804,
+          "beforeColor": "rgb(206, 210, 221)",
+          "beforeContrast": 2.336348976708533
+        },
+        {
+          "host": "LIGHT-DOM",
+          "role": "playinfo",
+          "readingTone": "light",
+          "rect": {
+            "x": 1351.5,
+            "y": 264,
+            "width": 45.65625,
+            "height": 17
+          },
+          "color": "rgb(0, 0, 0)",
+          "fontSize": "13px",
+          "lineHeight": "15px",
+          "filter": "none",
+          "background": [
+            142.42777777777778,
+            129.88055555555556,
+            100.89722222222223
+          ],
+          "contrast": 5.531954628838851,
+          "beforeColor": "rgb(206, 210, 221)",
+          "beforeContrast": 2.5103407768537265
+        },
+        {
+          "host": "LIGHT-DOM",
+          "role": "title",
+          "readingTone": "dark",
+          "rect": {
+            "x": 1329.5,
+            "y": 294.5,
+            "width": 195,
+            "height": 20
+          },
+          "color": "rgb(255, 255, 255)",
+          "fontSize": "15px",
+          "lineHeight": "19px",
+          "filter": "none",
+          "background": [
+            152.51916666666668,
+            140.34,
+            113.27666666666667
+          ],
+          "contrast": 3.3039863850638436,
+          "beforeColor": "rgb(255, 255, 255)",
+          "beforeContrast": 3.3039863850638436
+        },
+        {
+          "host": "LIGHT-DOM",
+          "role": "upname",
+          "readingTone": "dark",
+          "rect": {
+            "x": 1351.5,
+            "y": 337,
+            "width": 65,
+            "height": 17
+          },
+          "color": "rgb(255, 255, 255)",
+          "fontSize": "13px",
+          "lineHeight": "15px",
+          "filter": "none",
+          "background": [
+            123.2247191011236,
+            107.25842696629213,
+            71.15917602996255
+          ],
+          "contrast": 5.184190444737421,
+          "beforeColor": "rgb(206, 210, 221)",
+          "beforeContrast": 3.4282536153073817
+        },
+        {
+          "host": "LIGHT-DOM",
+          "role": "playinfo",
+          "readingTone": "dark",
+          "rect": {
+            "x": 1351.5,
+            "y": 358,
+            "width": 38.234375,
+            "height": 17
+          },
+          "color": "rgb(255, 255, 255)",
+          "fontSize": "13px",
+          "lineHeight": "15px",
+          "filter": "none",
+          "background": [
+            118.84693877551021,
+            101.91836734693878,
+            65.21768707482993
+          ],
+          "contrast": 5.590458149364938,
+          "beforeColor": "rgb(206, 210, 221)",
+          "beforeContrast": 3.696914410472761
+        },
+        {
+          "host": "LIGHT-DOM",
+          "role": "title",
+          "readingTone": "dark",
+          "rect": {
+            "x": 1329.5,
+            "y": 388.5,
+            "width": 195,
+            "height": 20
+          },
+          "color": "rgb(255, 255, 255)",
+          "fontSize": "15px",
+          "lineHeight": "19px",
+          "filter": "none",
+          "background": [
+            128.68583333333333,
+            113.00666666666666,
+            79.375
+          ],
+          "contrast": 4.767462904320445,
+          "beforeColor": "rgb(255, 255, 255)",
+          "beforeContrast": 4.767462904320445
+        },
+        {
+          "host": "LIGHT-DOM",
+          "role": "upname",
+          "readingTone": "dark",
+          "rect": {
+            "x": 1351.5,
+            "y": 431,
+            "width": 48.609375,
+            "height": 17
+          },
+          "color": "rgb(255, 255, 255)",
+          "fontSize": "13px",
+          "lineHeight": "15px",
+          "filter": "none",
+          "background": [
+            100.09375,
+            82.8203125,
+            43.026041666666664
+          ],
+          "contrast": 7.474195355002544,
+          "beforeColor": "rgb(206, 210, 221)",
+          "beforeContrast": 4.942611102050078
+        },
+        {
+          "host": "LIGHT-DOM",
+          "role": "playinfo",
+          "readingTone": "dark",
+          "rect": {
+            "x": 1351.5,
+            "y": 452,
+            "width": 38.234375,
+            "height": 17
+          },
+          "color": "rgb(255, 255, 255)",
+          "fontSize": "13px",
+          "lineHeight": "15px",
+          "filter": "none",
+          "background": [
+            95.66666666666667,
+            78.10884353741497,
+            39.55102040816327
+          ],
+          "contrast": 8.025575000427592,
+          "beforeColor": "rgb(206, 210, 221)",
+          "beforeContrast": 5.307232981393684
+        },
+        {
+          "host": "LIGHT-DOM",
+          "role": "title",
+          "readingTone": "dark",
+          "rect": {
+            "x": 1329.5,
+            "y": 482.5,
+            "width": 195,
+            "height": 20
+          },
+          "color": "rgb(255, 255, 255)",
+          "fontSize": "15px",
+          "lineHeight": "19px",
+          "filter": "none",
+          "background": [
+            121.58583333333333,
+            107.31416666666667,
+            76.33833333333334
+          ],
+          "contrast": 5.19417631505188,
+          "beforeColor": "rgb(255, 255, 255)",
+          "beforeContrast": 5.19417631505188
+        },
+        {
+          "host": "LIGHT-DOM",
+          "role": "upname",
+          "readingTone": "dark",
+          "rect": {
+            "x": 1351.5,
+            "y": 525,
+            "width": 65,
+            "height": 17
+          },
+          "color": "rgb(255, 255, 255)",
+          "fontSize": "13px",
+          "lineHeight": "15px",
+          "filter": "none",
+          "background": [
+            79.02808988764045,
+            64.12359550561797,
+            26.074906367041198
+          ],
+          "contrast": 10.077613476812317,
+          "beforeColor": "rgb(206, 210, 221)",
+          "beforeContrast": 6.664225630565564
+        },
+        {
+          "host": "LIGHT-DOM",
+          "role": "playinfo",
+          "readingTone": "dark",
+          "rect": {
+            "x": 1351.5,
+            "y": 546,
+            "width": 45.65625,
+            "height": 17
+          },
+          "color": "rgb(255, 255, 255)",
+          "fontSize": "13px",
+          "lineHeight": "15px",
+          "filter": "none",
+          "background": [
+            75.33611111111111,
+            59.88333333333333,
+            23.113888888888887
+          ],
+          "contrast": 10.723836516954583,
+          "beforeColor": "rgb(206, 210, 221)",
+          "beforeContrast": 7.091566504184813
+        }
+      ],
+      "version": "1.7.12",
+      "code": {
+        "contentSHA256": "22705fb11e8edd60bde19f7abfec2b1b2ca81cff29d5e1e974155c294eacd90b",
+        "themeSHA256": "d5e01d598b0f8ba3bf83b340f0e3ca0d447230c2e5b365d6c1fd1ee909b27f11",
+        "projectionSHA256": "7ede7860eb42864d40fe745e153299ac3b50c8d5d8f1e8ee4dde7c0139283152",
+        "siteSHA256": "e248c643b251b300e2e73dd3a81e2a9d28541fd0fc02964eaa47456968312f71",
+        "contentCssSHA256": "b8d02362047dcad1d188630e722d668798ce778ceb195cde22cd73cfe55ccc95"
+      },
+      "pausedTime": 69.586615,
+      "tone": "dark",
+      "commentStructure": [
+        {
+          "host": "BILI-COMMENT-THREAD-RENDERER",
+          "ids": [
+            "comment",
+            "replies",
+            "reply-container",
+            "div"
+          ],
+          "rich": []
+        },
+        {
+          "host": "BILI-COMMENT-RENDERER",
+          "ids": [
+            "body",
+            "user-avatar",
+            "main",
+            "header",
+            "ornament",
+            "content",
+            "pictures",
+            "footer"
+          ],
+          "rich": [
+            {
+              "id": "",
+              "parent": "content",
+              "color": "rgb(0, 0, 0)",
+              "rect": {
+                "top": 45,
+                "height": 20
+              }
+            }
+          ]
+        },
+        {
+          "host": "BILI-COMMENT-PICTURES-RENDERER",
+          "ids": [
+            "content"
+          ],
+          "rich": []
+        },
+        {
+          "host": "BILI-COMMENT-ACTION-BUTTONS-RENDERER",
+          "ids": [
+            "pubdate",
+            "like",
+            "count",
+            "dislike",
+            "reply",
+            "more"
+          ],
+          "rich": []
+        },
+        {
+          "host": "BILI-COMMENT-MENU",
+          "ids": [
+            "options"
+          ],
+          "rich": []
+        },
+        {
+          "host": "BILI-COMMENT-REPLIES-RENDERER",
+          "ids": [
+            "expander",
+            "expander-contents",
+            "expander-footer",
+            "view-more"
+          ],
+          "rich": []
+        },
+        {
+          "host": "BILI-COMMENT-REPLY-RENDERER",
+          "ids": [
+            "body",
+            "main",
+            "user-avatar",
+            "footer"
+          ],
+          "rich": [
+            {
+              "id": "",
+              "parent": "main",
+              "color": "rgb(0, 0, 0)",
+              "rect": {
+                "top": 251.75,
+                "height": 47.75
+              }
+            }
+          ]
+        },
+        {
+          "host": "BILI-COMMENT-USER-INFO",
+          "ids": [
+            "info",
+            "user-name",
+            "user-level"
+          ],
+          "rich": []
+        },
+        {
+          "host": "BILI-COMMENT-ACTION-BUTTONS-RENDERER",
+          "ids": [
+            "pubdate",
+            "like",
+            "count",
+            "dislike",
+            "reply",
+            "more"
+          ],
+          "rich": []
+        },
+        {
+          "host": "BILI-COMMENT-MENU",
+          "ids": [
+            "options"
+          ],
+          "rich": []
+        },
+        {
+          "host": "BILI-COMMENT-REPLY-RENDERER",
+          "ids": [
+            "body",
+            "main",
+            "user-avatar",
+            "footer"
+          ],
+          "rich": [
+            {
+              "id": "",
+              "parent": "main",
+              "color": "rgb(0, 0, 0)",
+              "rect": {
+                "top": 349.25,
+                "height": 20
+              }
+            }
+          ]
+        },
+        {
+          "host": "BILI-COMMENT-USER-INFO",
+          "ids": [
+            "info",
+            "user-name",
+            "user-level"
+          ],
+          "rich": []
+        },
+        {
+          "host": "BILI-COMMENT-ACTION-BUTTONS-RENDERER",
+          "ids": [
+            "pubdate",
+            "like",
+            "count",
+            "dislike",
+            "reply",
+            "more"
+          ],
+          "rich": []
+        },
+        {
+          "host": "BILI-COMMENT-MENU",
+          "ids": [
+            "options"
+          ],
+          "rich": []
+        },
+        {
+          "host": "BILI-COMMENT-THREAD-RENDERER",
+          "ids": [
+            "comment",
+            "replies",
+            "reply-container",
+            "div"
+          ],
+          "rich": []
+        },
+        {
+          "host": "BILI-COMMENT-RENDERER",
+          "ids": [
+            "body",
+            "user-avatar",
+            "main",
+            "header",
+            "ornament",
+            "content",
+            "footer"
+          ],
+          "rich": [
+            {
+              "id": "",
+              "parent": "content",
+              "color": "rgb(0, 0, 0)",
+              "rect": {
+                "top": 505,
+                "height": 20
+              }
+            }
+          ]
+        },
+        {
+          "host": "BILI-COMMENT-USER-INFO",
+          "ids": [
+            "info",
+            "user-name",
+            "user-level"
+          ],
+          "rich": []
+        },
+        {
+          "host": "BILI-COMMENT-USER-SAILING-CARD",
+          "ids": [
+            "card"
+          ],
+          "rich": []
+        },
+        {
+          "host": "BILI-COMMENT-ACTION-BUTTONS-RENDERER",
+          "ids": [
+            "pubdate",
+            "like",
+            "count",
+            "dislike",
+            "reply",
+            "more"
+          ],
+          "rich": []
+        },
+        {
+          "host": "BILI-COMMENT-MENU",
+          "ids": [
+            "options"
+          ],
+          "rich": []
+        },
+        {
+          "host": "BILI-COMMENT-REPLIES-RENDERER",
+          "ids": [
+            "expander",
+            "expander-contents",
+            "expander-footer",
+            "view-more"
+          ],
+          "rich": []
+        },
+        {
+          "host": "BILI-COMMENT-REPLY-RENDERER",
+          "ids": [
+            "body",
+            "main",
+            "user-avatar",
+            "footer"
+          ],
+          "rich": [
+            {
+              "id": "",
+              "parent": "main",
+              "color": "rgb(0, 0, 0)",
+              "rect": {
+                "top": 568.75,
+                "height": 20
+              }
+            }
+          ]
+        },
+        {
+          "host": "BILI-COMMENT-USER-INFO",
+          "ids": [
+            "info",
+            "user-name",
+            "user-level"
+          ],
+          "rich": []
+        },
+        {
+          "host": "BILI-COMMENT-ACTION-BUTTONS-RENDERER",
+          "ids": [
+            "pubdate",
+            "like",
+            "count",
+            "dislike",
+            "reply",
+            "more"
+          ],
+          "rich": []
+        },
+        {
+          "host": "BILI-COMMENT-MENU",
+          "ids": [
+            "options"
+          ],
+          "rich": []
+        },
+        {
+          "host": "BILI-COMMENT-REPLY-RENDERER",
+          "ids": [
+            "body",
+            "main",
+            "user-avatar",
+            "footer"
+          ],
+          "rich": [
+            {
+              "id": "",
+              "parent": "main",
+              "color": "rgb(255, 255, 255)",
+              "rect": {
+                "top": 642.25,
+                "height": 20
+              }
+            }
+          ]
+        },
+        {
+          "host": "BILI-COMMENT-USER-INFO",
+          "ids": [
+            "info",
+            "user-name",
+            "user-level"
+          ],
+          "rich": []
+        },
+        {
+          "host": "BILI-COMMENT-ACTION-BUTTONS-RENDERER",
+          "ids": [
+            "pubdate",
+            "like",
+            "count",
+            "dislike",
+            "reply",
+            "more"
+          ],
+          "rich": []
+        },
+        {
+          "host": "BILI-COMMENT-MENU",
+          "ids": [
+            "options"
+          ],
+          "rich": []
+        }
+      ],
+      "regions": [
+        {
+          "index": "2",
+          "ink": "light"
+        },
+        {
+          "index": "0",
+          "ink": "light"
+        },
+        {
+          "index": "1",
+          "ink": "light"
+        },
+        {
+          "index": "3",
+          "ink": "light"
+        },
+        {
+          "index": "4",
+          "ink": "dark"
+        }
+      ],
+      "before": [
+        "rgb(244, 245, 248)",
+        "rgb(244, 245, 248)",
+        "rgb(244, 245, 248)",
+        "rgb(244, 245, 248)",
+        "rgb(244, 245, 248)",
+        "rgb(0, 0, 0)",
+        "rgb(206, 210, 221)",
+        "rgb(206, 210, 221)",
+        "rgb(0, 0, 0)",
+        "rgb(206, 210, 221)",
+        "rgb(206, 210, 221)",
+        "rgb(255, 255, 255)",
+        "rgb(206, 210, 221)",
+        "rgb(206, 210, 221)",
+        "rgb(255, 255, 255)",
+        "rgb(206, 210, 221)",
+        "rgb(206, 210, 221)",
+        "rgb(255, 255, 255)",
+        "rgb(206, 210, 221)",
+        "rgb(206, 210, 221)"
+      ]
+    }
+  },
+  "precedingMotion": {
+    "checks": [
+      "default ambient rendering follows the display cadence without a 24 FPS cap",
+      "a decoded color cut reaches the ambient frame without a temporal trail",
+      "new video colors remain current while the playback quality counter lags",
+      "video frame timestamp fallback preserves color updates without repeated errors",
+      "buffering preserves the displayed light and resumes new frames without a handoff",
+      "slow video frames are uploaded once while ambient rendering follows the display",
+      "presentation counter changes retain the decoded frame until its pixels advance",
+      "offscreen playback refreshes pixels while reusing unchanged GPU frames",
+      "paused playback consumes a completed inspection and then stays idle",
+      "cached GPU output updates source colors, crop, directions, blur and animated noise",
+      "comment reading smoothly reduces background detail while retaining the paused source",
+      "floating playback retains reading blur and reduced motion applies it immediately",
+      "live reading at a 2560 by 1440 viewport keeps the display cadence",
+      "video callbacks recover across offscreen reading and returning to the player",
+      "decoded 1080p60 media sustains ambient rendering in the watch view",
+      "decoded 1080p60 media sustains ambient rendering in the reading view",
+      "Canvas fallback and the reading control preserve the same scroll behavior"
+    ],
+    "errors": [],
+    "measurements": {
+      "environment": {
+        "browser": "148.0.7778.96",
+        "gpuPreference": "low-power",
+        "viewport": {
+          "width": 1280,
+          "height": 900
+        },
+        "source": {
+          "width": 640,
+          "height": 360,
+          "targetFPS": 60
+        }
+      },
+      "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A788) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "baseline": {
+        "times": [
+          1245,
+          1249.2,
+          1253.4,
+          1257.4,
+          1261.6,
+          1265.8,
+          1270,
+          1274.1,
+          1278.3,
+          1282.4,
+          1286.6,
+          1290.8,
+          1294.9,
+          1299.1,
+          1303.3,
+          1307.5,
+          1311.7,
+          1315.8,
+          1319.9,
+          1324.1,
+          1328.3,
+          1332.5,
+          1336.7,
+          1340.8,
+          1344.9,
+          1349.1,
+          1353.2,
+          1357.5,
+          1361.6,
+          1365.8,
+          1370,
+          1374.1,
+          1378.5,
+          1382.5,
+          1386.6,
+          1390.8,
+          1394.9,
+          1399.1,
+          1403.3,
+          1407.4,
+          1411.7,
+          1416,
+          1420.2,
+          1424.2,
+          1428.3,
+          1432.4,
+          1436.7,
+          1440.8,
+          1445,
+          1449.1,
+          1453.3,
+          1457.5,
+          1461.6,
+          1465.7,
+          1469.9,
+          1474,
+          1478.3,
+          1482.4,
+          1486.6,
+          1490.7,
+          1494.9,
+          1499.1,
+          1503.3,
+          1507.4,
+          1511.5,
+          1515.8,
+          1519.9,
+          1524.2,
+          1528.3,
+          1532.4,
+          1536.7,
+          1540.7,
+          1544.9,
+          1549.1,
+          1553.2,
+          1557.4,
+          1561.5,
+          1565.7,
+          1569.9,
+          1574.1,
+          1578.2,
+          1582.4,
+          1586.7,
+          1590.7,
+          1595,
+          1599.1,
+          1603.2,
+          1607.4,
+          1611.7,
+          1615.7,
+          1619.9,
+          1624.1,
+          1628.3,
+          1632.4,
+          1636.6,
+          1640.8,
+          1645,
+          1649,
+          1653.3,
+          1657.5,
+          1661.6,
+          1665.7,
+          1669.9,
+          1674.1,
+          1678.2,
+          1682.4,
+          1686.6,
+          1690.7,
+          1694.9,
+          1699.1,
+          1703.2,
+          1707.4,
+          1711.6,
+          1715.8,
+          1720,
+          1724.2,
+          1728.2,
+          1732.4,
+          1736.7,
+          1740.8,
+          1744.9,
+          1749.1,
+          1753.2,
+          1757.5,
+          1761.6,
+          1765.8,
+          1770,
+          1774.1,
+          1778.2,
+          1782.4,
+          1786.7,
+          1790.9,
+          1795,
+          1799.2,
+          1803.4,
+          1807.6,
+          1811.6,
+          1815.8,
+          1820,
+          1824.1,
+          1828.4,
+          1832.5,
+          1836.9,
+          1840.7,
+          1844.9,
+          1849.2,
+          1853.4,
+          1857.5,
+          1861.6,
+          1865.9,
+          1870.1,
+          1874.1,
+          1878.4,
+          1882.4,
+          1886.5,
+          1890.7,
+          1895,
+          1899,
+          1903.2,
+          1907.4,
+          1911.6,
+          1915.8,
+          1919.8,
+          1924.1,
+          1928.2,
+          1932.4,
+          1936.5,
+          1940.7,
+          1944.8,
+          1949.1,
+          1953.2,
+          1957.4,
+          1961.6,
+          1965.7,
+          1969.9,
+          1974,
+          1978.3,
+          1982.4,
+          1986.5,
+          1990.7,
+          1994.9,
+          1999.1,
+          2003.3,
+          2007.4,
+          2011.6,
+          2015.8,
+          2019.9,
+          2024,
+          2028.3,
+          2032.3,
+          2036.6,
+          2040.7,
+          2044.8,
+          2049.1,
+          2053.2,
+          2057.4,
+          2061.5,
+          2065.7,
+          2069.8,
+          2074,
+          2078.2,
+          2082.3,
+          2086.5,
+          2090.7,
+          2094.9,
+          2099.1,
+          2103.2,
+          2107.4,
+          2111.6,
+          2115.7,
+          2119.9,
+          2124,
+          2128.2,
+          2132.4,
+          2136.6,
+          2140.7,
+          2144.9,
+          2149.1,
+          2153.2,
+          2157.4,
+          2161.5,
+          2165.7,
+          2169.8,
+          2174,
+          2178.2,
+          2182.3,
+          2186.5,
+          2190.7,
+          2194.9,
+          2199.1,
+          2203.2,
+          2207.3,
+          2211.4,
+          2215.6,
+          2219.9,
+          2224,
+          2228.2,
+          2232.4,
+          2236.5,
+          2240.7,
+          2244.9,
+          2249,
+          2253.2,
+          2257.3,
+          2261.5,
+          2265.8,
+          2269.8,
+          2274,
+          2278.2,
+          2282.3,
+          2286.5,
+          2290.7,
+          2294.8,
+          2299,
+          2303.2,
+          2307.3,
+          2311.5,
+          2315.7,
+          2319.8,
+          2324,
+          2328.2,
+          2332.3,
+          2336.5,
+          2340.6,
+          2344.8,
+          2349,
+          2353.2,
+          2357.3,
+          2361.4,
+          2365.7,
+          2369.8,
+          2374,
+          2378.2,
+          2382.3,
+          2386.5,
+          2390.6,
+          2394.9,
+          2399,
+          2403.1,
+          2407.3,
+          2411.5,
+          2415.7,
+          2419.8,
+          2423.9,
+          2428.2,
+          2432.3,
+          2436.4,
+          2440.6,
+          2444.8,
+          2448.9,
+          2453.1,
+          2457.3,
+          2461.5,
+          2465.7,
+          2469.8,
+          2474,
+          2478.1,
+          2482.3,
+          2486.4,
+          2490.6,
+          2494.9,
+          2499,
+          2503.1,
+          2507.3,
+          2511.4,
+          2515.6,
+          2519.8,
+          2524,
+          2528.2,
+          2532.3,
+          2536.5,
+          2540.6,
+          2544.8,
+          2548.9,
+          2553.1,
+          2557.3,
+          2561.4,
+          2565.6,
+          2569.8,
+          2573.9,
+          2578.2,
+          2582.2,
+          2586.5,
+          2590.6,
+          2594.8,
+          2599,
+          2603.1,
+          2607.3,
+          2611.5,
+          2615.7,
+          2619.8,
+          2623.9,
+          2628.2,
+          2632.3,
+          2636.6,
+          2640.8,
+          2644.9,
+          2649,
+          2653.1,
+          2657.4,
+          2661.5,
+          2665.6,
+          2669.8,
+          2673.9,
+          2678.2,
+          2682.3,
+          2686.4,
+          2690.6,
+          2694.8,
+          2699,
+          2703.2,
+          2707.3,
+          2711.4,
+          2715.6,
+          2719.8,
+          2723.9,
+          2728.2,
+          2732.3,
+          2736.5,
+          2740.6,
+          2744.8,
+          2749,
+          2753.1,
+          2757.3,
+          2761.5,
+          2765.6,
+          2769.7,
+          2774,
+          2778.1,
+          2782.3,
+          2786.5,
+          2790.6,
+          2794.8,
+          2799.1,
+          2803.3,
+          2811.4,
+          2815.7,
+          2819.7,
+          2824,
+          2828.1,
+          2832.3,
+          2836.4,
+          2840.6,
+          2844.8,
+          2848.9,
+          2853.1,
+          2857.3,
+          2861.5,
+          2865.6,
+          2869.8,
+          2874,
+          2878.1,
+          2882.3,
+          2886.4,
+          2890.6,
+          2894.8,
+          2898.9,
+          2903.2,
+          2907.2,
+          2911.6,
+          2915.6,
+          2919.8,
+          2924,
+          2928.2,
+          2932.3,
+          2936.4,
+          2940.5,
+          2944.7,
+          2949,
+          2953.1,
+          2957.2,
+          2961.4,
+          2965.6,
+          2969.8,
+          2973.9,
+          2978.1,
+          2982.3,
+          2986.4,
+          2990.6,
+          2994.8,
+          2998.9,
+          3003.1,
+          3007.2,
+          3011.6,
+          3015.6,
+          3019.7,
+          3023.9,
+          3028.1,
+          3032.2,
+          3036.4,
+          3040.6,
+          3044.8,
+          3048.9,
+          3053.1,
+          3057.3,
+          3061.4,
+          3065.5,
+          3069.8,
+          3073.9,
+          3078.1,
+          3082.3,
+          3086.4,
+          3090.5,
+          3098.9,
+          3103.1,
+          3107.2,
+          3111.4,
+          3115.5,
+          3119.7,
+          3123.9,
+          3128.1,
+          3132.3,
+          3136.4,
+          3140.5,
+          3144.7,
+          3149,
+          3153.1,
+          3157.4,
+          3165.6,
+          3169.8,
+          3173.9,
+          3178,
+          3182.2,
+          3186.4,
+          3190.6,
+          3194.7,
+          3198.9,
+          3203,
+          3207.2,
+          3211.4,
+          3215.6,
+          3219.9,
+          3224,
+          3228.2,
+          3232.4,
+          3236.5,
+          3240.6,
+          3244.9,
+          3249,
+          3253.2,
+          3257.3,
+          3261.5,
+          3265.7,
+          3269.8,
+          3273.9,
+          3278.3,
+          3282.5,
+          3286.7,
+          3290.8,
+          3299.1,
+          3303,
+          3307.2,
+          3311.4,
+          3315.5,
+          3319.7,
+          3324,
+          3328.2,
+          3332.4,
+          3336.6,
+          3340.6,
+          3344.8,
+          3349,
+          3353.1,
+          3357.3,
+          3361.5,
+          3365.7,
+          3369.9,
+          3374.1,
+          3378.1,
+          3382.2,
+          3386.4,
+          3390.6,
+          3394.8,
+          3398.9,
+          3403.1,
+          3407.3,
+          3411.4,
+          3415.5,
+          3419.7,
+          3423.9,
+          3428,
+          3432.2,
+          3436.3,
+          3440.5,
+          3444.7
+        ],
+        "videoFrames": 133,
+        "droppedFrames": 0,
+        "elapsed": 2202.8999999992548
+      },
+      "display": {
+        "times": [
+          4286.4,
+          4290.5,
+          4294.7,
+          4298.9,
+          4303.1,
+          4307.3,
+          4311.5,
+          4315.6,
+          4319.8,
+          4323.8,
+          4328,
+          4332.2,
+          4336.4,
+          4340.5,
+          4344.8,
+          4349,
+          4353.1,
+          4357.3,
+          4361.4,
+          4365.7,
+          4369.6,
+          4373.9,
+          4378.1,
+          4382.3,
+          4386.4,
+          4390.6,
+          4394.7,
+          4398.9,
+          4403.1,
+          4407.3,
+          4411.5,
+          4415.6,
+          4419.8,
+          4423.7,
+          4428.1,
+          4432.3,
+          4436.3,
+          4440.5,
+          4444.7,
+          4448.8,
+          4453.1,
+          4457.1,
+          4461.3,
+          4465.4,
+          4469.7,
+          4473.9,
+          4478,
+          4482.1,
+          4486.3,
+          4490.4,
+          4494.6,
+          4498.8,
+          4503,
+          4507.2,
+          4511.2,
+          4515.7,
+          4519.7,
+          4523.9,
+          4528.1,
+          4532.1,
+          4536.4,
+          4540.5,
+          4544.7,
+          4548.8,
+          4553,
+          4557.1,
+          4561.4,
+          4565.5,
+          4569.7,
+          4573.8,
+          4578,
+          4582.2,
+          4586.3,
+          4590.6,
+          4594.6,
+          4598.8,
+          4603,
+          4607.2,
+          4611.4,
+          4615.5,
+          4619.8,
+          4627.9,
+          4632.1,
+          4636.3,
+          4640.5,
+          4644.7,
+          4648.9,
+          4653,
+          4657.2,
+          4661.3,
+          4665.5,
+          4669.9,
+          4678,
+          4682.2,
+          4686.4,
+          4690.6,
+          4694.8,
+          4698.8,
+          4703,
+          4707.2,
+          4711.3,
+          4715.6,
+          4719.9,
+          4723.9,
+          4728.1,
+          4732.3,
+          4736.3,
+          4740.5,
+          4744.6,
+          4748.8,
+          4753.1,
+          4757.1,
+          4761.3,
+          4765.6,
+          4769.7,
+          4773.9,
+          4777.9,
+          4782,
+          4786.5,
+          4790.4,
+          4794.6,
+          4798.9,
+          4803,
+          4807.2,
+          4811.4,
+          4819.6,
+          4823.8,
+          4827.9,
+          4832.1,
+          4836.2,
+          4840.3,
+          4844.5,
+          4848.6,
+          4853,
+          4857,
+          4861.2,
+          4865.3,
+          4869.5,
+          4873.7,
+          4877.8,
+          4882.3,
+          4886.1,
+          4890.5,
+          4898.7,
+          4902.9,
+          4907.1,
+          4911.3,
+          4915.3,
+          4919.7,
+          4927.9,
+          4932.1,
+          4936.2,
+          4940.3,
+          4944.5,
+          4948.7,
+          4952.9,
+          4956.9,
+          4961.2,
+          4965.3,
+          4969.5,
+          4973.7,
+          4977.8,
+          4982,
+          4986.2,
+          4990.3,
+          4994.5,
+          4998.7,
+          5002.9,
+          5007,
+          5011.2,
+          5015.5,
+          5019.6,
+          5023.7,
+          5027.8,
+          5032,
+          5036.2,
+          5040.3,
+          5044.5,
+          5048.7,
+          5052.8,
+          5057,
+          5061.2,
+          5065.3,
+          5069.4,
+          5073.8,
+          5077.8,
+          5082,
+          5086.2,
+          5090.3,
+          5094.5,
+          5098.6,
+          5103,
+          5107,
+          5111.2,
+          5115.3,
+          5119.5,
+          5123.7,
+          5127.9,
+          5131.9,
+          5136.1,
+          5140.2,
+          5144.4,
+          5148.7,
+          5152.8,
+          5156.9,
+          5161.3,
+          5165.3,
+          5169.5,
+          5173.6,
+          5177.8,
+          5182,
+          5186.2,
+          5190.3,
+          5194.5,
+          5198.7,
+          5202.8,
+          5207.1,
+          5211.1,
+          5215.3,
+          5219.4,
+          5223.7,
+          5227.7,
+          5232,
+          5236.2,
+          5240.3,
+          5244.4,
+          5248.6,
+          5252.8,
+          5257,
+          5261.1,
+          5265.3,
+          5269.4,
+          5273.7,
+          5277.8,
+          5282,
+          5286.2,
+          5290.3,
+          5294.5,
+          5298.7,
+          5302.9,
+          5307,
+          5311.1,
+          5315.3,
+          5319.4,
+          5323.7,
+          5327.8,
+          5331.9,
+          5336.1,
+          5340.3,
+          5344.6,
+          5348.8,
+          5352.8,
+          5356.9,
+          5361.1,
+          5365.3,
+          5369.4,
+          5373.6,
+          5377.7,
+          5381.9,
+          5386.1,
+          5390.3,
+          5394.4,
+          5398.6,
+          5402.8,
+          5406.9,
+          5411.1,
+          5415.2,
+          5419.5,
+          5423.7,
+          5427.8,
+          5431.9,
+          5436.2,
+          5440.3,
+          5444.5,
+          5448.6,
+          5452.8,
+          5456.9,
+          5461,
+          5465.2,
+          5469.4,
+          5473.6,
+          5477.9,
+          5482,
+          5490.3,
+          5494.6,
+          5498.7,
+          5502.8,
+          5507.1,
+          5511.2,
+          5515.6,
+          5519.5,
+          5523.8,
+          5527.9,
+          5532,
+          5536.2,
+          5540.4,
+          5544.4,
+          5548.7,
+          5552.9,
+          5557.1,
+          5561.2,
+          5565.4,
+          5569.5,
+          5573.8,
+          5577.9,
+          5582.1,
+          5586.2,
+          5590.3,
+          5594.6,
+          5598.7,
+          5602.9,
+          5607,
+          5611.2,
+          5615.3,
+          5619.6,
+          5623.7,
+          5627.9,
+          5632.1,
+          5636.3,
+          5640.3,
+          5644.4,
+          5648.9,
+          5652.9,
+          5657.2,
+          5661.3,
+          5665.4,
+          5669.5,
+          5673.6,
+          5677.9,
+          5686.2,
+          5690.4,
+          5694.7,
+          5698.7,
+          5702.9,
+          5707,
+          5711.3,
+          5715.4,
+          5719.6,
+          5723.7,
+          5727.9,
+          5732,
+          5736.1,
+          5740.3,
+          5744.6,
+          5748.7,
+          5752.7,
+          5757,
+          5761.3,
+          5765.4,
+          5769.6,
+          5773.7,
+          5777.9,
+          5782,
+          5786.3,
+          5794.7,
+          5798.8,
+          5802.9,
+          5807,
+          5811.2,
+          5815.3,
+          5819.6,
+          5823.8,
+          5827.9,
+          5831.9,
+          5836.3,
+          5844.5,
+          5848.6,
+          5852.8,
+          5856.9,
+          5861.2,
+          5865.3,
+          5869.5,
+          5873.7,
+          5877.9,
+          5881.9,
+          5886.1,
+          5890.3,
+          5894.5,
+          5898.7,
+          5902.8,
+          5906.9,
+          5911.2,
+          5915.3,
+          5919.5,
+          5923.5,
+          5927.7,
+          5931.8,
+          5936,
+          5940.2,
+          5944.4,
+          5948.6,
+          5952.7,
+          5956.9,
+          5961.1,
+          5965.3,
+          5969.3,
+          5973.5,
+          5977.7,
+          5981.9,
+          5986.1,
+          5990.2,
+          5994.4,
+          5998.6,
+          6002.7,
+          6006.9,
+          6011.1,
+          6015.2,
+          6019.3,
+          6023.6,
+          6027.7,
+          6031.9,
+          6036,
+          6040.2,
+          6044.4,
+          6048.7,
+          6052.7,
+          6057.1,
+          6061,
+          6065.1,
+          6069.4,
+          6073.5,
+          6077.7,
+          6081.9,
+          6086,
+          6090.3,
+          6094.5,
+          6098.6,
+          6102.7,
+          6106.8,
+          6111.1,
+          6115.2,
+          6119.4,
+          6123.5,
+          6127.6,
+          6131.8,
+          6136.1,
+          6140.2,
+          6144.4,
+          6148.6,
+          6152.7,
+          6156.8,
+          6161.1,
+          6165.2,
+          6169.3,
+          6173.4,
+          6177.6,
+          6181.9,
+          6186.1,
+          6190.1,
+          6194.4,
+          6198.5,
+          6202.6,
+          6206.8,
+          6211,
+          6215.2,
+          6219.3,
+          6223.6,
+          6227.6,
+          6231.9,
+          6236,
+          6240.2,
+          6244.3,
+          6248.5,
+          6252.7,
+          6256.8,
+          6261,
+          6265.2,
+          6269.3,
+          6273.5,
+          6277.7,
+          6281.8,
+          6286,
+          6290.2,
+          6294.3,
+          6298.4,
+          6302.7,
+          6306.8,
+          6310.9,
+          6315.2,
+          6319.3,
+          6323.5,
+          6327.6,
+          6331.9,
+          6336,
+          6340.1,
+          6344.4,
+          6348.5,
+          6352.7,
+          6356.9,
+          6361,
+          6365.1,
+          6369.3,
+          6373.4,
+          6381.8,
+          6386,
+          6390.1,
+          6394.3,
+          6398.4,
+          6402.7,
+          6406.8,
+          6410.9,
+          6415.1,
+          6419.3,
+          6423.5,
+          6431.8,
+          6436,
+          6440.1,
+          6444.2,
+          6448.4,
+          6452.6,
+          6456.8,
+          6460.9,
+          6465.1,
+          6469.3,
+          6473.5,
+          6477.6,
+          6481.8,
+          6485.9
+        ],
+        "videoFrames": 132,
+        "droppedFrames": 0,
+        "elapsed": 2202.8999999999996
+      },
+      "cadence": {
+        "fps": 236.05247628126565,
+        "displayFPS": 235.1445821417223,
+        "baselineFPS": 238.32221163020455,
+        "sourceFPS": 59.92101320985974,
+        "p95DrawMs": 0.6000000005587935,
+        "p95FrameIntervalMs": 4.399999999999636,
+        "maxFrameIntervalMs": 8.400000000000546
+      },
+      "decodedToAmbientMs": 0,
+      "buffering": [
+        {
+          "floating": false,
+          "before": [
+            255,
+            0,
+            0
+          ],
+          "held": [
+            255,
+            0,
+            0
+          ],
+          "resumed": [
+            0,
+            0,
+            255
+          ],
+          "state": {
+            "state": "buffering",
+            "visible": "true",
+            "opacity": 1,
+            "transition": false
+          }
+        },
+        {
+          "floating": true,
+          "before": [
+            255,
+            0,
+            0
+          ],
+          "held": [
+            255,
+            0,
+            0
+          ],
+          "resumed": [
+            0,
+            0,
+            255
+          ],
+          "state": {
+            "state": "buffering",
+            "visible": "true",
+            "opacity": 1,
+            "transition": false
+          }
+        }
+      ],
+      "reuse": {
+        "uploads": 10,
+        "samples": 10,
+        "inspections": 6,
+        "readbacks": 0,
+        "gpuPasses": 30,
+        "frames": 377,
+        "decodedFrames": 10,
+        "displayFrames": 376
+      },
+      "counterCadence": {
+        "uploads": 10,
+        "samples": 10,
+        "gpuPasses": 30,
+        "frames": 370,
+        "decodedFrames": 10,
+        "displayFrames": 369
+      },
+      "offscreenReuse": {
+        "uploads": 10,
+        "samples": 375,
+        "gpuPasses": 30,
+        "readbacks": 0,
+        "frames": 375,
+        "decodedFrames": 10,
+        "displayFrames": 374
+      },
+      "offscreenResponse": [
+        {
+          "timestamp": true,
+          "response": 0
+        },
+        {
+          "timestamp": false,
+          "response": 0
+        }
+      ],
+      "gpuReuse": {
+        "stages": [
+          {
+            "name": "red",
+            "ok": true,
+            "passes": 3,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "name": "held",
+            "ok": true,
+            "passes": 0,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "name": "blue",
+            "ok": true,
+            "passes": 3,
+            "pixel": [
+              0,
+              0,
+              255,
+              255
+            ]
+          },
+          {
+            "name": "direction",
+            "ok": true,
+            "passes": 3,
+            "pixel": [
+              0,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "name": "right-crop",
+            "ok": true,
+            "passes": 3,
+            "pixel": [
+              0,
+              0,
+              255,
+              255
+            ]
+          },
+          {
+            "name": "left-crop",
+            "ok": true,
+            "passes": 3,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "name": "reading",
+            "ok": true,
+            "passes": 2,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "name": "reading-held",
+            "ok": true,
+            "passes": 0,
+            "pixel": [
+              255,
+              0,
+              0,
+              255
+            ]
+          },
+          {
+            "name": "gray",
+            "ok": true,
+            "passes": 3,
+            "pixel": [
+              184,
+              184,
+              184,
+              255
+            ]
+          },
+          {
+            "name": "noise",
+            "ok": true,
+            "passes": 3,
+            "pixel": [
+              186,
+              186,
+              186,
+              255
+            ]
+          },
+          {
+            "name": "noise-held",
+            "ok": true,
+            "passes": 0,
+            "pixel": [
+              186,
+              186,
+              186,
+              255
+            ]
+          },
+          {
+            "name": "noise-next",
+            "ok": true,
+            "passes": 3,
+            "pixel": [
+              186,
+              186,
+              186,
+              255
+            ]
+          },
+          {
+            "name": "mutable",
+            "ok": true,
+            "passes": 3,
+            "pixel": [
+              184,
+              184,
+              184,
+              255
+            ]
+          },
+          {
+            "name": "mutable-next",
+            "ok": true,
+            "passes": 3,
+            "pixel": [
+              184,
+              184,
+              184,
+              255
+            ]
+          },
+          {
+            "name": "restored",
+            "ok": true,
+            "passes": 3,
+            "pixel": [
+              184,
+              184,
+              184,
+              255
+            ]
+          },
+          {
+            "name": "released",
+            "ok": true,
+            "passes": 3,
+            "pixel": [
+              184,
+              184,
+              184,
+              255
+            ]
+          },
+          {
+            "name": "resized",
+            "ok": true,
+            "passes": 3,
+            "pixel": [
+              184,
+              184,
+              184,
+              255
+            ]
+          }
+        ],
+        "width": 160
+      },
+      "reading": [
+        {
+          "radius": 48.67236427875961,
+          "edge": 0.32457435995171846
+        },
+        {
+          "radius": 56.750615904324434,
+          "edge": 0.31249602947716154
+        },
+        {
+          "radius": 64.26122960807879,
+          "edge": 0.30509497490629567
+        },
+        {
+          "radius": 78.3506844435658,
+          "edge": 0.291944603265358
+        },
+        {
+          "radius": 84.33424499916597,
+          "edge": 0.28621910933231687
+        },
+        {
+          "radius": 90.592906501268,
+          "edge": 0.2790562861317578
+        },
+        {
+          "radius": 96.3723035383492,
+          "edge": 0.2727987421383648
+        },
+        {
+          "radius": 101.70481499929365,
+          "edge": 0.26773235499650594
+        },
+        {
+          "radius": 106.85952944377982,
+          "edge": 0.26211803570294134
+        },
+        {
+          "radius": 111.82366798291417,
+          "edge": 0.2574328187535735
+        },
+        {
+          "radius": 116.27062499941104,
+          "edge": 0.2527317197128518
+        },
+        {
+          "radius": 120.44675423813274,
+          "edge": 0.24886443046820406
+        },
+        {
+          "radius": 124.45281794187308,
+          "edge": 0.2447033225335112
+        },
+        {
+          "radius": 128.10673372379875,
+          "edge": 0.24174925354170637
+        },
+        {
+          "radius": 131.59570742753664,
+          "edge": 0.2382551934438727
+        },
+        {
+          "radius": 134.83663224238435,
+          "edge": 0.23513436249285305
+        },
+        {
+          "radius": 137.7698844440598,
+          "edge": 0.23254558160218539
+        },
+        {
+          "radius": 140.54751555520136,
+          "edge": 0.23017914999047073
+        },
+        {
+          "radius": 143.10431999967494,
+          "edge": 0.22775713105901785
+        },
+        {
+          "radius": 145.39599812727306,
+          "edge": 0.22567657709167144
+        },
+        {
+          "radius": 147.5433051643368,
+          "edge": 0.22397719331681595
+        },
+        {
+          "radius": 149.89134831251465,
+          "edge": 0.22197604980623847
+        },
+        {
+          "radius": 151.26625257179236,
+          "edge": 0.22068165936090464
+        },
+        {
+          "radius": 152.78812499979762,
+          "edge": 0.2192363890477098
+        },
+        {
+          "radius": 154.2235994442639,
+          "edge": 0.21809287847023695
+        },
+        {
+          "radius": 155.47295127556015,
+          "edge": 0.21686201639031827
+        },
+        {
+          "radius": 156.60609053483776,
+          "edge": 0.21582173940664506
+        },
+        {
+          "radius": 157.57774076119327,
+          "edge": 0.21524204307223174
+        },
+        {
+          "radius": 158.44426557602495,
+          "edge": 0.2147099930118798
+        },
+        {
+          "radius": 159.18948816863255,
+          "edge": 0.21417794295152787
+        },
+        {
+          "radius": 159.80871555547816,
+          "edge": 0.21327266374436185
+        },
+        {
+          "radius": 160.34111999993578,
+          "edge": 0.21287561146051712
+        },
+        {
+          "radius": 160.77003146085264,
+          "edge": 0.21264532113588716
+        },
+        {
+          "radius": 161.13283555551374,
+          "edge": 0.21232767930881138
+        },
+        {
+          "radius": 161.40464109050254,
+          "edge": 0.2121529763039197
+        },
+        {
+          "radius": 161.6170859053255,
+          "edge": 0.21197827329902802
+        },
+        {
+          "radius": 161.76873613166995,
+          "edge": 0.2118353344768439
+        },
+        {
+          "radius": 161.8759553909351,
+          "edge": 0.2116923956546598
+        },
+        {
+          "radius": 161.9447403497876,
+          "edge": 0.21162092624356776
+        },
+        {
+          "radius": 161.9806339094617,
+          "edge": 0.21162092624356776
+        },
+        {
+          "radius": 161.99598534979307,
+          "edge": 0.21163680833492154
+        },
+        {
+          "radius": 161.99993055555547,
+          "edge": 0.21165269042627533
+        },
+        {
+          "radius": 162,
+          "edge": 0.21165269042627533
+        }
+      ],
+      "readingCadence": {
+        "fps": 234.7545747627679,
+        "displayFPS": 233.8464332743239
+      },
+      "readingColorResponseMs": 0,
+      "encoded": {
+        "source": {
+          "width": 1920,
+          "height": 1080
+        },
+        "watch": {
+          "elapsed": 12002.299999999814,
+          "fps": 238.20434416737163,
+          "displayFPS": 237.7044399823404,
+          "sourceFPS": 59.821867475401476,
+          "droppedFrames": 0,
+          "p95FrameIntervalMs": 4.30000000000291,
+          "maxFrameIntervalMs": 8.400000000001455,
+          "withoutEffect": {
+            "fps": 233.46303501945522,
+            "p95FrameIntervalMs": 4.30000000000291,
+            "maxFrameIntervalMs": 8.5
+          },
+          "uploads": 721,
+          "samples": 721,
+          "readbacks": 0
+        },
+        "reading": {
+          "elapsed": 12003.29999999926,
+          "fps": 236.2683595344759,
+          "displayFPS": 235.8518074196408,
+          "sourceFPS": 59.9001941132892,
+          "droppedFrames": 0,
+          "p95FrameIntervalMs": 4.30000000000291,
+          "maxFrameIntervalMs": 37.5,
+          "withoutEffect": {
+            "fps": 231.26395414709273,
+            "p95FrameIntervalMs": 4.400000000001455,
+            "maxFrameIntervalMs": 8.5
+          },
+          "uploads": 717,
+          "samples": 2836,
+          "readbacks": 0
+        }
+      }
+    }
+  }
+}

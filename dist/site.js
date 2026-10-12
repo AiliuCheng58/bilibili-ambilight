@@ -8,8 +8,9 @@
   const neutral = rgba => rgba.length >= 3 && Math.max(...rgba.slice(0, 3)) - Math.min(...rgba.slice(0, 3)) < 36;
   const validPalette = value => Array.isArray(value) && value.length === 3 && value.every(c => Array.isArray(c) && c.length === 3 && c.every(n => Number.isInteger(n) && n >= 0 && n <= 255));
   class SiteTheme {
-    constructor(api) {
+    constructor(api, onTextChanged = null) {
       this.api = api;
+      this.onTextChanged = onTextChanged;
       this.palette = defaultPalette.map(c => [...c]);
       this.lastSample = -Infinity;
       this.lastSave = -Infinity;
@@ -25,6 +26,7 @@
           if (record.target.closest?.(excluded)) continue;
           if (record.type === "attributes") this.enqueue(record.target, true);
           else {
+            if([...record.addedNodes,...record.removedNodes].some(node=>node.nodeType===3))this.enqueue(record.target,true);
             for (const node of record.addedNodes) if (node.nodeType === 1) this.enqueue(node);
             if (record.removedNodes.length) this.cleanup = true;
           }
@@ -220,6 +222,7 @@
       }
       this.styles.clear();
       this.surfaces.clear();
+      const textChanged=this.cleanup || plans.some(plan=>plan?.ink) || batch.some(entry=>entry.reset);
       if (this.cleanup) {
         this.cleanup = false;
         for (const element of this.marked) if (!element.isConnected) {
@@ -228,6 +231,7 @@
         }
       }
       if (this.queue.length || this.batch.length) this.pending = requestAnimationFrame(() => this.flush());
+      if(textChanged)this.onTextChanged?.();
     }
     disableSurfaces() {
       this.enabled = false;
